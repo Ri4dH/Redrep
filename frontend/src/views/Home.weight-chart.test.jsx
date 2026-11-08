@@ -28,7 +28,7 @@ afterEach(() => { act(() => root.unmount()); host.remove(); mocks.charts = [] })
 const noonOf = d => new Date(d + 'T12:00:00').getTime()
 const mountWith = bodyweight => {
   useStore.setState(s => ({
-    S: { ...s.S, routines: [], workouts: [], bodyweight, dayPlan: {}, week: {}, active: null, showWeightCard: true },
+    S: { ...s.S, modules: {}, routines: [], workouts: [], bodyweight, dayPlan: {}, week: {}, active: null, showWeightCard: true },
     user: null,
   }))
   act(() => root.render(<Home />))

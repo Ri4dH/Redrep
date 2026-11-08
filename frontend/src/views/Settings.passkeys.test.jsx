@@ -106,15 +106,18 @@ describe('Settings: passkeys and another device', () => {
     expect(section(page, 'Your data')).toBeUndefined()
   })
 
-  it('a local-only phone has no code to give, and says what it takes', async () => {
+  // Redrep's phone app needs no account (lib/brand.js LOCAL_ONLY): no server to connect, no
+  // sign-in footer, only where the data lives.
+  it('a local-only phone keeps its data and offers no server or sign-in', async () => {
     mocks.MOBILE = true
     mocks.user = null
     const page = mount(<Settings page="account" />)
     await settle()
     const data = section(page, 'Your data')
-    expect(titles(data)).toContain('Connect to my server')
+    expect(titles(data)).toContain('All data stays on this phone')
+    expect(titles(data)).not.toContain('Connect to my server')
     expect(titles(page)).not.toContain('Add another device')
-    expect(data.querySelector('.sect-f').textContent).toContain('needs your own server')
+    expect(data.querySelector('.sect-f')).toBeNull()
   })
 
   it('a guest gets neither, and nothing is asked', async () => {

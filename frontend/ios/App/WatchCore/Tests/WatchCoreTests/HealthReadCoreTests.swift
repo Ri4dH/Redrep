@@ -1,7 +1,7 @@
 import XCTest
 @testable import WatchCore
 
-/// openGym v1.4.3: what the iPhone app hands to JS when it reads heart rate and weigh-ins back
+/// Redrep v1.4.3: what the iPhone app hands to JS when it reads heart rate and weigh-ins back
 /// from Apple Health.
 final class HealthReadCoreTests: XCTestCase {
     func testSamplesInsideTheWindowOldestFirst() {
@@ -16,15 +16,15 @@ final class HealthReadCoreTests: XCTestCase {
 
     func testOwnRecordsAreRecognised() {
         XCTAssertTrue(HealthReadCore.isOwn(source: "com.withings.wiscale2", syncId: "opengym-bw-2026-10-15"))
-        XCTAssertTrue(HealthReadCore.isOwn(source: "ch.duartesantos.opengym", syncId: nil))
-        XCTAssertTrue(HealthReadCore.isOwn(source: "ch.duartesantos.opengym.watchkitapp", syncId: nil))
-        XCTAssertFalse(HealthReadCore.isOwn(source: "ch.duartesantos.opengymx", syncId: nil))
+        XCTAssertTrue(HealthReadCore.isOwn(source: "com.riadheydar.redrep", syncId: nil))
+        XCTAssertTrue(HealthReadCore.isOwn(source: "com.riadheydar.redrep.watchkitapp", syncId: nil))
+        XCTAssertFalse(HealthReadCore.isOwn(source: "com.riadheydar.redrepx", syncId: nil))
         XCTAssertFalse(HealthReadCore.isOwn(source: "com.garmin.connect.mobile", syncId: "abc"))
     }
 
     func testWeighInsLeaveOutOpenGymsOwn() {
         let out = HealthReadCore.weights([
-            .init(ms: 2_000, kg: 80, id: "b", source: "ch.duartesantos.opengym", syncId: "opengym-bw-2026-10-15"),
+            .init(ms: 2_000, kg: 80, id: "b", source: "com.riadheydar.redrep", syncId: "opengym-bw-2026-10-15"),
             .init(ms: 1_000, kg: 81.25, id: "a", source: "com.withings.wiscale2", syncId: nil),
             .init(ms: 3_000, kg: 0, id: "c", source: "com.example", syncId: nil),
         ])

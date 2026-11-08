@@ -12,7 +12,7 @@ describe('the weigh-in before a workout is a setting', () => {
   beforeEach(() => {
     globalThis.IS_REACT_ACT_ENVIRONMENT = true
     useUI.setState({ sheets: [], toasts: [] })
-    useStore.setState(s => ({ S: { ...s.S, active: null, routines: [], workouts: [], bodyweight: [], weighIn: true } }))
+    useStore.setState(s => ({ S: { ...s.S, modules: {}, active: null, routines: [], workouts: [], bodyweight: [], weighIn: true } }))
   })
 
   it('on (the default): Start opens the weigh-in and the session waits for it', () => {

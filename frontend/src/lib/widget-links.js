@@ -24,7 +24,7 @@ export const WIDGET_SCHEME = 'opengym'
 /** What a link asks for, or null for anything that is not one of ours. */
 export function parseWidgetLink (url) {
   if (typeof url !== 'string') return null
-  const m = /^opengym:\/\/([a-z-]+)\/?(?:\?(.*))?$/i.exec(url.trim())
+  const m = /^(?:redrep|opengym):\/\/([a-z-]+)\/?(?:\?(.*))?$/i.exec(url.trim())
   if (!m) return null
   const what = m[1].toLowerCase()
   const q = new URLSearchParams(m[2] || '')

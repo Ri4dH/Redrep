@@ -54,10 +54,12 @@ import { useNfcTagLinks } from './components/Nfc.jsx'
 import { useRoutineLinks } from './components/RoutineShare.jsx'
 import Login from './views/Login.jsx'
 import MobileOnboarding from './views/MobileOnboarding.jsx'
+import Welcome, { needsWelcome } from './components/Welcome.jsx'
 import PermissionSteps from './views/PermissionSteps.jsx'
 import Home from './views/Home.jsx'
 import Plan from './views/Plan.jsx'
 import Workout from './views/Workout.jsx'
+import { LOCAL_ONLY } from './lib/brand.js'
 
 // Screens most sessions never open (the Coach, the admin dashboard, photos, measurements, the
 // balance check) are their own chunks rather than part of the code every start parses: ~200 KB
@@ -142,6 +144,17 @@ function Shell() {
   useAnimPacksBoot()
   const isGuest = useStore(s => s.isGuest())
   const needsMobileOnboarding = useStore(s => s.needsMobileOnboarding)
+  // Redrep's welcome (components/Welcome.jsx): once per device, before the rest of the setup.
+  const [welcome, setWelcome] = useState(() => needsWelcome(useStore.getState().S))
+  // Redrep's phone app needs no account (lib/brand.js LOCAL_ONLY): the first launch keeps the data
+  // on the phone straight away instead of asking about a server.
+  // If saving that choice fails, carry on anyway: a blank screen is worse than being asked again
+  // on the next launch.
+  useEffect(() => {
+    if (!LOCAL_ONLY || !needsMobileOnboarding) return
+    Promise.resolve().then(() => useStore.getState().chooseLocalMode())
+      .catch(() => useStore.setState({ needsMobileOnboarding: false, permSteps: true }))
+  }, [needsMobileOnboarding])
   const permSteps = useStore(s => s.permSteps)
   const langV = useLang()   // re-renders the whole shell when the language (pack) changes
   useEffect(() => { setNav(navigate) }, [navigate])
@@ -291,7 +304,7 @@ function Shell() {
   }, [inWorkout])
   // The chat owns the bottom of the screen as well: its composer sits where the tabs would be.
   // The first-launch card has no tabs either: they changed the route behind it.
-  const noTabs = inWorkout || loc.pathname === '/coach' || needsMobileOnboarding || permSteps
+  const noTabs = inWorkout || loc.pathname === '/coach' || needsMobileOnboarding || welcome || permSteps
 
   const authed = user || isGuest
   // The first setup is through (sign-in or "Use on this device", and the phone's permission
@@ -300,7 +313,7 @@ function Shell() {
   // never over a sheet or a workout, and only once the copy is the account's own.
   const tour = useTour()
   const tourAsked = useRef(false)
-  const setupDone = authed && ready && !needsMobileOnboarding && !permSteps
+  const setupDone = authed && ready && !needsMobileOnboarding && !permSteps && !welcome
   // A tapped NFC sticker (components/Nfc.jsx): one that opened the app waits for the setup.
   useNfcTagLinks(setupDone)
   // A friend's routine link (components/RoutineShare.jsx): the same wait for the setup.
@@ -330,7 +343,7 @@ function Shell() {
     </div>
   )
 
-  const view = l => (!authed ? <Login /> : needsMobileOnboarding ? <MobileOnboarding /> : permSteps ? <PermissionSteps /> : (
+  const view = l => (!authed ? <Login /> : welcome ? <Welcome onDone={() => setWelcome(false)} /> : needsMobileOnboarding ? (LOCAL_ONLY ? null : <MobileOnboarding />) : permSteps ? <PermissionSteps /> : (
     <Routes location={l}>
       <Route path="/home" element={<Home />} />
       {/* A module switched off (Settings → Modules, lib/modules.js) takes its screens with it: the
@@ -388,7 +401,7 @@ function Shell() {
       {/* Seasonal decoration (lib/seasonal.js): nothing, and nothing loaded, out of season. Never
           over a running workout or the first-launch screens. */}
       {authed && !needsMobileOnboarding && !permSteps && <SeasonalLayer hidden={inWorkout || loc.pathname === '/workout'} />}
-      {/* Your year in openGym (components/WrappedEntry.jsx): nothing loaded until it is opened. */}
+      {/* Your year in Redrep (components/WrappedEntry.jsx): nothing loaded until it is opened. */}
       {authed && isOn(S, 'motivation') && <WrappedLayer ready={setupDone} />}
     </>
   )

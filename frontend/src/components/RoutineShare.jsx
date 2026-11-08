@@ -17,6 +17,7 @@ import { buildPlanBundle } from '../lib/plan-share.js'
 import { routineLink, routinePayloadFromUrl, decodePayload, readRoutineBundle, importRoutineLink, FROM_MAX } from '../lib/routine-link.js'
 import { Button, Switch } from './ui.jsx'
 import Icon from './Icon.jsx'
+import { LINKS_OFF } from '../lib/brand.js'
 
 const ui = () => useUI.getState()
 const toast = m => ui().toast(m)
@@ -43,7 +44,7 @@ async function shareLink(url, text, title) {
 async function shareAsPlanFile(st, routine) {
   const bundle = buildPlanBundle({ ...st, routines: [routine], week: {}, programmes: {} }, routine.name || '')
   const json = JSON.stringify(bundle, null, 2)
-  const name = 'opengym-routine-' + todayISO() + '.json'
+  const name = 'redrep-routine-' + todayISO() + '.json'
   if (MOBILE) { try { await shareExport(json, name) } catch (e) { /* dismissed */ } return }
   const blob = new Blob([json], { type: 'application/json' })
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; a.click(); URL.revokeObjectURL(a.href)
@@ -67,7 +68,7 @@ function ShareRoutine({ routine, close }) {
         await shareAsPlanFile(st, routine)
         return
       }
-      await shareLink(link.url, t('Here’s my {0} on openGym 💪', name), name)
+      await shareLink(link.url, t('Here’s my {0} on Redrep 💪', name), name)
     } catch {
       setBusy(false)
       toast(t('Couldn’t make a link for this one.'))
@@ -76,7 +77,7 @@ function ShareRoutine({ routine, close }) {
   return <>
     <h3>{t('Share with a friend')}</h3>
     <div className="dim small" style={{ marginBottom: 14, lineHeight: 1.4 }}>
-      {t('A link to “{0}”. Your friend taps it and adds it to their own openGym. The routine rides inside the link, no server in between.', name)}
+      {t('A link to “{0}”. Your friend taps it and adds it to their own Redrep. The routine rides inside the link, no server in between.', name)}
     </div>
     <div className="row between" style={{ padding: '10px 2px', borderTop: '1px solid var(--sep)', gap: 12 }}>
       <div><div className="tt" style={{ fontSize: 'var(--fs-subhead)' }}>{t('Include my weights')}</div><div className="small dim">{t('Off: just sets, reps and rest. They pick their own weights.')}</div></div>
@@ -96,7 +97,10 @@ function ShareRoutine({ routine, close }) {
 }
 
 /** The share sheet for a routine ({ name, ex: [...] }, saved or built from a workout). */
-export const shareRoutineSheet = routine => ui().openSheet(close => <ShareRoutine routine={routine} close={close} />)
+// Redrep has no website for a link to open (lib/brand.js LINKS_OFF): the routine goes as a plan file.
+export const shareRoutineSheet = routine => (LINKS_OFF
+  ? shareAsPlanFile(useStore.getState().S, routine)
+  : ui().openSheet(close => <ShareRoutine routine={routine} close={close} />))
 
 /* ------------------------------- receiving ------------------------------- */
 
@@ -140,8 +144,8 @@ function RoutinePreview({ parsed, close }) {
 }
 
 const LINK_ERRORS = {
-  'too-new': () => t('This link is from a newer openGym. Update the app to open it.'),
-  'no-inflate': () => t('This browser can’t open this link. Try it in the openGym app.'),
+  'too-new': () => t('This link is from a newer Redrep. Update the app to open it.'),
+  'no-inflate': () => t('This browser can’t open this link. Try it in the Redrep app.'),
   empty: () => t('Nothing in this routine works here, sorry.'),
 }
 

@@ -57,53 +57,23 @@ afterEach(() => {
   delete navigator.share
 })
 
+// Redrep has no website for a link to open (lib/brand.js LINKS_OFF), so Share hands the routine
+// over as a plan file straight away: no sheet, no link.
 describe('Share with a friend', () => {
-  it('shares an opengym.ch/r link with a short text, without weights or name by default', async () => {
+  it('goes as a plan file, without a sheet or a link', async () => {
     const share = vi.fn(() => Promise.resolve())
     navigator.share = share
-    shareRoutineSheet(push)
-    await openSheet()
-    await click(button('Share link'))
-    // The link is compressed (CompressionStream), which can outlast a few ticks on a busy CI
-    // runner: wait for the share sheet. A late one would land in the next test's share mock.
-    await vi.waitFor(() => expect(share).toHaveBeenCalledTimes(1), { timeout: 5000 })
-    const { url, text } = share.mock.calls[0][0]
-    expect(text).toBe('Here’s my Push Day on openGym 💪')
-    expect(url.startsWith('https://opengym.ch/r#1.')).toBe(true)
-    const data = await decodePayload(routinePayloadFromUrl(url))
-    expect(data.routines[0].ex[0].weight).toBeUndefined()
-    expect(data.from).toBeUndefined()
-  })
-
-  it('takes the weights and the name along when switched on', async () => {
-    const share = vi.fn(() => Promise.resolve())
-    navigator.share = share
-    shareRoutineSheet(push)
-    await openSheet()
-    const [weights, name] = host.querySelectorAll('[role="switch"]')
-    await click(weights)
-    await click(name)
-    expect(host.querySelector('input').value).toBe('Alex')
-    await click(button('Share link'))
-    await vi.waitFor(() => expect(share).toHaveBeenCalledTimes(1), { timeout: 5000 })
-    const data = await decodePayload(routinePayloadFromUrl(share.mock.calls[0][0].url))
-    expect(data.routines[0].ex[0].weight).toBe(80)
-    expect(data.from).toBe('Alex')
-  })
-
-  it('a routine too big for a link goes as a plan file', async () => {
-    const big = { id: 'b', name: 'Everything', ex: Object.keys(EXIDX).slice(0, 120).map(id => ({ id, sets: 3, reps: 8, note: 'a note to make it long ' + id })) }
-    const share = vi.fn()
-    navigator.share = share
-    URL.createObjectURL = vi.fn(() => 'blob:x'); URL.revokeObjectURL = vi.fn()
-    const clicks = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {})
-    shareRoutineSheet(big)
-    await openSheet()
-    await click(button('Share link'))
-    // Compressing 120 exercises can outlast a few ticks on a slow CI runner: wait for the result.
-    await vi.waitFor(() => expect(clicks).toHaveBeenCalled(), { timeout: 5000 })
+    let blob = null
+    URL.createObjectURL = vi.fn(b => { blob = b; return 'blob:x' }); URL.revokeObjectURL = vi.fn()
+    const names = []
+    const clicks = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(function () { names.push(this.download) })
+    await act(async () => { await shareRoutineSheet(push) })
+    expect(m.sheets).toHaveLength(0)
     expect(share).not.toHaveBeenCalled()
-    expect(m.toasts.at(-1)).toMatch(/plan file/)
+    expect(clicks).toHaveBeenCalledTimes(1)
+    expect(names[0]).toMatch(/^redrep-routine-\d{4}-\d{2}-\d{2}\.json$/)
+    const bundle = JSON.parse(await blob.text())
+    expect(JSON.stringify(bundle)).toContain('Push Day')
     clicks.mockRestore()
   })
 })
@@ -126,7 +96,7 @@ describe('an incoming routine link', () => {
     expect(await openRoutinePayload('1.j.bm9wZQ')).toBe(false)
     expect(m.toasts.at(-1)).toBe('This routine link is broken or cut off.')
     expect(await openRoutinePayload('9.d.abc')).toBe(false)
-    expect(m.toasts.at(-1)).toMatch(/newer openGym/)
+    expect(m.toasts.at(-1)).toMatch(/newer Redrep/)
     expect(m.sheets).toHaveLength(0)
   })
 })

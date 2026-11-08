@@ -1,0 +1,143 @@
+{
+  "Exercise demonstration": {
+    "ar": "عرض التمرين", "bn": "ব্যায়ামের প্রদর্শন", "de": "Übungsvorführung", "es": "Demostración del ejercicio", "fr": "Démonstration de l’exercice",
+    "hi": "व्यायाम का प्रदर्शन", "hu": "A gyakorlat bemutatása", "it": "Dimostrazione dell’esercizio", "ko": "운동 시범", "pl": "Pokaz ćwiczenia",
+    "pt": "Demonstração do exercício", "pt-BR": "Demonstração do exercício", "ru": "Демонстрация упражнения", "sv": "Visning av övningen", "th": "การสาธิตท่าออกกำลังกาย",
+    "tr": "Egzersiz gösterimi", "uk": "Демонстрація вправи", "zh": "动作示范", "zh-TW": "動作示範"
+  },
+  "Brace": {
+    "ar": "شُدّ جسمك", "bn": "শরীর টান করুন", "de": "Anspannen", "es": "Tensa", "fr": "Gaine-toi",
+    "hi": "शरीर कसें", "hu": "Feszíts", "it": "In tensione", "ko": "버티기", "pl": "Napnij",
+    "pt": "Contrai", "pt-BR": "Contraia", "ru": "Напрягись", "sv": "Spänn", "th": "เกร็งลำตัว",
+    "tr": "Sıkılaş", "uk": "Напружся", "zh": "收紧核心", "zh-TW": "收緊核心"
+  },
+  "Lower": {
+    "ar": "انزل", "bn": "নামুন", "de": "Absenken", "es": "Baja", "fr": "Descends",
+    "hi": "नीचे जाएँ", "hu": "Le", "it": "Scendi", "ko": "내려가기", "pl": "W dół",
+    "pt": "Desce", "pt-BR": "Desça", "ru": "Вниз", "sv": "Sänk", "th": "ลง",
+    "tr": "İn", "uk": "Вниз", "zh": "下放", "zh-TW": "下放"
+  },
+  "Drive up": {
+    "ar": "ادفع للأعلى", "bn": "ঠেলে উঠুন", "de": "Hochdrücken", "es": "Empuja", "fr": "Pousse",
+    "hi": "ज़ोर से ऊपर", "hu": "Tolj fel", "it": "Spingi su", "ko": "밀어 올리기", "pl": "W górę",
+    "pt": "Empurra", "pt-BR": "Empurre", "ru": "Вверх", "sv": "Pressa upp", "th": "ดันขึ้น",
+    "tr": "İt", "uk": "Вгору", "zh": "发力起身", "zh-TW": "發力起身"
+  },
+  "Easy": {
+    "ar": "سهل", "bn": "সহজ", "de": "Locker", "es": "Suave", "fr": "Facile",
+    "hi": "आसान", "hu": "Könnyű", "it": "Facile", "ko": "가벼움", "pl": "Lekko",
+    "pt": "Leve", "pt-BR": "Leve", "ru": "Легко", "sv": "Lätt", "th": "เบา",
+    "tr": "Hafif", "uk": "Легко", "zh": "轻松", "zh-TW": "輕鬆"
+  },
+  "Solid": {
+    "ar": "جيد", "bn": "ভালো", "de": "Solide", "es": "Sólido", "fr": "Solide",
+    "hi": "बढ़िया", "hu": "Stabil", "it": "Solido", "ko": "탄탄함", "pl": "Solidnie",
+    "pt": "Sólido", "pt-BR": "Sólido", "ru": "Хорошо", "sv": "Stabilt", "th": "มั่นคง",
+    "tr": "Sağlam", "uk": "Добре", "zh": "扎实", "zh-TW": "紮實"
+  },
+  "Tough": {
+    "ar": "شاق", "bn": "কঠোর", "de": "Hart", "es": "Duro", "fr": "Intense",
+    "hi": "कड़ा", "hu": "Kemény", "it": "Duro", "ko": "고강도", "pl": "Ciężko",
+    "pt": "Duro", "pt-BR": "Puxado", "ru": "Тяжело", "sv": "Tufft", "th": "หนัก",
+    "tr": "Zorlu", "uk": "Важко", "zh": "高强度", "zh-TW": "高強度"
+  },
+  "Redline": {
+    "ar": "Redline", "bn": "Redline", "de": "Redline", "es": "Redline", "fr": "Redline",
+    "hi": "Redline", "hu": "Redline", "it": "Redline", "ko": "Redline", "pl": "Redline",
+    "pt": "Redline", "pt-BR": "Redline", "ru": "Redline", "sv": "Redline", "th": "Redline",
+    "tr": "Redline", "uk": "Redline", "zh": "Redline", "zh-TW": "Redline"
+  },
+  "Intensity {0} of 100, {1}": {
+    "ar": "الشدة {0} من 100، {1}", "bn": "তীব্রতা ১০০-এর মধ্যে {0}, {1}", "de": "Intensität {0} von 100, {1}", "es": "Intensidad {0} de 100, {1}", "fr": "Intensité {0} sur 100, {1}",
+    "hi": "तीव्रता 100 में से {0}, {1}", "hu": "Intenzitás: {0}/100, {1}", "it": "Intensità {0} su 100, {1}", "ko": "강도 100점 중 {0}점, {1}", "pl": "Intensywność {0} na 100, {1}",
+    "pt": "Intensidade {0} em 100, {1}", "pt-BR": "Intensidade {0} de 100, {1}", "ru": "Интенсивность {0} из 100, {1}", "sv": "Intensitet {0} av 100, {1}", "th": "ความหนัก {0} จาก 100, {1}",
+    "tr": "Yoğunluk 100 üzerinden {0}, {1}", "uk": "Інтенсивність {0} зі 100, {1}", "zh": "强度 {0}/100，{1}", "zh-TW": "強度 {0}/100，{1}"
+  },
+  "Welcome to Redrep": {
+    "ar": "أهلًا بك في Redrep", "bn": "Redrep-এ স্বাগতম", "de": "Willkommen bei Redrep", "es": "Te damos la bienvenida a Redrep", "fr": "Bienvenue dans Redrep",
+    "hi": "Redrep में आपका स्वागत है", "hu": "Üdv a Redrepben", "it": "Benvenuto in Redrep", "ko": "Redrep에 오신 것을 환영해요", "pl": "Witaj w Redrep",
+    "pt": "Bem-vindo ao Redrep", "pt-BR": "Boas-vindas ao Redrep", "ru": "Добро пожаловать в Redrep", "sv": "Välkommen till Redrep", "th": "ยินดีต้อนรับสู่ Redrep",
+    "tr": "Redrep’e hoş geldin", "uk": "Вітаємо в Redrep", "zh": "欢迎使用 Redrep", "zh-TW": "歡迎使用 Redrep"
+  },
+  "Plan your week, log every set and watch yourself get stronger. No account, no ads, no tracking.": {
+    "ar": "خطّط لأسبوعك وسجّل كل مجموعة وشاهد نفسك تزداد قوة. بلا حساب ولا إعلانات ولا تتبّع.",
+    "bn": "সপ্তাহের পরিকল্পনা করুন, প্রতিটি সেট লিখে রাখুন আর দেখুন আপনি কীভাবে শক্তিশালী হচ্ছেন। কোনো অ্যাকাউন্ট নেই, বিজ্ঞাপন নেই, ট্র্যাকিং নেই।",
+    "de": "Plane deine Woche, trag jeden Satz ein und sieh zu, wie du stärker wirst. Kein Konto, keine Werbung, kein Tracking.",
+    "es": "Planifica tu semana, registra cada serie y mira cómo te haces más fuerte. Sin cuenta, sin anuncios, sin rastreo.",
+    "fr": "Planifie ta semaine, note chaque série et regarde-toi progresser. Pas de compte, pas de pub, pas de pistage.",
+    "hi": "अपना हफ़्ता प्लान करें, हर सेट लिखें और खुद को मज़बूत होते देखें। न अकाउंट, न विज्ञापन, न ट्रैकिंग।",
+    "hu": "Tervezd meg a heted, írj fel minden sorozatot, és nézd, ahogy egyre erősebb leszel. Nincs fiók, nincs reklám, nincs követés.",
+    "it": "Pianifica la settimana, registra ogni serie e guardati diventare più forte. Niente account, niente pubblicità, niente tracciamento.",
+    "ko": "한 주를 계획하고, 모든 세트를 기록하고, 점점 강해지는 걸 지켜보세요. 계정도, 광고도, 추적도 없어요.",
+    "pl": "Zaplanuj tydzień, zapisuj każdą serię i patrz, jak stajesz się silniejszy. Bez konta, bez reklam, bez śledzenia.",
+    "pt": "Planeia a semana, regista cada série e vê-te a ficar mais forte. Sem conta, sem anúncios, sem rastreio.",
+    "pt-BR": "Planeje sua semana, registre cada série e veja você ficar mais forte. Sem conta, sem anúncios, sem rastreamento.",
+    "ru": "Планируй неделю, записывай каждый подход и смотри, как становишься сильнее. Без аккаунта, без рекламы, без слежки.",
+    "sv": "Planera veckan, logga varje set och se dig själv bli starkare. Inget konto, ingen reklam, ingen spårning.",
+    "th": "วางแผนสัปดาห์ บันทึกทุกเซ็ต แล้วดูตัวเองแข็งแรงขึ้น ไม่ต้องมีบัญชี ไม่มีโฆษณา ไม่มีการติดตาม",
+    "tr": "Haftanı planla, her seti kaydet ve güçlendiğini izle. Hesap yok, reklam yok, takip yok.",
+    "uk": "Плануй тиждень, записуй кожен підхід і дивись, як стаєш сильнішим. Без акаунта, без реклами, без стеження.",
+    "zh": "规划你的一周，记录每一组，看着自己变强。无需账号，没有广告，没有追踪。",
+    "zh-TW": "規劃你的一週，記錄每一組，看著自己變強。不需帳號，沒有廣告，沒有追蹤。"
+  },
+  "Every workout gets a Redline": {
+    "ar": "كل تمرين يحصل على Redline", "bn": "প্রতিটি ওয়ার্কআউট একটি Redline পায়", "de": "Jedes Training bekommt eine Redline", "es": "Cada entrenamiento recibe un Redline", "fr": "Chaque séance reçoit un Redline",
+    "hi": "हर वर्कआउट को एक Redline मिलता है", "hu": "Minden edzés kap egy Redline-t", "it": "Ogni allenamento riceve un Redline", "ko": "모든 운동에 Redline 점수가 붙어요", "pl": "Każdy trening dostaje Redline",
+    "pt": "Cada treino recebe um Redline", "pt-BR": "Todo treino recebe um Redline", "ru": "У каждой тренировки есть Redline", "sv": "Varje pass får en Redline", "th": "ทุกการฝึกได้คะแนน Redline",
+    "tr": "Her antrenman bir Redline alır", "uk": "Кожне тренування отримує Redline", "zh": "每次训练都有 Redline 分数", "zh-TW": "每次訓練都有 Redline 分數"
+  },
+  "A score from 0 to 100 for how hard you trained: your effort, your sets against your usual, and your records.": {
+    "ar": "درجة من 0 إلى 100 لمدى شدة تمرينك: جهدك، ومجموعاتك مقارنةً بالمعتاد، وأرقامك القياسية.",
+    "bn": "আপনি কতটা কঠোর অনুশীলন করেছেন তার ০ থেকে ১০০ স্কোর: আপনার পরিশ্রম, স্বাভাবিকের তুলনায় সেট, আর আপনার রেকর্ড।",
+    "de": "Eine Zahl von 0 bis 100 dafür, wie hart du trainiert hast: deine Anstrengung, deine Sätze im Vergleich zu sonst und deine Rekorde.",
+    "es": "Una puntuación de 0 a 100 de lo duro que entrenaste: tu esfuerzo, tus series frente a lo habitual y tus récords.",
+    "fr": "Un score de 0 à 100 sur l’intensité de ta séance : ton effort, tes séries par rapport à d’habitude et tes records.",
+    "hi": "आपने कितनी मेहनत से ट्रेनिंग की, उसका 0 से 100 तक का स्कोर: आपकी मेहनत, आम दिनों के मुकाबले सेट, और आपके रिकॉर्ड।",
+    "hu": "0 és 100 közötti pontszám arról, milyen keményen edzettél: az erőfeszítésed, a sorozataid a szokásoshoz képest és a rekordjaid.",
+    "it": "Un punteggio da 0 a 100 su quanto ti sei allenato duro: il tuo sforzo, le serie rispetto al solito e i tuoi record.",
+    "ko": "얼마나 힘들게 운동했는지 0~100점으로 보여줘요: 노력, 평소 대비 세트 수, 그리고 기록.",
+    "pl": "Wynik od 0 do 100 za to, jak ciężko trenowałeś: twój wysiłek, serie w porównaniu ze zwykle i twoje rekordy.",
+    "pt": "Uma pontuação de 0 a 100 para o quão duro treinaste: o teu esforço, as tuas séries face ao habitual e os teus recordes.",
+    "pt-BR": "Uma pontuação de 0 a 100 de quão pesado foi o treino: seu esforço, suas séries em relação ao normal e seus recordes.",
+    "ru": "Оценка от 0 до 100 того, как тяжело ты тренировался: усилие, подходы по сравнению с обычным и рекорды.",
+    "sv": "Ett betyg från 0 till 100 för hur hårt du tränade: din ansträngning, dina set jämfört med vanligt och dina rekord.",
+    "th": "คะแนน 0 ถึง 100 ว่าคุณฝึกหนักแค่ไหน: ความพยายาม จำนวนเซ็ตเทียบกับปกติ และสถิติของคุณ",
+    "tr": "Ne kadar sıkı çalıştığına 0 ile 100 arası bir puan: eforun, her zamankine göre setlerin ve rekorların.",
+    "uk": "Оцінка від 0 до 100 того, наскільки важко ти тренувався: зусилля, підходи порівняно зі звичним і рекорди.",
+    "zh": "0 到 100 分，衡量你练得有多狠：你的用力程度、相比平时的组数，以及你的纪录。",
+    "zh-TW": "0 到 100 分，衡量你練得有多拚：你的用力程度、相比平時的組數，以及你的紀錄。"
+  },
+  "How much do you want to see?": {
+    "ar": "كم تريد أن ترى؟", "bn": "আপনি কতটা দেখতে চান?", "de": "Wie viel möchtest du sehen?", "es": "¿Cuánto quieres ver?", "fr": "Qu’est-ce que tu veux voir ?",
+    "hi": "आप कितना देखना चाहते हैं?", "hu": "Mennyit szeretnél látni?", "it": "Quanto vuoi vedere?", "ko": "얼마나 보고 싶나요?", "pl": "Ile chcesz widzieć?",
+    "pt": "Quanto queres ver?", "pt-BR": "Quanto você quer ver?", "ru": "Сколько всего показывать?", "sv": "Hur mycket vill du se?", "th": "อยากเห็นแค่ไหน?",
+    "tr": "Ne kadarını görmek istersin?", "uk": "Скільки всього показувати?", "zh": "你想看到多少内容？", "zh-TW": "你想看到多少內容？"
+  },
+  "You can switch any part on or off later in Settings → Modules.": {
+    "ar": "يمكنك تشغيل أي جزء أو إيقافه لاحقًا من الإعدادات → الوحدات.",
+    "bn": "পরে সেটিংস → মডিউল থেকে যেকোনো অংশ চালু বা বন্ধ করতে পারেন।",
+    "de": "Jeden Teil kannst du später unter Einstellungen → Module ein- oder ausschalten.",
+    "es": "Puedes activar o desactivar cualquier parte más tarde en Ajustes → Módulos.",
+    "fr": "Tu pourras activer ou désactiver chaque partie plus tard dans Réglages → Modules.",
+    "hi": "बाद में सेटिंग्स → मॉड्यूल में कोई भी हिस्सा चालू या बंद कर सकते हैं।",
+    "hu": "Később bármelyik részt be- vagy kikapcsolhatod: Beállítások → Modulok.",
+    "it": "Puoi attivare o disattivare ogni parte più tardi in Impostazioni → Moduli.",
+    "ko": "나중에 설정 → 모듈에서 언제든 켜고 끌 수 있어요.",
+    "pl": "Każdą część włączysz lub wyłączysz później w Ustawienia → Moduły.",
+    "pt": "Podes ligar ou desligar qualquer parte mais tarde em Definições → Módulos.",
+    "pt-BR": "Você pode ligar ou desligar qualquer parte depois em Configurações → Módulos.",
+    "ru": "Любую часть можно включить или выключить позже: Настройки → Модули.",
+    "sv": "Du kan slå på eller av varje del senare i Inställningar → Moduler.",
+    "th": "เปิดหรือปิดส่วนใดก็ได้ภายหลังที่ ตั้งค่า → โมดูล",
+    "tr": "Herhangi bir bölümü daha sonra Ayarlar → Modüller’den açıp kapatabilirsin.",
+    "uk": "Будь-яку частину можна ввімкнути чи вимкнути пізніше: Налаштування → Модулі.",
+    "zh": "之后可以随时在 设置 → 模块 中开关任何部分。",
+    "zh-TW": "之後可以隨時在 設定 → 模組 中開關任何部分。"
+  },
+  "Get started": {
+    "ar": "ابدأ", "bn": "শুরু করুন", "de": "Los geht’s", "es": "Empezar", "fr": "C’est parti",
+    "hi": "शुरू करें", "hu": "Kezdjük", "it": "Inizia", "ko": "시작하기", "pl": "Zaczynamy",
+    "pt": "Começar", "pt-BR": "Começar", "ru": "Начать", "sv": "Kom igång", "th": "เริ่มเลย",
+    "tr": "Başla", "uk": "Почати", "zh": "开始", "zh-TW": "開始"
+  }
+}
