@@ -1,5 +1,5 @@
 /* ============================================================================
-   openGym — design system
+   Redrep — design system
    ----------------------------------------------------------------------------
    Rebuilt around four rules, each aimed at a specific "generated" tell in the
    previous sheet:
@@ -49,9 +49,9 @@
   --purple:#bf5af2; --mint:#63e6e2; --brown:#ac8e68; --grey:#8e8e93;
 
   /* accent (per-account, synced) */
-  --acc:  var(--green);
-  --acc-2:#248a3d;
-  --on-acc:#000000;
+  --acc:  var(--red);
+  --acc-2:#d70015;
+  --on-acc:#ffffff;
   --acc-soft: color-mix(in srgb, var(--acc) 16%, transparent);
   --acc-line: color-mix(in srgb, var(--acc) 38%, transparent);
   /* The accent as text, an icon or a focus ring: the accent itself in the dark theme. In the light
@@ -136,7 +136,7 @@
   --blue:#007aff; --green:#34c759; --red:#ff3b30; --orange:#ff9500;
   --yellow:#ffcc00; --teal:#30b0c7; --indigo:#5856d6; --pink:#ff2d55;
   --purple:#af52de; --mint:#00c7be; --brown:#a2845e; --grey:#8e8e93;
-  --acc-2:#248a3d;
+  --acc-2:#d70015;
   --on-acc:#ffffff;
 }
 
@@ -2505,7 +2505,7 @@ body.totop-on.resting #app{padding-bottom:calc(232px + var(--sab))}
 .cal-d i.noted{background:var(--indigo)}
 .cal-legend{display:flex;gap:14px;justify-content:center;margin-top:12px;font-size:var(--fs-caption);color:var(--label-3)}
 .cal-legend i{display:inline-block;width:6px;height:6px;border-radius:50%;margin-inline-end:5px}
-/* --- openGym date field + picker (#809, components/DateField.jsx) ---
+/* --- Redrep date field + picker (#809, components/DateField.jsx) ---
    The field is a button dressed as the field or row value it replaces; the picker reuses the
    calendar's cells above. Cells are at least 44px tall: at 320px seven columns cannot also be
    44px wide, so the grid gives up gap before it gives up height. */
@@ -3082,7 +3082,7 @@ button.wl-summary{width:100%;padding:0 0 10px;text-align:start;border-radius:var
 .youtube-actions{display:flex;justify-content:space-between;gap:8px;margin-top:8px}
 .youtube-actions .btn{min-height:44px}
 
-/* Your year in openGym: Home's December card (components/WrappedEntry.jsx). The stories' own
+/* Your year in Redrep: Home's December card (components/WrappedEntry.jsx). The stories' own
    styles load with them (components/Wrapped.css). */
 .wr-home{position:relative;overflow:hidden;background:var(--surface);background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 24%,var(--surface)),var(--surface) 72%)}
 .wr-home>.btn{margin-top:12px}
@@ -3272,3 +3272,72 @@ button.wl-summary{width:100%;padding:0 0 10px;text-align:start;border-radius:var
   .kpis .tile{padding:10px 11px}
   .kpis .tile .v{font-size:var(--fs-title3)}
 }
+
+/* Redrep: the code-drawn exercise figure (components/ExerciseFigure.jsx, lib/figure-rig.js) */
+:root { --fig-body:#cecdd4; --fig-far:#68686e; --fig-acc-far:color-mix(in srgb, var(--acc) 55%, #000);
+  --fig-plate:#2c2c30; --fig-plate-rim:#54545a; --fig-steel:#aaaab0; --fig-floor:#3a3a3e }
+:root[data-theme="light"] { --fig-body:#6e6e76; --fig-far:#b4b4bc; --fig-acc-far:color-mix(in srgb, var(--acc) 45%, #fff);
+  --fig-plate:#d8d8de; --fig-plate-rim:#b8b8c0; --fig-steel:#8e8e96; --fig-floor:#d1d1d6 }
+@supports not (color: color-mix(in srgb, red 50%, blue)) {
+  :root { --fig-acc-far:#8c2520 }
+  :root[data-theme="light"] { --fig-acc-far:#ffa59f }
+}
+.ex-figure { margin:0; display:flex; flex-direction:column; align-items:center }
+.ex-figure svg { width:100%; height:auto; display:block }
+.ex-figure-cue { font-size:var(--fs-footnote); font-weight:600; color:var(--acc-ink); min-height:1.3em }
+.ex-figure-cue.rest { color:var(--label-2) }
+
+/* Redrep: the Redline gauge (components/RedlineGauge.jsx) */
+.redline { position:relative; width:100%; max-width:240px; margin:4px auto 14px; text-align:center }
+.redline.compact { max-width:150px; margin:0 auto 8px }
+.redline svg { width:100%; height:auto; display:block; overflow:visible }
+.redline path { fill:none; stroke-linecap:round; stroke-width:9 }
+.redline-track { stroke:var(--surface-3) }
+.redline-zone { stroke:var(--acc-2); stroke-linecap:butt; opacity:.55 }
+.redline-fill { stroke:var(--acc); transition:stroke-dasharray .9s cubic-bezier(.2,.8,.2,1) }
+@media (prefers-reduced-motion: reduce) { .redline-fill { transition:none } }
+.redline-read { position:absolute; left:0; right:0; bottom:calc(var(--fs-footnote) * 1.6); line-height:1 }
+.redline.compact .redline-read { bottom:2px }
+.redline-num { font-size:2.75rem; font-weight:800; letter-spacing:-.03em; font-variant-numeric:tabular-nums; color:var(--label) }
+.redline.compact .redline-num { font-size:1.75rem }
+.redline-band { margin-top:4px; font-size:var(--fs-footnote); font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--label-2) }
+.redline.band-redline .redline-band, .redline.band-hard .redline-band { color:var(--acc-ink) }
+.redline-parts { margin-top:6px }
+
+/* Redrep look: the wordmark, Home's red Today hero, and bold rounded numerals */
+:root { --font-num: ui-rounded, "SF Pro Rounded", system-ui, -apple-system, sans-serif }
+.wordmark { font-weight:800; letter-spacing:-.02em }
+.wm-red { color:var(--acc-ink) }
+.today-row.today-hero { margin-top:12px; padding:16px; min-height:112px; border-radius:var(--r-lg); color:#fff;
+  background:var(--acc-2); background:linear-gradient(135deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.3) 100%), var(--acc-2) }
+.today-hero .lbl2 { color:rgba(255,255,255,.82); text-transform:uppercase; letter-spacing:.08em; font-weight:700 }
+.today-hero .ttl { color:#fff; font-size:var(--fs-title3); font-weight:800; letter-spacing:-.01em; line-height:1.15; -webkit-line-clamp:3 }
+.today-hero .lrow-i { background:rgba(255,255,255,.2) !important; color:#fff }
+.today-hero .hero-meta { margin-top:3px; color:rgba(255,255,255,.88); font-size:var(--fs-footnote); font-weight:600 }
+.today-hero .tag.acc { background:#fff; color:#b0000f; font-weight:800; padding-inline:14px; min-height:32px; display:inline-flex; align-items:center }
+/* the session's name is what the hero is for: the mini body map steps aside, the figure stays small */
+.today-hero .bm-mini-wrap { display:none }
+.today-hero .hero-fig { width:72px; flex:none;
+  --acc:#5c0008; --fig-acc-far:rgba(92,0,8,.55); --fig-body:#ffffff; --fig-far:rgba(255,255,255,.42);
+  --fig-plate:rgba(0,0,0,.2); --fig-plate-rim:rgba(0,0,0,.3); --fig-steel:#ffffff; --fig-floor:rgba(255,255,255,.45) }
+.today-hero .chev { color:#fff }
+.big, .tile .v, .wday .num, .redline-num, .streak-head .ttl, .fin .v { font-family:var(--font-num); font-weight:800; font-variant-numeric:tabular-nums; letter-spacing:-.02em }
+
+/* Redrep: the welcome (components/Welcome.jsx) */
+.welcome { min-height:100dvh; display:flex; flex-direction:column; padding:calc(var(--sat) + 12px) var(--pad) calc(var(--sab) + 20px) }
+.welcome-skip { display:flex; justify-content:flex-end; min-height:44px }
+.welcome-step { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:10px }
+.welcome-fig { width:min(62vw, 240px) }
+.welcome-title { font-size:var(--fs-large); font-weight:800; letter-spacing:-.02em; margin:10px 0 0 }
+.welcome-text { color:var(--label-2); max-width:32ch; margin:0 }
+.welcome-presets { width:100%; display:flex; flex-direction:column; gap:10px; margin:14px 0 6px }
+.welcome-preset { all:unset; box-sizing:border-box; width:100%; min-height:44px; padding:14px 16px; border-radius:var(--r-lg);
+  background:var(--surface); border:2px solid transparent; text-align:start; cursor:pointer; display:flex; flex-direction:column; gap:3px }
+.welcome-preset.on { border-color:var(--acc); background:var(--acc-soft) }
+.welcome-preset:focus-visible { outline:2px solid var(--acc-ink); outline-offset:2px }
+.welcome-preset-t { font-weight:700; color:var(--label) }
+.welcome-preset-d { font-size:var(--fs-footnote); color:var(--label-2) }
+.welcome-foot { display:flex; flex-direction:column; align-items:stretch; gap:16px }
+.welcome-dots { display:flex; justify-content:center; gap:8px }
+.welcome-dots span { width:8px; height:8px; border-radius:50%; background:var(--surface-3) }
+.welcome-dots span.on { background:var(--acc); width:22px; border-radius:4px }

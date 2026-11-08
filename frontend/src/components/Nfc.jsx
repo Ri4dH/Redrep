@@ -20,6 +20,7 @@ import { sessionHistory } from '../lib/backfill.js'
 import { startFlow, confirmSheet, exerciseDetailSheet } from '../sheets.jsx'
 import { Button, Section, Row } from './ui.jsx'
 import Icon from './Icon.jsx'
+import { LINKS_OFF } from '../lib/brand.js'
 
 const ui = () => useUI.getState()
 
@@ -31,14 +32,15 @@ export function useNfcSupported() {
     nfcSupport().then(r => { if (!gone) setOk(!!r?.supported) }).catch(() => {})
     return () => { gone = true }
   }, [])
-  return ok
+  // Redrep: a sticker holds a link to a website Redrep does not have (lib/brand.js LINKS_OFF).
+  return ok && !LINKS_OFF
 }
 
 const errorText = code => ({
   'read-only': t('This sticker is locked. Try a blank one.'),
   'too-small': t('This sticker is too small. NTAG213 or bigger works.'),
   disabled: t('NFC is off. Turn it on in your phone’s settings and try again.'),
-  denied: t('openGym isn’t allowed to use NFC here.'),
+  denied: t('Redrep isn’t allowed to use NFC here.'),
   unsupported: t('This sticker can’t hold a link. Try an NTAG sticker.'),
 }[code] || t('That didn’t work. Hold your phone still on the sticker and try again.'))
 

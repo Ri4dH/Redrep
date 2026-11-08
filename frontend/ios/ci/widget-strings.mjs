@@ -43,18 +43,18 @@ export const STRINGS = {
     hi: 'लगातार हफ़्ते जिनमें वर्कआउट हुआ।', bn: 'টানা যত সপ্তাহে ওয়ার্কআউট হয়েছে।', th: 'จำนวนสัปดาห์ติดต่อกันที่มีการฝึก',
     ko: '운동한 주가 연속으로 이어진 횟수.', 'zh-Hans': '连续有训练的周数。', 'zh-Hant': '連續有訓練的週數。',
   },
-  'Open openGym once to see your plan here.': {
-    de: 'Öffne openGym einmal, dann siehst du hier deinen Plan.', fr: 'Ouvre openGym une fois pour voir ton programme ici.',
-    es: 'Abre openGym una vez para ver aquí tu plan.', it: 'Apri openGym una volta per vedere qui il tuo piano.',
-    'pt-PT': 'Abre o openGym uma vez para veres aqui o teu plano.', 'pt-BR': 'Abra o openGym uma vez para ver seu plano aqui.',
-    pl: 'Otwórz openGym raz, a zobaczysz tu swój plan.', hu: 'Nyisd meg egyszer az openGymet, és itt látod a terved.',
-    tr: 'Planını burada görmek için openGym’i bir kez aç.', ru: 'Откройте openGym один раз, и здесь появится ваш план.',
-    uk: 'Відкрий openGym один раз, і тут з’явиться твій план.', ar: 'افتح openGym مرة واحدة لترى خطتك هنا.',
-    hi: 'अपना प्लान यहाँ देखने के लिए openGym एक बार खोलें।', bn: 'আপনার প্ল্যান এখানে দেখতে openGym একবার খুলুন।',
-    th: 'เปิด openGym สักครั้งเพื่อดูแผนของคุณที่นี่', ko: 'openGym을 한 번 열면 여기에서 계획을 볼 수 있어요.',
-    'zh-Hans': '打开一次 openGym，就能在这里看到你的计划。', 'zh-Hant': '打開一次 openGym，就能在這裡看到你的計畫。',
+  'Open Redrep once to see your plan here.': {
+    de: 'Öffne Redrep einmal, dann siehst du hier deinen Plan.', fr: 'Ouvre Redrep une fois pour voir ton programme ici.',
+    es: 'Abre Redrep una vez para ver aquí tu plan.', it: 'Apri Redrep una volta per vedere qui il tuo piano.',
+    'pt-PT': 'Abre o Redrep uma vez para veres aqui o teu plano.', 'pt-BR': 'Abra o Redrep uma vez para ver seu plano aqui.',
+    pl: 'Otwórz Redrep raz, a zobaczysz tu swój plan.', hu: 'Nyisd meg egyszer az Redrepet, és itt látod a terved.',
+    tr: 'Planını burada görmek için Redrep’i bir kez aç.', ru: 'Откройте Redrep один раз, и здесь появится ваш план.',
+    uk: 'Відкрий Redrep один раз, і тут з’явиться твій план.', ar: 'افتح Redrep مرة واحدة لترى خطتك هنا.',
+    hi: 'अपना प्लान यहाँ देखने के लिए Redrep एक बार खोलें।', bn: 'আপনার প্ল্যান এখানে দেখতে Redrep একবার খুলুন।',
+    th: 'เปิด Redrep สักครั้งเพื่อดูแผนของคุณที่นี่', ko: 'Redrep을 한 번 열면 여기에서 계획을 볼 수 있어요.',
+    'zh-Hans': '打开一次 Redrep，就能在这里看到你的计划。', 'zh-Hant': '打開一次 Redrep，就能在這裡看到你的計畫。',
   },
-  // v1.4.4: the configurable "openGym" widget, its Edit screen and its choices.
+  // v1.4.4: the configurable "Redrep" widget, its Edit screen and its choices.
   "What to show": {
     de: "Was anzeigen",
     fr: "Quoi afficher",

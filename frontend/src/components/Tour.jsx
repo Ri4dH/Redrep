@@ -27,6 +27,7 @@ import { beginWorkout } from '../sheets.jsx'
 import { Button } from './ui.jsx'
 import Icon from './Icon.jsx'
 import { PRESETS, presetOf, applyPreset } from '../lib/modules.js'
+import { welcomePicked } from './Welcome.jsx'
 import { presetCopy } from '../lib/modules-copy.js'
 import './Tour.css'
 
@@ -114,7 +115,7 @@ const COPY = {
   'b-import': () => [t('Restore a backup'), t('Pick a backup file and it’s all back.')],
   'b-apps': () => [t('Moving in?'), t('Strong, Hevy, FitNotes, GymMane or Apple Health body weight: import their export here.')],
   'b-up2': () => [t('One more'), t('Syncing lives under your account. Tap back to Settings.')],
-  'b-sync': () => [t('Your own server'), t('Syncing your devices through your own openGym server lives under your account. No server? Everything still works on this device.')],
+  'b-sync': () => [t('Your own server'), t('Syncing your devices through your own Redrep server lives under your account. No server? Everything still works on this device.')],
   'b-done': () => [t('That’s the lot'), t('Your data, your call. Back it up now and then, future you will be grateful.')],
 }
 
@@ -294,10 +295,12 @@ function Question({ kind, at }) {
   const S = useStore(s => s.S)
   const preset = presetOf(S)
   const pick = id => { if (id !== preset) useStore.getState().update(s => applyPreset(s, id)) }
+  // Redrep: the welcome's last step (components/Welcome.jsx) asked this already.
+  const askPreset = !resume && !welcomePicked()
   return <div className="tour tour-ask">
     <div className="tour-block tour-dim" />
     <div className="tour-card tour-center" ref={cardRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="tour-t" aria-describedby="tour-b">
-      {!resume && <>
+      {askPreset && <>
         <h2 id="tour-m">{t('How much app do you want?')}</h2>
         <div className="tour-list tour-presets" role="radiogroup" aria-labelledby="tour-m">
           {PRESETS.map(p => <button key={p.id} type="button" role="radio" aria-checked={preset === p.id} className="tour-tut tour-pick" data-preset={p.id} onClick={() => pick(p.id)}>
@@ -307,7 +310,7 @@ function Question({ kind, at }) {
         </div>
         <p className="tour-pick-f">{t('Change it anytime in Settings → Modules.')}</p>
       </>}
-      <h2 id="tour-t" className={resume ? '' : 'tour-q2'}>{resume ? t('Finish the tour?') : t('Want a 1-minute tour?')}</h2>
+      <h2 id="tour-t" className={askPreset ? 'tour-q2' : ''}>{resume ? t('Finish the tour?') : t('Want a 1-minute tour?')}</h2>
       <p id="tour-b">{resume ? t('You stopped halfway. Want to see the rest?') : t('We’ll point at the good bits on the real screens. Bail out anytime.')}</p>
       <div className="tour-acts">
         <Button onClick={no}>{resume ? t('No thanks') : t('Skip')}</Button>

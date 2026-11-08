@@ -91,7 +91,7 @@ const mount = async () => {
   await act(async () => { root.render(<Settings page="about" />) })
   await act(async () => { for (let i = 0; i < 4; i++) await Promise.resolve() })
 }
-const updateRow = () => [...host.querySelectorAll('.lrow')].find(r => r.textContent.includes('Update to openGym v9.9.9'))
+const updateRow = () => [...host.querySelectorAll('.lrow')].find(r => r.textContent.includes('Update to Redrep v9.9.9'))
 const checkRow = () => [...host.querySelectorAll('.lrow')].find(r => r.textContent.includes('Check for updates'))
 const webRow = () => [...host.querySelectorAll('.lrow')].find(r => r.textContent.includes('Get the Android app'))
 
@@ -194,33 +194,26 @@ describe('Settings → About: which APK this is', () => {
   })
 })
 
-// Google Play's payments policy: no links to pay outside Play billing for anything but a
-// registered charity, so the Play build has no coffee links, only its own rating row.
+// Redrep: openGym's donation pages belong to its maintainer, so no build offers them. The rating
+// row waits for Redrep's own App Store id (lib/brand.js); the About lines credit openGym and link
+// Redrep's source, as the AGPL asks.
 describe('Settings: support links', () => {
   const row = text => [...host.querySelectorAll('.lrow')].find(r => r.textContent.includes(text))
-  it('the APK keeps the donation links and has no Play rating row', async () => {
-    mocks.MOBILE = true
-    mocks.android = true
+  for (const [name, android, channel] of [['the web', false, 'sideload'], ['the APK', true, 'sideload'], ['the Google Play build', true, 'play']]) {
+    it(`${name}: no donation links and no rating row yet`, async () => {
+      mocks.MOBILE = android
+      mocks.android = android
+      mocks.channel = channel
+      await mount()
+      for (const text of ['Buy me a coffee', 'Ko-fi', 'GitHub Sponsors', 'Rate Redrep on Google Play', 'Rate Redrep on the App Store']) expect(row(text)).toBeUndefined()
+      expect(host.textContent).not.toContain('A coffee keeps it that way')
+    })
+  }
+  it('credits openGym and links Redrep\'s own source', async () => {
     await mount()
-    expect(row('Buy me a coffee')).toBeTruthy()
-    expect(row('Ko-fi')).toBeTruthy()
-    expect(row('GitHub Sponsors')).toBeTruthy()
-    expect(row('Rate openGym on Google Play')).toBeUndefined()
-  })
-  it('the Google Play build shows only the rating row', async () => {
-    mocks.MOBILE = true
-    mocks.android = true
-    mocks.channel = 'play'
-    await mount()
-    expect(row('Buy me a coffee')).toBeUndefined()
-    expect(row('Ko-fi')).toBeUndefined()
-    expect(row('GitHub Sponsors')).toBeUndefined()
-    expect(row('Rate openGym on Google Play')).toBeTruthy()
-    expect(host.textContent).not.toContain('A coffee keeps it that way')
-  })
-  it('the web keeps the donation links', async () => {
-    await mount()
-    expect(row('Buy me a coffee')).toBeTruthy()
-    expect(row('Rate openGym on Google Play')).toBeUndefined()
+    expect(host.textContent).toContain('Based on openGym by Duarte Santos.')
+    const hrefs = [...host.querySelectorAll('.sp-version a')].map(a => a.getAttribute('href'))
+    expect(hrefs).toContain('https://github.com/Ri4dH/Redrep')
+    expect(hrefs).toContain('https://github.com/DuarteSantos8/openGym')
   })
 })

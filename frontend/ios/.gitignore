@@ -11,3 +11,9 @@ capacitor-cordova-ios-plugins
 # Generated Config files
 App/App/capacitor.config.json
 App/App/config.xml
+# Redrep: written by `pod install` / `cap sync` on every build, not kept in the repository
+App/Podfile.lock
+App/App.xcworkspace/contents.xcworkspacedata
+App/App.xcodeproj/xcshareddata/
+App/WatchCore/.build/
+App/GymReminderCore/.build/

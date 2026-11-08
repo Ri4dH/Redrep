@@ -22,7 +22,7 @@ afterEach(() => { act(() => root.unmount()); host.remove() })
 
 const mountWith = showWeightCard => {
   useStore.setState(s => ({
-    S: { ...s.S, routines: [], workouts: [], bodyweight: [], dayPlan: {}, week: {}, active: null, showWeightCard },
+    S: { ...s.S, modules: {}, routines: [], workouts: [], bodyweight: [], dayPlan: {}, week: {}, active: null, showWeightCard },
     user: null,
   }))
   act(() => root.render(<Home />))

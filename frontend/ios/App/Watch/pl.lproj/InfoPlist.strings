@@ -1,4 +1,4 @@
-/* openGym on the Apple Watch, pl: Info.plist. Written by ios/ci/watch-strings.mjs. */
+/* Redrep on the Apple Watch, pl: Info.plist. Written by ios/ci/watch-strings.mjs. */
 
-"NSHealthShareUsageDescription" = "openGym pokazuje tętno podczas treningu i przy każdej serii.";
-"NSHealthUpdateUsageDescription" = "openGym zapisuje treningi w Apple Zdrowie, jeśli to włączysz.";
+"NSHealthShareUsageDescription" = "Redrep pokazuje tętno podczas treningu i przy każdej serii.";
+"NSHealthUpdateUsageDescription" = "Redrep zapisuje treningi w Apple Zdrowie, jeśli to włączysz.";

@@ -193,7 +193,7 @@ export function routinePayloadFromUrl(raw) {
     if (u.pathname.replace(/\/index\.html$/, '').replace(/\/+$/, '') !== '/r') return null
     return ok(hash)
   }
-  if (proto !== 'opengym:') return null
+  if (proto !== 'opengym:' && proto !== 'redrep:') return null
   const host = (u.hostname || '').toLowerCase()
   const rest = u.pathname.replace(/^\/+/, '').replace(/\/+$/, '')
   if (host !== 'r' || rest) return null

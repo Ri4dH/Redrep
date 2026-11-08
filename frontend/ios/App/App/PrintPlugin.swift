@@ -77,14 +77,14 @@ public class PrintPlugin: CAPPlugin, CAPBridgedPlugin, WKNavigationDelegate {
         guard let call = pending, webView === printView else { return }
         let footer = call.getObject("footer")
         let renderer = FooterPageRenderer(
-            left: footer?["left"] as? String ?? "opengym.ch",
+            left: footer?["left"] as? String ?? "",
             page: footer?["page"] as? String ?? "{0} / {1}"
         )
         renderer.addPrintFormatter(webView.viewPrintFormatter(), startingAtPageAt: 0)
 
         let info = UIPrintInfo(dictionary: nil)
         info.outputType = .general
-        info.jobName = call.getString("name") ?? "openGym"
+        info.jobName = call.getString("name") ?? "Redrep"
 
         let controller = UIPrintInteractionController.shared
         controller.printInfo = info

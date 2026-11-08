@@ -29,3 +29,7 @@ export function ensureWebStorage(g = globalThis) {
 }
 
 ensureWebStorage()
+
+// Redrep's first-run welcome (components/Welcome.jsx) would stand in front of every App test that
+// starts from an empty profile. Its own tests set this back to false.
+globalThis.__REDREP_NO_WELCOME__ = true
