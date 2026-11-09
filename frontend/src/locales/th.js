@@ -3679,4 +3679,13 @@ export default {
   "How much do you want to see?": "อยากเห็นแค่ไหน?",
   "You can switch any part on or off later in Settings → Modules.": "เปิดหรือปิดส่วนใดก็ได้ภายหลังที่ ตั้งค่า → โมดูล",
   "Get started": "เริ่มเลย",
+  "Lift": "ยกขึ้น",
+  "Press": "ดัน",
+  "Pull": "ดึง",
+  "Return": "กลับ",
+  "Squeeze": "บีบ",
+  "Jump": "กระโดด",
+  "Breathe": "หายใจ",
+  "Reach": "เหยียด",
+  "Twist": "บิด",
 }

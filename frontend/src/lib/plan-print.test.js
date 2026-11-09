@@ -1,5 +1,7 @@
 // The printable plan (#149) and one routine on its own page (#282).
 import { afterEach, describe, it, expect, vi } from 'vitest'
+// The licensed-media path (openGym's): Redrep switches it off in lib/brand.js OWN_FIGURES.
+vi.mock('./brand.js', async importOriginal => ({ ...(await importOriginal()), OWN_FIGURES: false }))
 import { planPrintHTML, printPlan } from './plan-share.js'
 import { PLACEHOLDER_PICTURE, MEDIA_CREDIT } from './print-pictures.js'
 import { EXIDX, registerCustom } from './exercises.js'

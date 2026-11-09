@@ -3723,4 +3723,13 @@ export default {
   "How much do you want to see?": "كم تريد أن ترى؟",
   "You can switch any part on or off later in Settings → Modules.": "يمكنك تشغيل أي جزء أو إيقافه لاحقًا من الإعدادات → الوحدات.",
   "Get started": "ابدأ",
+  "Lift": "ارفع",
+  "Press": "ادفع",
+  "Pull": "اسحب",
+  "Return": "عُد",
+  "Squeeze": "اعصر العضلة",
+  "Jump": "اقفز",
+  "Breathe": "تنفّس",
+  "Reach": "مدّ",
+  "Twist": "لُفّ",
 }

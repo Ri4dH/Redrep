@@ -64,7 +64,7 @@ describe('contrast and the text on the accent', () => {
 })
 
 describe('readable on the theme', () => {
-  const darkPresets = ['#30d158', '#0a84ff', '#ff9f0a', '#bf5af2', '#ff375f', '#ff453a', '#40c8e0', '#ffd60a']
+  const darkPresets = ['#30d158', '#0a84ff', '#ff9f0a', '#bf5af2', '#ff375f', '#ff1f2f', '#40c8e0', '#ffd60a']
   const lightPresets = ['#34c759', '#007aff', '#ff9500', '#af52de', '#ff2d55', '#ff3b30', '#30b0c7']
   it('leaves every dark preset shade as it is, and darkens the light ones under 3:1', () => {
     for (const c of darkPresets) expect(adjustedIn(c, 'dark'), c).toBe(false)

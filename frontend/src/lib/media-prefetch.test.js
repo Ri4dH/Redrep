@@ -4,6 +4,8 @@
  * installed app fetches them ahead, when the connection is one to spend them on, and fetching
  * only what the worker's cache is missing. */
 import { afterEach, describe, expect, it, vi } from 'vitest'
+// The licensed-media path (openGym's): Redrep switches it off in lib/brand.js OWN_FIGURES.
+vi.mock('./brand.js', async importOriginal => ({ ...(await importOriginal()), OWN_FIGURES: false }))
 import { planMediaUrls, prefetchAllowed, prefetchMedia, startMediaPrefetch, installedApp, MEDIA_CACHE, PREFETCH_DELAY_MS } from './media-prefetch.js'
 import { EXIDX, imgSrc, gifSrc } from './exercises.js'
 

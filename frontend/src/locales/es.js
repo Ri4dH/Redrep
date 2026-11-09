@@ -3668,4 +3668,13 @@ export default {
   "How much do you want to see?": "¿Cuánto quieres ver?",
   "You can switch any part on or off later in Settings → Modules.": "Puedes activar o desactivar cualquier parte más tarde en Ajustes → Módulos.",
   "Get started": "Empezar",
+  "Lift": "Sube",
+  "Press": "Empuja",
+  "Pull": "Tira",
+  "Return": "Vuelve",
+  "Squeeze": "Aprieta",
+  "Jump": "Salta",
+  "Breathe": "Respira",
+  "Reach": "Estira",
+  "Twist": "Gira",
 }

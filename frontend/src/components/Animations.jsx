@@ -11,6 +11,7 @@ import { BUILTIN_PX, packId, parsePackId, wantedQuality, clipSources } from '../
 import { subscribe, getState, installedBases, deviceInfo, refresh, ensureWanted, writePrefs, download, remove, downloadBytes, diagnose, offeredQualities, targetPack, ALL_PACKS } from '../lib/anim-packs.js'
 import { Section, Row, Switch, Button } from './ui.jsx'
 import { useUI } from '../store/useUI.js'
+import { OWN_FIGURES } from '../lib/brand.js'
 
 const MB = 1024 * 1024
 export const useAnimPacks = () => useSyncExternalStore(subscribe, getState, getState)
@@ -30,8 +31,9 @@ export function useAnimSources(ex, figure) {
 /** Shell: what the device has, once, and the pack the choice wants for the figure shown. */
 export function useAnimPacksBoot() {
   const figure = useStore(s => figureOf(s.S))
-  useEffect(() => { if (MOBILE) refresh().then(() => ensureWanted(figure)).catch(() => {}) }, [])
-  useEffect(() => { if (MOBILE && getState().checked) ensureWanted(figure) }, [figure])
+  // Redrep: no animation packs (its figures are drawn in code), so nothing to look for or download.
+  useEffect(() => { if (MOBILE && !OWN_FIGURES) refresh().then(() => ensureWanted(figure)).catch(() => {}) }, [])
+  useEffect(() => { if (MOBILE && !OWN_FIGURES && getState().checked) ensureWanted(figure) }, [figure])
 }
 
 // "Auto (360 px)", "Still only", "Built in (180 px)", "720 px".
@@ -50,7 +52,7 @@ export function choiceLabel(choice, packs = getState(), figure = 'male') {
 export function AnimationQualityRow() {
   const packs = useAnimPacks()
   const figure = useStore(s => figureOf(s.S))
-  if (!MOBILE) return null
+  if (!MOBILE || OWN_FIGURES) return null
   return <Row icon="image" iconTint="var(--indigo)" title={t('Animation quality')} value={choiceLabel(packs.prefs.choice, packs, figure)} accessory="chevron"
     onClick={() => useUI.getState().openSheet(close => <AnimationQualitySheet close={close} />)} />
 }

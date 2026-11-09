@@ -48,9 +48,11 @@
   --yellow:#ffd60a; --teal:#40c8e0; --indigo:#5e5ce6; --pink:#ff375f;
   --purple:#bf5af2; --mint:#63e6e2; --brown:#ac8e68; --grey:#8e8e93;
 
+  /* Redrep's red: a true red (hue 356), where iOS's system red leans to orange */
+  --brandred:#ff1f2f;
   /* accent (per-account, synced) */
-  --acc:  var(--red);
-  --acc-2:#d70015;
+  --acc:  var(--brandred);
+  --acc-2:#c4001a;
   --on-acc:#ffffff;
   --acc-soft: color-mix(in srgb, var(--acc) 16%, transparent);
   --acc-line: color-mix(in srgb, var(--acc) 38%, transparent);
@@ -136,7 +138,7 @@
   --blue:#007aff; --green:#34c759; --red:#ff3b30; --orange:#ff9500;
   --yellow:#ffcc00; --teal:#30b0c7; --indigo:#5856d6; --pink:#ff2d55;
   --purple:#af52de; --mint:#00c7be; --brown:#a2845e; --grey:#8e8e93;
-  --acc-2:#d70015;
+  --acc-2:#c4001a;
   --on-acc:#ffffff;
 }
 
@@ -146,7 +148,7 @@
 :root[data-accent="orange"]{ --acc:var(--orange); --acc-2:#c76b00; --on-acc:#000 }
 :root[data-accent="violet"]{ --acc:var(--purple); --acc-2:#8944ab; --on-acc:#fff }
 :root[data-accent="pink"]  { --acc:var(--pink);   --acc-2:#d70036; --on-acc:#fff }
-:root[data-accent="red"]   { --acc:var(--red);    --acc-2:#d70015; --on-acc:#fff }
+:root[data-accent="red"]   { --acc:var(--brandred); --acc-2:#c4001a; --on-acc:#fff }
 :root[data-accent="teal"]  { --acc:var(--teal);   --acc-2:#0071a4; --on-acc:#000 }
 :root[data-accent="gold"]  { --acc:var(--yellow); --acc-2:#b25000; --on-acc:#000; --knob-ring:rgba(0,0,0,.28) }
 /* --acc-ink in the light theme, per preset: 4.5:1 or better on both --bg (#f2f2f7) and white. A
@@ -181,7 +183,7 @@
    takes black text there; the darker light-theme ones keep the inks chosen above. */
 @media (prefers-contrast: more){
   :root{
-    --blue:#5cb8ff; --green:#4ad968; --red:#ff6165; --orange:#ffa056;
+    --blue:#5cb8ff; --green:#4ad968; --red:#ff6165; --orange:#ffa056; --brandred:#ff2a3a;
     --yellow:#fedf43; --teal:#3bddec; --indigo:#a7aaff; --pink:#ff8ac4;
     --purple:#ea8dff; --mint:#54dfcb; --brown:#dba679; --grey:#aeaeb2;
     --label-2:rgba(235,235,245,.78); --label-3:rgba(235,235,245,.55); --label-4:rgba(235,235,245,.36);
@@ -190,7 +192,7 @@
   }
   :root:not([data-theme="light"]){ --on-acc:#000 }
   :root[data-theme="light"]{
-    --blue:#1e6ef4; --green:#008932; --red:#e9152d; --orange:#c55300;
+    --blue:#1e6ef4; --green:#008932; --red:#e9152d; --orange:#c55300; --brandred:#d0001c;
     --yellow:#a16a00; --teal:#008198; --indigo:#564ade; --pink:#e7124d;
     --purple:#b02fc2; --mint:#008575; --brown:#956d51; --grey:#6c6c70;
     --label-2:rgba(60,60,67,.82); --label-3:rgba(60,60,67,.6); --label-4:rgba(60,60,67,.4);
@@ -3275,17 +3277,30 @@ button.wl-summary{width:100%;padding:0 0 10px;text-align:start;border-radius:var
 
 /* Redrep: the code-drawn exercise figure (components/ExerciseFigure.jsx, lib/figure-rig.js) */
 :root { --fig-body:#cecdd4; --fig-far:#68686e; --fig-acc-far:color-mix(in srgb, var(--acc) 55%, #000);
-  --fig-plate:#2c2c30; --fig-plate-rim:#54545a; --fig-steel:#aaaab0; --fig-floor:#3a3a3e }
+  --fig-acc-2:color-mix(in srgb, var(--acc) 50%, var(--fig-body)); --fig-acc-2-far:color-mix(in srgb, var(--acc) 35%, var(--fig-far));
+  --fig-plate:#2c2c30; --fig-plate-rim:#54545a; --fig-steel:#aaaab0; --fig-floor:#3a3a3e;
+  --fig-pad:#3a3a40; --fig-frame:#4a4a50; --fig-band:color-mix(in srgb, var(--acc) 70%, #fff); --fig-bg:#121214 }
 :root[data-theme="light"] { --fig-body:#6e6e76; --fig-far:#b4b4bc; --fig-acc-far:color-mix(in srgb, var(--acc) 45%, #fff);
-  --fig-plate:#d8d8de; --fig-plate-rim:#b8b8c0; --fig-steel:#8e8e96; --fig-floor:#d1d1d6 }
+  --fig-acc-2:color-mix(in srgb, var(--acc) 45%, var(--fig-body)); --fig-acc-2-far:color-mix(in srgb, var(--acc) 30%, var(--fig-far));
+  --fig-plate:#d8d8de; --fig-plate-rim:#b8b8c0; --fig-steel:#8e8e96; --fig-floor:#d1d1d6;
+  --fig-pad:#d4d4da; --fig-frame:#c4c4cc; --fig-band:color-mix(in srgb, var(--acc) 75%, #000); --fig-bg:#f0f0f4 }
 @supports not (color: color-mix(in srgb, red 50%, blue)) {
-  :root { --fig-acc-far:#8c2520 }
-  :root[data-theme="light"] { --fig-acc-far:#ffa59f }
+  :root { --fig-acc-far:#8c1520; --fig-acc-2:#e8868c; --fig-acc-2-far:#6e3a3e; --fig-band:#ff7a84 }
+  :root[data-theme="light"] { --fig-acc-far:#ff9aa2; --fig-acc-2:#b0606a; --fig-acc-2-far:#d8a8ae; --fig-band:#b8001a }
 }
 .ex-figure { margin:0; display:flex; flex-direction:column; align-items:center }
 .ex-figure svg { width:100%; height:auto; display:block }
 .ex-figure-cue { font-size:var(--fs-footnote); font-weight:600; color:var(--acc-ink); min-height:1.3em }
 .ex-figure-cue.rest { color:var(--label-2) }
+/* the figure where an exercise's picture or animation used to be (components/Media.jsx) */
+.exmedia.exfig { background:var(--fig-bg); padding:10px 0 6px }
+.exmedia.exfig .ex-figure svg { height:290px; width:100% }
+.exmedia.exfig.compact .ex-figure svg { height:120px }
+.exmedia.exfig.mini { padding:4px 0 }
+.exmedia.exfig.mini .ex-figure svg { height:84px }
+.exmedia.exfig .ex-figure-cue { margin-top:2px }
+.thumb.thumb-fig { background:var(--fig-bg); display:flex; align-items:center; justify-content:center; overflow:hidden }
+.thumb.thumb-fig .ex-figure, .thumb.thumb-fig svg { width:100%; height:100% }
 
 /* Redrep: the Redline gauge (components/RedlineGauge.jsx) */
 .redline { position:relative; width:100%; max-width:240px; margin:4px auto 14px; text-align:center }
@@ -3324,10 +3339,13 @@ button.wl-summary{width:100%;padding:0 0 10px;text-align:start;border-radius:var
 .big, .tile .v, .wday .num, .redline-num, .streak-head .ttl, .fin .v { font-family:var(--font-num); font-weight:800; font-variant-numeric:tabular-nums; letter-spacing:-.02em }
 
 /* Redrep: the welcome (components/Welcome.jsx) */
-.welcome { min-height:100dvh; display:flex; flex-direction:column; padding:calc(var(--sat) + 12px) var(--pad) calc(var(--sab) + 20px) }
-.welcome-skip { display:flex; justify-content:flex-end; min-height:44px }
-.welcome-step { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:10px }
-.welcome-fig { width:min(62vw, 240px) }
+.welcome { position:fixed; inset:0; z-index:5; background:var(--bg); display:flex; flex-direction:column; padding:calc(var(--sat) + 12px) var(--pad) calc(var(--sab) + 20px) }
+.welcome-skip { display:flex; justify-content:flex-end; min-height:44px; flex:none }
+/* The step takes what is left and scrolls on its own (large text sizes), so Next never moves off screen. */
+.welcome-step { flex:1; min-height:0; overflow-y:auto; display:flex; flex-direction:column; align-items:center; justify-content:safe center; text-align:center; gap:10px }
+.welcome-local { display:flex; flex-direction:column; align-items:center; gap:6px; padding:18px 18px 16px; border-radius:var(--r-lg); background:var(--acc-soft); max-width:34ch }
+.welcome-local strong { font-size:var(--fs-title3); font-weight:800; color:var(--label) }
+.welcome-local-i { width:48px; height:48px; border-radius:50%; display:grid; place-items:center; background:var(--acc); color:var(--on-acc); font-size:24px }
 .welcome-title { font-size:var(--fs-large); font-weight:800; letter-spacing:-.02em; margin:10px 0 0 }
 .welcome-text { color:var(--label-2); max-width:32ch; margin:0 }
 .welcome-presets { width:100%; display:flex; flex-direction:column; gap:10px; margin:14px 0 6px }
@@ -3337,7 +3355,7 @@ button.wl-summary{width:100%;padding:0 0 10px;text-align:start;border-radius:var
 .welcome-preset:focus-visible { outline:2px solid var(--acc-ink); outline-offset:2px }
 .welcome-preset-t { font-weight:700; color:var(--label) }
 .welcome-preset-d { font-size:var(--fs-footnote); color:var(--label-2) }
-.welcome-foot { display:flex; flex-direction:column; align-items:stretch; gap:16px }
+.welcome-foot { display:flex; flex-direction:column; align-items:stretch; gap:16px; flex:none; padding-top:12px }
 .welcome-dots { display:flex; justify-content:center; gap:8px }
 .welcome-dots span { width:8px; height:8px; border-radius:50%; background:var(--surface-3) }
 .welcome-dots span.on { background:var(--acc); width:22px; border-radius:4px }

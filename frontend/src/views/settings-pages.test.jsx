@@ -4,6 +4,8 @@
 import React, { act } from 'react'
 import { createRoot } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+// The licensed-media path (openGym's): Redrep switches it off in lib/brand.js OWN_FIGURES.
+vi.mock('../lib/brand.js', async importOriginal => ({ ...(await importOriginal()), OWN_FIGURES: false }))
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { PAGES, PAGE_IDS, ROOT_GROUPS, SEARCH, pageVisible, searchSettings, pageTrail, fold } from './settings-pages.js'

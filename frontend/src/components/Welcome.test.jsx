@@ -50,7 +50,9 @@ describe('Welcome', () => {
     const onDone = vi.fn()
     act(() => root.render(<Welcome onDone={onDone} />))
     expect(host.querySelector('#welcome-title').textContent).toBe('Welcome to Redrep')
-    expect(host.querySelector('.ex-figure')).toBeTruthy()
+    // where the data lives comes first, and nothing on the first screen needs scrolling to
+    expect(host.querySelector('.welcome-step').firstElementChild.textContent).toContain('All data stays on this phone')
+    expect(host.querySelector('.ex-figure')).toBeNull()
     act(() => buttonText('Next').click())
     expect(host.querySelector('.redline-num').textContent).toBe('82')
     act(() => buttonText('Next').click())

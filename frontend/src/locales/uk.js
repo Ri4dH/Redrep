@@ -3665,4 +3665,13 @@ export default {
   "How much do you want to see?": "Скільки всього показувати?",
   "You can switch any part on or off later in Settings → Modules.": "Будь-яку частину можна ввімкнути чи вимкнути пізніше: Налаштування → Модулі.",
   "Get started": "Почати",
+  "Lift": "Підніми",
+  "Press": "Тисни",
+  "Pull": "Тягни",
+  "Return": "Повернись",
+  "Squeeze": "Стисни",
+  "Jump": "Стрибай",
+  "Breathe": "Дихай",
+  "Reach": "Тягнися",
+  "Twist": "Поворот",
 }

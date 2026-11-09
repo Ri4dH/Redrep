@@ -69,8 +69,8 @@ struct DemoEnvironment: ViewModifier {
 }
 
 enum Theme {
-    /// The app's default accent (frontend/src/index.css --green, dark).
-    static let accent = Color(red: 0x30 / 255, green: 0xd1 / 255, blue: 0x58 / 255)
+    /// The app's default accent (frontend/src/index.css --brandred, Redrep's red).
+    static let accent = Color(red: 0xff / 255, green: 0x1f / 255, blue: 0x2f / 255)
     /// Warm-up sets (the app's --orange).
     static let warmup = Color(red: 1, green: 0x9f / 255, blue: 0x0a / 255)
     static let dim = Color.white.opacity(0.14)

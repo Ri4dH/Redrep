@@ -3661,4 +3661,13 @@ export default {
   "How much do you want to see?": "你想看到多少內容？",
   "You can switch any part on or off later in Settings → Modules.": "之後可以隨時在 設定 → 模組 中開關任何部分。",
   "Get started": "開始",
+  "Lift": "上提",
+  "Press": "推起",
+  "Pull": "拉",
+  "Return": "還原",
+  "Squeeze": "夾緊",
+  "Jump": "跳",
+  "Breathe": "呼吸",
+  "Reach": "伸展",
+  "Twist": "轉體",
 }

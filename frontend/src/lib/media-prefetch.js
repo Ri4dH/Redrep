@@ -19,6 +19,7 @@
 //
 // Not in the phone app: it has no service worker, and its media comes from the CDN.
 import { EXIDX, imgSrc, gifSrc, isCustomEx, figureOf } from './exercises.js'
+import { OWN_FIGURES } from './brand.js'
 
 // The worker's media cache, public/sw.js MEDIA. Duplicated because the worker is not bundled;
 // sw-media.test.js pins the two together.
@@ -31,8 +32,9 @@ const CONCURRENCY = 2
 const MAX_FAILURES = 3
 
 /** Every same-origin img/gif URL for the exercises in the plan and the active session. */
-export function planMediaUrls(S, base = globalThis.location?.href, index = EXIDX) {
-  if (!base) return []
+export function planMediaUrls(S, base = globalThis.location?.href, index = EXIDX, own = OWN_FIGURES) {
+  // Redrep draws its figures in code: there are no media files to fetch ahead.
+  if (!base || own) return []
   const ids = new Set()
   ;(S?.routines || []).forEach(r => (r?.ex || []).forEach(e => { if (e?.id) ids.add(e.id) }))
   ;(S?.active?.entries || []).forEach(en => { if (en?.id) ids.add(en.id) })

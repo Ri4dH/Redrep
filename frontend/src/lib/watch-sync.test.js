@@ -3,6 +3,8 @@
 // watch's events applied once each through the workout screen's own actions, drained from the
 // native queue and acknowledged only when done.
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+// The licensed-media path (openGym's): Redrep switches it off in lib/brand.js OWN_FIGURES.
+vi.mock('./brand.js', async importOriginal => ({ ...(await importOriginal()), OWN_FIGURES: false }))
 import { buildSnapshot, buildReady, applyEvents, bindWatchActions, bindWatchAppActions, drainWatchEvents, _setWatchPluginForTest, _resetWatchSync, SNAPSHOT_VERSION } from './watch-sync.js'
 
 const state = (over = {}) => ({

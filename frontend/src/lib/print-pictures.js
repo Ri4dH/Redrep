@@ -18,6 +18,8 @@
 // deadline: whatever is not decoded by then is left out and that exercise prints as text.
 import { EXIDX, imgSrc, figureOf, isCustomEx } from './exercises.js'
 import { mediaOf } from './media-refs.js'
+import { OWN_FIGURES } from './brand.js'
+import { figureSvg, SVG_LIGHT } from './figure/index.js'
 
 /** The largest catalogue picture a printout may carry, in px on either side. */
 export const PRINT_PICTURE_MAX_PX = 180
@@ -65,6 +67,8 @@ export function printPictureSource(S, id, index = EXIDX) {
     if (m.poster) return { kind: 'custom', file: m.poster }
     return m.kind === 'image' && m.size <= CUSTOM_MAX_BYTES ? { kind: 'custom', file: m } : null
   }
+  // Redrep: the exercise's own code-drawn figure, one frame of it (lib/figure/).
+  if (OWN_FIGURES) return figureSvg(ex) ? { kind: 'figure', ex } : null
   if (!ex.img && !ex.fv && !ex.mv) return null
   // The still, never gifSrc or an animation pack: see the licence note at the top.
   return { kind: 'catalogue', url: imgSrc(ex, figureOf(S)) }
@@ -101,6 +105,10 @@ async function decodedSize(blob) {
 }
 
 async function loadOne(src, { fetchImpl, store, decode }) {
+  if (src.kind === 'figure') {
+    const svg = figureSvg(src.ex, 0.45, { colours: SVG_LIGHT, background: '#ffffff', size: PRINT_PICTURE_MAX_PX })
+    return svg ? 'data:image/svg+xml;base64,' + btoa(svg) : null
+  }
   let blob = null
   if (src.kind === 'catalogue') {
     const res = await fetchImpl(src.url, { credentials: 'same-origin' })

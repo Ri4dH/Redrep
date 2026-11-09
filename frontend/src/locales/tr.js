@@ -3668,4 +3668,13 @@ export default {
   "How much do you want to see?": "Ne kadarını görmek istersin?",
   "You can switch any part on or off later in Settings → Modules.": "Herhangi bir bölümü daha sonra Ayarlar → Modüller’den açıp kapatabilirsin.",
   "Get started": "Başla",
+  "Lift": "Kaldır",
+  "Press": "Bas",
+  "Pull": "Çek",
+  "Return": "Geri dön",
+  "Squeeze": "Sık",
+  "Jump": "Zıpla",
+  "Breathe": "Nefes al",
+  "Reach": "Uzan",
+  "Twist": "Dön",
 }

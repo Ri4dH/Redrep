@@ -24,6 +24,15 @@ if (clipExt === '.webp' && !appDir) {
   process.exit(1)
 }
 
+// Redrep draws its exercise figures in code (frontend/src/lib/brand.js OWN_FIGURES) and must not
+// ship the licensed media at all: nothing is staged, and a copy left from an earlier build goes.
+const { OWN_FIGURES } = await import(path.join(ROOT, 'frontend/src/lib/brand.js'))
+if (OWN_FIGURES) {
+  fs.rmSync(path.join(out, 'exercise-media'), { recursive: true, force: true })
+  console.log('media: none staged (Redrep draws its own figures)')
+  process.exit(0)
+}
+
 const copyDir = (from, to, ext) => {
   fs.mkdirSync(to, { recursive: true })
   let n = 0

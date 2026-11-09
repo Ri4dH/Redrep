@@ -3747,4 +3747,13 @@ export default {
   "How much do you want to see?": "আপনি কতটা দেখতে চান?",
   "You can switch any part on or off later in Settings → Modules.": "পরে সেটিংস → মডিউল থেকে যেকোনো অংশ চালু বা বন্ধ করতে পারেন।",
   "Get started": "শুরু করুন",
+  "Lift": "তুলুন",
+  "Press": "চাপ দিন",
+  "Pull": "টানুন",
+  "Return": "ফিরে আসুন",
+  "Squeeze": "চেপে ধরুন",
+  "Jump": "লাফ দিন",
+  "Breathe": "শ্বাস নিন",
+  "Reach": "প্রসারিত করুন",
+  "Twist": "ঘোরান",
 }

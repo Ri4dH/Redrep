@@ -28,6 +28,7 @@ import { MUSCLES, inMuscleOrder } from './muscles.js'
 import { SG_NAME_MAX } from './superset-meta.js'
 import { esc, printShell, printDocument, probeMarks } from './print-doc.js'
 import { MEDIA_CREDIT, isPrintPicture, loadPrintPictures } from './print-pictures.js'
+import { OWN_FIGURES } from './brand.js'
 import { normalizeAliases } from './exercise-aliases.js'
 import { bundleProgramme, importedProgramme, programmeById, programmeRoutineIds, programmesOf, IMPORT_MAX_PROGRAMMES } from './programmes.js'
 
@@ -673,7 +674,8 @@ export function planPrintHTML(S, owner, { routineId, probe = false, pictures = n
     for (const r of routines) for (const e of r.ex || []) if (isPrintPicture(pictures[e.id])) pics[e.id] = pictures[e.id]
   }
   const grid = Object.keys(pics).length > 0
-  const credit = grid && Object.keys(pics).some(id => EXIDX[id] && !isCustomEx(EXIDX[id])) ? MEDIA_CREDIT : ''
+  // Redrep prints its own figures: no licensed picture on the page, so no credit for one.
+  const credit = grid && !OWN_FIGURES && Object.keys(pics).some(id => EXIDX[id] && !isCustomEx(EXIDX[id])) ? MEDIA_CREDIT : ''
   const lead = routineId ? '' : `<h3 class="sec-h">${esc(t('Routines'))}</h3>`
   const one = (r, i) => {
     const o = { bare: !!single, speedUnit, ticks: !!single, lead: i === 0 ? lead : '', m, key: 'r' + i, state: S }

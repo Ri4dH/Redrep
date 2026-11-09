@@ -30,7 +30,7 @@ import { WrappedHomeCard } from '../components/WrappedEntry.jsx'
 import RecoveryHint from '../components/RecoveryHint.jsx'
 import { ChallengesCard } from '../components/Challenges.jsx'
 import { isOn } from '../lib/modules.js'
-import { motionFor } from '../lib/figure-rig.js'
+import { hasFigure } from '../components/ExerciseFigure.jsx'
 import ExerciseFigure from '../components/ExerciseFigure.jsx'
 
 // Home = what to do now + a quick glance. Deep charts & history live in Stats.
@@ -119,11 +119,11 @@ export default function Home() {
   const bwPoints = S.bodyweight.slice(-30).map(b => ({ t: weighInAt(b), y: b.w, d: b.d }))
 
   // Redrep: today's planned session is the hero of Home, red, with the first of its exercises
-  // that has a code-drawn figure (lib/figure-rig.js) moving beside it.
+  // that has a code-drawn figure (lib/figure/) moving beside it.
   const hero = !!routine && !S.active && !doneToday
   const todayEx = todayRoutines.flatMap(r => (Array.isArray(r?.ex) ? r.ex : []))
   const exCount = todayEx.length
-  const heroFig = hero ? (todayEx.map(e => e?.id).find(id => motionFor(id)) || null) : null
+  const heroFig = hero ? (todayEx.map(e => e?.id).find(id => hasFigure(id)) || null) : null
 
   // today's session shown right under the week strip
   const onToday = () => { if (S.active) nav('/workout'); else if (todayRoutines.length) startFlow(effectiveRoutineIds(S, todayISO())); else dayOverrideSheet(todayISO()) }

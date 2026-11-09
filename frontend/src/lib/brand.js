@@ -14,3 +14,7 @@ export const LINKS_OFF = true
 // The phone app is free and needs no account: it keeps everything on the phone and never asks to
 // sign in or connect to a server.
 export const LOCAL_ONLY = true
+// Redrep draws every catalogue exercise in code (lib/figure/, components/ExerciseFigure.jsx)
+// instead of showing the licensed Gym visual media, which is for openGym only (NOTICE.md): the
+// app never loads or ships those files.
+export const OWN_FIGURES = true

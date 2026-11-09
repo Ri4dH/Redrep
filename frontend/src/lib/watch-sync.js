@@ -24,6 +24,7 @@
 import { isOn } from './modules.js'
 import { MOBILE, nativePlatform } from './mobile.js'
 import { EXIDX, gifSrc, figureOf, isAssisted } from './exercises.js'
+import { OWN_FIGURES } from './brand.js'
 import { packId, packDrawingId } from './anim-quality.js'
 import { getState as animPacks } from './anim-packs.js'
 import { getLang, baseLang, onLangChange } from './i18n.js'
@@ -265,6 +266,8 @@ export function staleWatchFinish (A, ev, now = Date.now()) {
  */
 export const WATCH_PACK_PX = 240
 export function clipsFor (S, packs = animPacks().packs || {}) {
+  // Redrep draws its figures in code and sends the watch none of the licensed clips (lib/brand.js).
+  if (OWN_FIGURES) return []
   const A = S && S.active
   if (!A || !Array.isArray(A.entries)) return []
   const figure = figureOf(S)

@@ -3671,4 +3671,13 @@ export default {
   "How much do you want to see?": "Mennyit szeretnél látni?",
   "You can switch any part on or off later in Settings → Modules.": "Később bármelyik részt be- vagy kikapcsolhatod: Beállítások → Modulok.",
   "Get started": "Kezdjük",
+  "Lift": "Emeld",
+  "Press": "Nyomd",
+  "Pull": "Húzd",
+  "Return": "Vissza",
+  "Squeeze": "Szorítsd",
+  "Jump": "Ugorj",
+  "Breathe": "Lélegezz",
+  "Reach": "Nyújtózz",
+  "Twist": "Fordulj",
 }

@@ -3668,4 +3668,13 @@ export default {
   "How much do you want to see?": "आप कितना देखना चाहते हैं?",
   "You can switch any part on or off later in Settings → Modules.": "बाद में सेटिंग्स → मॉड्यूल में कोई भी हिस्सा चालू या बंद कर सकते हैं।",
   "Get started": "शुरू करें",
+  "Lift": "उठाएँ",
+  "Press": "धकेलें",
+  "Pull": "खींचें",
+  "Return": "वापस आएँ",
+  "Squeeze": "कसकर दबाएँ",
+  "Jump": "कूदें",
+  "Breathe": "साँस लें",
+  "Reach": "फैलाएँ",
+  "Twist": "मोड़ें",
 }

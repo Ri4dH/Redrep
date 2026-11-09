@@ -2457,6 +2457,15 @@ export const PT_BR_OVERRIDES = {
   "How much do you want to see?": "Quanto você quer ver?",
   "You can switch any part on or off later in Settings → Modules.": "Você pode ligar ou desligar qualquer parte depois em Configurações → Módulos.",
   "Get started": "Começar",
+  "Lift": "Suba",
+  "Press": "Empurre",
+  "Pull": "Puxe",
+  "Return": "Volte",
+  "Squeeze": "Aperte",
+  "Jump": "Pule",
+  "Breathe": "Respire",
+  "Reach": "Estique",
+  "Twist": "Gire",
 }
 
 export default { ...pt, ...PT_BR_OVERRIDES }

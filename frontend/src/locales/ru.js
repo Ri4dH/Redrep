@@ -3672,4 +3672,13 @@ export default {
   "How much do you want to see?": "Сколько всего показывать?",
   "You can switch any part on or off later in Settings → Modules.": "Любую часть можно включить или выключить позже: Настройки → Модули.",
   "Get started": "Начать",
+  "Lift": "Подними",
+  "Press": "Жми",
+  "Pull": "Тяни",
+  "Return": "Вернись",
+  "Squeeze": "Сожми",
+  "Jump": "Прыгай",
+  "Breathe": "Дыши",
+  "Reach": "Тянись",
+  "Twist": "Поворот",
 }

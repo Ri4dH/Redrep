@@ -7,6 +7,8 @@ import Icon from './Icon.jsx'
 import CustomMedia, { CustomThumb, LinkCard } from './CustomMedia.jsx'
 import { youtubeId, youtubeLinks } from '../lib/youtube.js'
 import { useAnimSources } from './Animations.jsx'
+import ExerciseFigure, { hasFigure } from './ExerciseFigure.jsx'
+import { OWN_FIGURES } from '../lib/brand.js'
 
 // An exercise's picture, wherever one shows. A custom exercise goes to CustomMedia.jsx — its own
 // photo, GIF, video or link, from the local media store — and never through imgSrc/gifSrc, which
@@ -17,9 +19,38 @@ export default function Media(p) {
   const custom = isCustomEx(p.ex)
   const links = youtubeLinks(p.notes).filter(url => !custom || youtubeId(url) !== youtubeId(p.ex?.url))
   return <>
-    {custom ? <CustomMedia {...p} /> : <BuiltinMedia {...p} />}
+    {custom ? <CustomMedia {...p} /> : OWN_FIGURES ? <FigureMedia {...p} /> : <BuiltinMedia {...p} />}
     {(!p.minimizable || size !== 'off') && links.map(url => <LinkCard key={url} url={url} compact={p.compact} mini={p.minimizable && size === 'mini'} />)}
   </>
+}
+
+// Redrep: the exercise's code-drawn figure in the same frame the animation had, with the same
+// controls: a tap pauses and plays it, the workout's minimize/expand toggle and Settings' 'off'
+// apply as before. The coaching cue (Lower, Drive up…) shows under the figure while it moves.
+function FigureMedia({ ex, id, compact, minimizable }) {
+  const [playing, setPlaying] = useState(true)
+  const gifSize = useStore(s => s.S.gifSize)
+  const fem = useStore(s => figureOf(s.S) === 'female')
+  const update = useStore(s => s.update)
+  if (!hasFigure(ex)) return null
+  if (minimizable && gifSize === 'off') return null
+  const mini = minimizable && gifSize === 'mini'
+  const toggleSize = e => { e.stopPropagation(); update(s => { s.gifSize = mini ? 'full' : 'mini' }) }
+  return (
+    <div className={'exmedia exfig' + (compact ? ' compact' : '') + (mini ? ' mini' : '')} id={id} onClick={() => setPlaying(v => !v)}>
+      <ExerciseFigure ex={ex} cue={!mini && !compact} playing={playing} fem={fem} label={exerciseNameFor(ex)} />
+      {minimizable && (
+        <button className="giftoggle" onClick={toggleSize}>
+          <Icon name={mini ? 'expand' : 'minimize'} />{mini ? t('Expand') : t('Minimize')}
+        </button>
+      )}
+      {!mini && (
+        <span className="gifhint">
+          <Icon name={playing ? 'pause' : 'play'} />{playing ? t('tap to pause') : t('tap to play')}
+        </span>
+      )}
+    </div>
+  )
 }
 
 // Big autoplaying animation; tap toggles to the still frame. `compact` shrinks it (superset cards).
@@ -177,6 +208,16 @@ export function Thumb(p) {
   return isCustomEx(p.ex) ? <CustomThumb {...p} /> : <BuiltinThumb {...p} />
 }
 function BuiltinThumb({ ex }) {
+  if (OWN_FIGURES) return <FigureThumb ex={ex} />
+  return <PictureThumb ex={ex} />
+}
+// Redrep: one frame of the exercise's figure, drawn once.
+function FigureThumb({ ex }) {
+  const fem = useStore(s => figureOf(s.S) === 'female')
+  if (!hasFigure(ex)) return <div className="thumb thumb-x"><Icon name="dumbbell" /></div>
+  return <div className="thumb thumb-fig"><ExerciseFigure ex={ex} still fem={fem} label={exerciseNameFor(ex)} /></div>
+}
+function PictureThumb({ ex }) {
   const body = useStore(s => figureOf(s.S))
   const src = ex.img ? imgSrc(ex, body) : null
   const [broken, setBroken] = useState(null)

@@ -3668,4 +3668,13 @@ export default {
   "How much do you want to see?": "얼마나 보고 싶나요?",
   "You can switch any part on or off later in Settings → Modules.": "나중에 설정 → 모듈에서 언제든 켜고 끌 수 있어요.",
   "Get started": "시작하기",
+  "Lift": "들어 올리기",
+  "Press": "밀기",
+  "Pull": "당기기",
+  "Return": "돌아오기",
+  "Squeeze": "조이기",
+  "Jump": "점프",
+  "Breathe": "호흡",
+  "Reach": "뻗기",
+  "Twist": "비틀기",
 }

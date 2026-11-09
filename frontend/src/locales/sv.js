@@ -3715,4 +3715,13 @@ export default {
   "How much do you want to see?": "Hur mycket vill du se?",
   "You can switch any part on or off later in Settings → Modules.": "Du kan slå på eller av varje del senare i Inställningar → Moduler.",
   "Get started": "Kom igång",
+  "Lift": "Lyft",
+  "Press": "Pressa",
+  "Pull": "Dra",
+  "Return": "Tillbaka",
+  "Squeeze": "Kläm",
+  "Jump": "Hoppa",
+  "Breathe": "Andas",
+  "Reach": "Sträck",
+  "Twist": "Vrid",
 }

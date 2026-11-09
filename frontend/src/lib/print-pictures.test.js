@@ -2,6 +2,8 @@
 // the fallback to text. No real media file is read here: fetch, the store and the decode are
 // stand-ins, and the bytes are a few placeholder bytes.
 import { afterEach, describe, expect, it, vi } from 'vitest'
+// The licensed-media path (openGym's): Redrep switches it off in lib/brand.js OWN_FIGURES.
+vi.mock('./brand.js', async importOriginal => ({ ...(await importOriginal()), OWN_FIGURES: false }))
 import { EXIDX } from './exercises.js'
 import {
   printPictureSource, loadPrintPictures, printedExerciseIds, isPrintPicture, PLACEHOLDER_PICTURE,

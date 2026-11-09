@@ -2,6 +2,8 @@
 import React, { act } from 'react'
 import { createRoot } from 'react-dom/client'
 import { afterEach, describe, expect, it, vi } from 'vitest'
+// The licensed-media path (openGym's): Redrep switches it off in lib/brand.js OWN_FIGURES.
+vi.mock('../lib/brand.js', async importOriginal => ({ ...(await importOriginal()), OWN_FIGURES: false }))
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true
 

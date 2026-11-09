@@ -107,7 +107,7 @@ struct WidgetModel {
     }
     var weekPlanned: Int { snap?.week?.planned ?? 0 }
     var streak: Int { snap?.streak ?? 0 }
-    var accent: Color { Color(hex: snap?.accent) ?? Color(red: 0.19, green: 0.82, blue: 0.35) }
+    var accent: Color { Color(hex: snap?.accent) ?? Color(red: 1, green: 0x1f / 255, blue: 0x2f / 255) }   // Redrep red
 }
 
 @available(iOS 17.0, *)

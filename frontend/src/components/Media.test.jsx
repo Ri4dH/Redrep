@@ -2,6 +2,8 @@
 import React, { act } from 'react'
 import { createRoot } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+// The licensed-media path (openGym's): Redrep switches it off in lib/brand.js OWN_FIGURES.
+vi.mock('../lib/brand.js', async importOriginal => ({ ...(await importOriginal()), OWN_FIGURES: false }))
 import Media, { Thumb } from './Media.jsx'
 import { createMediaStore, memoryBackend, _setMediaStore } from '../lib/media-store.js'
 

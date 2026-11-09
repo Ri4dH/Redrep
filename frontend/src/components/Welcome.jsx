@@ -3,15 +3,15 @@ import { useStore } from '../store/useStore.js'
 import { t } from '../lib/i18n.js'
 import { PRESETS, applyPreset, presetOf } from '../lib/modules.js'
 import { Button } from './ui.jsx'
-import ExerciseFigure from './ExerciseFigure.jsx'
+import Icon from './Icon.jsx'
 import RedlineGauge from './RedlineGauge.jsx'
 
-// Redrep's welcome: three screens before anything else on a new device. What Redrep is, what the
-// Redline score means, and how much of the app to start with (a Modules preset, lib/modules.js).
-// Shown once per device, and never to a profile that already has workouts or routines.
+// Redrep's welcome: three screens before anything else on a new device. Where the data lives and
+// what Redrep is, what the Redline score means, and how much of the app to start with (a Modules
+// preset, lib/modules.js). Shown once per device, and never to a profile that already has workouts
+// or routines. Each screen fits without scrolling: the step scrolls on its own if text is large.
 
 export const WELCOME_KEY = 'redrep_welcome_v1'
-const DEMO_EXERCISE = '3593'   // barbell squat, the figure from lib/figure-rig.js
 
 // '1' skipped, 'picked' finished with a preset picked (the tour's offer then does not ask again).
 const read = () => { try { return localStorage.getItem(WELCOME_KEY) } catch { return '1' } }
@@ -48,7 +48,11 @@ export default function Welcome({ onDone }) {
     {step < 2 && <div className="welcome-skip"><Button size="sm" variant="ghost" onClick={skip}>{t('Skip')}</Button></div>}
 
     {step === 0 && <div className="welcome-step">
-      <ExerciseFigure id={DEMO_EXERCISE} cue className="welcome-fig" />
+      <div className="welcome-local">
+        <span className="welcome-local-i" aria-hidden="true"><Icon name="lock" /></span>
+        <strong>{t('All data stays on this phone')}</strong>
+        <span className="welcome-text dim">{t('No account, no cloud. Back it up anytime in Data & backup.')}</span>
+      </div>
       <h1 id="welcome-title" className="welcome-title">{t('Welcome to Redrep')}</h1>
       <p className="welcome-text">{t('Plan your week, log every set and watch yourself get stronger. No account, no ads, no tracking.')}</p>
     </div>}
