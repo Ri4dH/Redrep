@@ -1,4 +1,4 @@
-/* The alternate home-screen icons: every file scripts/app-icons.mjs owns is there, the size each
+/* The app icons: every file scripts/app-icons.mjs owns is there, the size each
  * platform wants, and drawn the way the script draws it today; and the native projects list the
  * same icons as src/lib/app-icon-variants.js, or the picker would offer one the phone has not got. */
 import { describe, expect, it } from 'vitest'
@@ -6,7 +6,7 @@ import { execFileSync } from 'node:child_process'
 import { existsSync, readFileSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 import { deflateSync, inflateSync } from 'node:zlib'
-import { DENSITIES, IOS_SIZE, PREVIEW, ROOT, draw, files, pngInfo, samePicture, scene } from './app-icons.mjs'
+import { DENSITIES, IOS_SIZE, PREVIEW, ROOT, SPLASH, draw, files, logo, pngInfo, readPng, samePicture, scene } from './app-icons.mjs'
 import { APP_ICON_VARIANTS } from '../src/lib/app-icon-variants.js'
 
 const read = rel => readFileSync(join(ROOT, rel), 'utf8')
@@ -40,6 +40,22 @@ describe('generated icon files', () => {
       expect(read(`${RES}/mipmap-anydpi-v26/ic_launcher_${v.id}.xml`)).toContain(`@mipmap/ic_launcher_${v.id}_foreground`)
       expect(read(`${RES}/values/app_icons.xml`)).toContain(`<color name="ic_launcher_${v.id}_background">${v.bg}</color>`)
     }
+  })
+
+  it('the original icon is the logo on every platform, opaque, and the launch screen shows it', () => {
+    const at = rel => pngInfo(readFileSync(join(ROOT, rel)))
+    const square = { width: IOS_SIZE, height: IOS_SIZE, alpha: false }
+    expect(at('ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png')).toEqual(square)
+    expect(at('ios/App/Watch/Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png')).toEqual(square)
+    expect(at('public/icon-512.png')).toEqual({ width: 512, height: 512, alpha: false })
+    expect(at('ios/App/App/Assets.xcassets/Splash.imageset/Default@3x~universal~anyany-dark.png')).toMatchObject({ width: SPLASH, alpha: false })
+    // The logo: a square grey mask, the dumbbell in the middle and clear of the corners.
+    const m = logo()
+    expect(m.size).toBe(IOS_SIZE)
+    expect(m.at[0]).toBe(0)
+    expect(m.at[(IOS_SIZE / 2) * IOS_SIZE + IOS_SIZE / 2 - 40]).toBeGreaterThan(0.9)   // the bar
+    const icon = readPng(draw(APP_ICON_VARIANTS[0], 64))
+    expect([...icon.data.subarray(0, 3)]).toEqual([0, 0, 0])
   })
 
   it('match a fresh draw (the small ones; --check compares them all)', () => {

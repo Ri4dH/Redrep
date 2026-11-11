@@ -673,25 +673,16 @@ it after every web-code change before building natively.
 
 ## App icons & splash screens
 
-`frontend/resources/icon.svg` is the 1024×1024 source (the app's dumbbell glyph on the
-app background). Generate all platform assets from it on a machine with the tooling:
+The logo is `frontend/resources/redrep.icon`, an Icon Composer file. `node scripts/app-icons.mjs
+--logo resources/redrep.icon` turns it into `resources/logo.png`, a 1024 px grey mask of the
+dumbbell placed the way the Icon Composer file places it, and prints the dumbbell's colour (the
+original icon's `fg` in `src/lib/app-icon-variants.js`).
 
-```sh
-cd frontend
-npx @capacitor/assets@3.0.5 generate --iconBackgroundColor '#0c0e12' --splashBackgroundColor '#0c0e12'
-```
-
-The generator is not a dependency of the app (it pulls in an old Capacitor CLI and sharp),
-so `npx` fetches it for that one run.
-
-(If the generator won't take the SVG directly, export it to `resources/icon.png` at
-1024×1024 first; any image tool can do it.)
-
-The alternate icons people can pick in Settings → Look & Home → App icon are not made by that
-generator. `node scripts/app-icons.mjs` draws them from the list in
-`src/lib/app-icon-variants.js` and the glyph in `resources/icon.svg`, with no dependencies: the
-SVG per icon in `resources/icons/`, an `AppIcon-<Name>` set (1024 px, opaque) per icon in the iOS
-asset catalog, the Android launcher, round and adaptive layers per density, and the previews in
+`node scripts/app-icons.mjs` then draws every icon from that mask and the list in
+`src/lib/app-icon-variants.js`, with no dependencies: the iPhone icon, the Apple Watch icon, the
+launch screen, the web app's `public/icon-180.png` and `public/icon-512.png`, an
+`AppIcon-<Name>` set (1024 px, opaque) per alternate icon (Settings → Look & Home → App icon),
+the Android launcher, round and adaptive layers per density, and the previews in
 `public/app-icons/`. An icon with `art` (Halloween) is a hand-made SVG in `resources/icons/`
 instead, which the script renders; it may use only rect, circle, line, polyline, polygon and one
 two-stop radialGradient. `--check` says whether the committed files still match. A new icon also
