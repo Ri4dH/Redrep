@@ -4,6 +4,8 @@
 // lib/share-image.js gets the picture out of the app. No exercise picture or clip is ever drawn
 // on a card (the licence keeps those inside the app, NOTICE.md).
 
+import { LOGO_BOX, LOGO_LOOPS } from './logo-mark.js'
+
 // 9:16 for Stories and Reels, 1:1 for a feed or a chat.
 export const FORMATS = { story: { width: 1080, height: 1920 }, square: { width: 1080, height: 1080 } }
 export const FORMAT_IDS = Object.keys(FORMATS)
@@ -51,18 +53,23 @@ export function cardPalette(style, acc = '#30d158') {
     : { bg: '#000000', surface: '#1c1c1e', tile: '#2c2c2e', label: '#ffffff', label2: '#98989f', acc: a, accText: a, sep: '#38383a', light: false }
 }
 
-// The dumbbell of the app icon (public/icon-512.png) on a 208×72 grid, centred on 0,0.
-const MARK = [[-72, -10, 144, 20], [-80, -36, 20, 72], [-104, -25, 17, 50], [60, -36, 20, 72], [87, -25, 17, 50]]
-export const MARK_ASPECT = 208 / 72
+// The logo of the app icon, its traced outline (lib/logo-mark.js, written from resources/logo.png).
+export const MARK_ASPECT = LOGO_BOX.w / LOGO_BOX.h
 
-/** The logo mark, `h` high, its left edge at x (its right edge for rtl), centred on y. */
+/** The logo mark, `h` high, its left edge at x, centred on y. */
 export function drawMark(ctx, x, y, h, color) {
-  const s = h / 72
+  const s = h / LOGO_BOX.h
   ctx.save()
-  ctx.translate(x + 104 * s, y)
+  ctx.translate(x, y - h / 2)
   ctx.scale(s, s)
   ctx.fillStyle = color
-  for (const [rx, ry, rw, rh] of MARK) { roundRect(ctx, rx, ry, rw, rh, 7); ctx.fill() }
+  ctx.beginPath()
+  for (const loop of LOGO_LOOPS) {
+    ctx.moveTo(loop[0], loop[1])
+    for (let i = 2; i < loop.length; i += 2) ctx.lineTo(loop[i], loop[i + 1])
+    ctx.closePath()
+  }
+  ctx.fill('evenodd')
   ctx.restore()
 }
 
@@ -72,7 +79,7 @@ export function drawMark(ctx, x, y, h, color) {
  * logo, and a logo does not mirror.
  */
 export function drawBrand(ctx, { x, y, width, colors, family, size = 40 }) {
-  const markH = size * 0.78
+  const markH = size * 1.05
   drawMark(ctx, x, y - size * 0.36, markH, colors.acc)
   let tx = x + markH * MARK_ASPECT + size * 0.4
   ctx.direction = 'ltr'

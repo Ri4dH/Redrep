@@ -144,7 +144,7 @@ struct WidgetView: View {
                     }
                 } else {
                     HStack(spacing: 6) {
-                        OpenGymLogo().frame(width: 26, height: 16)
+                        OpenGymLogo().frame(width: 20, height: 18)
                         Text(verbatim: "Redrep").font(.headline)
                     }
                 }
@@ -208,7 +208,7 @@ struct LauncherView: View {
             Text(verbatim: "Redrep")
         default:
             HStack(spacing: 8) {
-                OpenGymLogo().frame(width: 30, height: 20)
+                OpenGymLogo().frame(width: 24, height: 22)
                 VStack(alignment: .leading, spacing: 0) {
                     Text(verbatim: "Redrep").font(.headline)
                     if entry.state.mode == "today" {

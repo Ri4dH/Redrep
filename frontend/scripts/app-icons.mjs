@@ -19,6 +19,7 @@
  *   android/app/src/main/res/mipmap-<dpi>/ic_launcher{,_<id>}{,_round,_foreground}.png
  *   android/app/src/main/res/mipmap-anydpi-v26/ic_launcher_<id>{,_round}.xml
  *   android/app/src/main/res/values/app_icons.xml             the adaptive icons' background colours
+ *   src/lib/logo-mark.js, ios/App/Watch/WidgetState.swift     the logo's outline, for marks drawn in code
  * Apple refuses an app icon with alpha, so every square icon is opaque.
  *
  * Usage: node scripts/app-icons.mjs                    write everything
@@ -182,6 +183,100 @@ export function logoFromIcon(dir) {
   }
   const hex = '#' + fg.map(c => c.toString(16).padStart(2, '0')).join('')
   return { png: png(S, S, out, 1), fg: hex }
+}
+
+// --- the logo's outline: the small marks drawn in code (the cards, the printed sheets, the watch) ---
+// The mask's edge at half coverage, followed pixel edge by pixel edge, then straightened
+// (Douglas-Peucker, OUTLINE_TOLERANCE px of the 1024): a few shapes of straight lines that stay
+// sharp at any size and take any colour. Filled even-odd.
+export const OUTLINE_TOLERANCE = 2
+
+function traceLoops(m, tol) {
+  const N = m.size, on = (x, y) => x >= 0 && y >= 0 && x < N && y < N && m.at[y * N + x] >= 0.5
+  // Directed boundary edges, the dumbbell on the right (clockwise outer loops in y-down space).
+  const next = new Map()
+  const key = (x, y) => y * (N + 1) + x
+  const add = (x0, y0, x1, y1) => { const k = key(x0, y0); (next.get(k) || next.set(k, []).get(k)).push([x1, y1]) }
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+    if (!on(x, y)) continue
+    if (!on(x, y - 1)) add(x, y, x + 1, y)
+    if (!on(x + 1, y)) add(x + 1, y, x + 1, y + 1)
+    if (!on(x, y + 1)) add(x + 1, y + 1, x, y + 1)
+    if (!on(x - 1, y)) add(x, y + 1, x, y)
+  }
+  const loops = []
+  for (const [k0] of next) {
+    while (next.get(k0)?.length) {
+      const sx = k0 % (N + 1), sy = Math.floor(k0 / (N + 1))
+      const loop = [[sx, sy]]
+      let [cx, cy] = [sx, sy]
+      for (;;) {
+        const list = next.get(key(cx, cy)); const [nx, ny] = list.shift()
+        if (!list.length) next.delete(key(cx, cy))
+        if (nx === sx && ny === sy) break
+        loop.push([nx, ny]); cx = nx; cy = ny
+      }
+      loops.push(loop)
+    }
+  }
+  return loops.map(l => simplify(l, tol)).filter(l => l.length >= 3)
+}
+function douglasPeucker(pts, tol) {
+  if (pts.length < 3) return pts
+  const [a, b] = [pts[0], pts[pts.length - 1]]
+  const dx = b[0] - a[0], dy = b[1] - a[1], len = Math.hypot(dx, dy) || 1
+  let best = 0, at = 0
+  for (let i = 1; i < pts.length - 1; i++) {
+    const d = Math.abs((pts[i][0] - a[0]) * dy - (pts[i][1] - a[1]) * dx) / len
+    if (d > best) { best = d; at = i }
+  }
+  if (best <= tol) return [a, b]
+  return [...douglasPeucker(pts.slice(0, at + 1), tol).slice(0, -1), ...douglasPeucker(pts.slice(at), tol)]
+}
+function simplify(loop, tol) {
+  // Split the closed loop at its first point and the point farthest from it.
+  let far = 0, fd = 0
+  for (let i = 1; i < loop.length; i++) { const d = Math.hypot(loop[i][0] - loop[0][0], loop[i][1] - loop[0][1]); if (d > fd) { fd = d; far = i } }
+  const a = douglasPeucker(loop.slice(0, far + 1), tol), b = douglasPeucker([...loop.slice(far), loop[0]], tol)
+  return [...a.slice(0, -1), ...b.slice(0, -1)]
+}
+
+/** The outline in the icon's 1024 grid: { x, y, w, h } its box, and `loops`, each a list of
+ *  [x, y] points relative to the box. */
+export function logoOutline(mask = theLogo()) {
+  const loops = traceLoops(mask, OUTLINE_TOLERANCE)
+  const xs = loops.flat().map(p => p[0]), ys = loops.flat().map(p => p[1])
+  const x = Math.min(...xs), y = Math.min(...ys)
+  return { x, y, w: Math.max(...xs) - x, h: Math.max(...ys) - y, loops: loops.map(l => l.map(([px, py]) => [px - x, py - y])) }
+}
+
+const outlineJs = o => `// Written by scripts/app-icons.mjs from the logo (resources/logo.png); do not edit. Its outline,
+// traced, for the small marks drawn in code (the cards' footer, the printed sheets): sharp at any
+// size, in any colour. Coordinates relative to the dumbbell's box, which sits at LOGO_BOX.x, .y in
+// the 1024 px app icon. Fill even-odd.
+export const LOGO_BOX = { x: ${o.x}, y: ${o.y}, w: ${o.w}, h: ${o.h} }
+export const LOGO_LOOPS = [
+${o.loops.map(l => '  [' + l.flat().join(', ') + '],').join('\n')}
+]
+/** The same as SVG path data. */
+export const LOGO_PATH = '${o.loops.map(l => 'M' + l.map(p => p.join(' ')).join('L') + 'Z').join('')}'
+`
+
+// The watch's copy, between these lines of ios/App/Watch/WidgetState.swift (Swift cannot import
+// the JS one).
+const SWIFT_BEGIN = '    // logo outline: written by frontend/scripts/app-icons.mjs, do not edit\n'
+const SWIFT_END = '    // end of logo outline\n'
+const outlineSwift = o => {
+  const rel = 'ios/App/Watch/WidgetState.swift'
+  const src = readFileSync(join(ROOT, rel), 'utf8')
+  const a = src.indexOf(SWIFT_BEGIN), b = src.indexOf(SWIFT_END)
+  if (a < 0 || b < a) throw new Error(`${rel}: the logo outline markers are missing`)
+  const body = `    static let size = CGSize(width: ${o.w}, height: ${o.h})
+    static let loops: [[CGFloat]] = [
+${o.loops.map(l => '        [' + l.flat().join(', ') + '],').join('\n')}
+    ]
+`
+  return src.slice(0, a + SWIFT_BEGIN.length) + body + src.slice(b)
 }
 
 // --- the hand-made icons: a renderer for the little SVG they are allowed to use ---
@@ -409,6 +504,10 @@ export function files(mask = theLogo()) {
     out.push([`${RES}/mipmap-anydpi-v26/ic_launcher_${v.id}_round.xml`, () => adaptive(v.id)])
     colors.push(`    <color name="ic_launcher_${v.id}_background">${v.bg}</color>`)
   }
+  let outline = null
+  const outlineOnce = () => (outline ||= logoOutline(mask))
+  out.push(['src/lib/logo-mark.js', () => outlineJs(outlineOnce())])
+  out.push(['ios/App/Watch/WidgetState.swift', () => outlineSwift(outlineOnce())])
   out.push([`${RES}/values/app_icons.xml`, () => `<?xml version="1.0" encoding="utf-8"?>
 <!-- Written by scripts/app-icons.mjs: behind each alternate launcher icon. -->
 <resources>

@@ -62,22 +62,31 @@ extension WidgetState {
     }
 }
 
-/// Redrep's mark, the app icon's barbell (frontend/public/icon-512.png), drawn as one shape so it
-/// takes the watch face's tint and stays sharp at every complication size.
+/// Redrep's mark, the logo of the app icon (frontend/resources/logo.png), drawn as one shape so
+/// it takes the watch face's tint and stays sharp at every complication size.
 struct OpenGymLogo: Shape {
+    // logo outline: written by frontend/scripts/app-icons.mjs, do not edit
+    static let size = CGSize(width: 844, height: 757)
+    static let loops: [[CGFloat]] = [
+        [250, 0, 279, 2, 330, 28, 379, 59, 392, 72, 394, 81, 353, 74, 319, 74, 279, 81, 243, 94, 211, 112, 183, 134, 132, 193, 110, 233, 95, 277, 86, 320, 84, 363, 88, 400, 93, 416, 104, 435, 126, 455, 155, 470, 167, 473, 167, 477, 136, 475, 110, 464, 77, 439, 31, 397, 13, 375, 4, 349, 0, 325, 0, 274, 6, 234, 20, 190, 39, 151, 70, 105, 99, 72, 136, 41, 162, 26, 213, 6],
+        [652, 219, 680, 219, 698, 226, 792, 279, 823, 306, 834, 321, 844, 344, 839, 345, 822, 332, 786, 314, 763, 310, 729, 310, 710, 314, 671, 332, 631, 358, 584, 402, 546, 451, 497, 536, 484, 568, 475, 602, 468, 662, 473, 690, 493, 715, 520, 736, 544, 745, 562, 745, 565, 751, 526, 757, 475, 752, 458, 743, 401, 697, 361, 659, 352, 643, 354, 550, 372, 476, 385, 442, 418, 381, 451, 337, 473, 314, 495, 294, 544, 259, 619, 226],
+        [257, 224, 266, 224, 297, 239, 352, 270, 399, 292, 448, 321, 446, 327, 431, 341, 409, 371, 389, 409, 384, 409, 366, 398, 216, 291, 216, 270, 225, 250, 238, 235],
+        [728, 391, 757, 402, 798, 428, 825, 451, 826, 457, 816, 459, 802, 455, 783, 455, 757, 459, 737, 466, 708, 484, 682, 507, 664, 528, 645, 556, 629, 592, 625, 624, 629, 653, 643, 670, 660, 677, 685, 675, 707, 668, 728, 657, 731, 657, 731, 661, 713, 679, 682, 697, 653, 703, 622, 701, 583, 671, 542, 631, 543, 596, 552, 555, 581, 495, 610, 457, 627, 440, 647, 422, 677, 404, 703, 395],
+    ]
+    // end of logo outline
+
     func path(in rect: CGRect) -> Path {
-        // The icon's own coordinates (512 × 512); the barbell spans x 80…432, y 170…342.
-        let boxes: [(CGFloat, CGFloat, CGFloat, CGFloat)] = [
-            (80, 200, 36, 112), (116, 242, 16, 28), (132, 170, 46, 172),
-            (178, 242, 156, 28),
-            (334, 170, 46, 172), (380, 242, 16, 28), (396, 200, 36, 112),
-        ]
-        let minX: CGFloat = 80, minY: CGFloat = 170, w: CGFloat = 352, h: CGFloat = 172
+        // Each loop is x, y pairs in the logo's own box (Self.size); filled even-odd.
+        let w = Self.size.width, h = Self.size.height
         let scale = min(rect.width / w, rect.height / h)
         let ox = rect.midX - w * scale / 2, oy = rect.midY - h * scale / 2
         var p = Path()
-        for (x, y, bw, bh) in boxes {
-            p.addRect(CGRect(x: ox + (x - minX) * scale, y: oy + (y - minY) * scale, width: bw * scale, height: bh * scale))
+        for loop in Self.loops where loop.count >= 6 {
+            p.move(to: CGPoint(x: ox + loop[0] * scale, y: oy + loop[1] * scale))
+            for i in stride(from: 2, to: loop.count - 1, by: 2) {
+                p.addLine(to: CGPoint(x: ox + loop[i] * scale, y: oy + loop[i + 1] * scale))
+            }
+            p.closeSubpath()
         }
         return p
     }

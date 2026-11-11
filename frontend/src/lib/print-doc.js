@@ -23,6 +23,7 @@
 //
 // Nothing here bundles a PDF library: the browser's print dialog or the phone's print sheet
 // renders the PDF.
+import { LOGO_BOX, LOGO_PATH } from './logo-mark.js'
 import { t, getLang, RTL_LANGS, dateLocale } from './i18n-core.js'
 import { MOBILE, printHtml } from './mobile.js'
 
@@ -43,11 +44,9 @@ export function probeMarks(probe) {
   return { s: id => mark('s', id), e: id => mark('e', id), h: id => mark('h', id) }
 }
 
-// openGym's app icon, drawn small: the lime dumbbell on its dark tile.
-export const LOGO_SVG = '<svg class="logo-mark" viewBox="0 0 512 512" aria-hidden="true"><rect width="512" height="512" rx="112" fill="#0c0e12"/>'
-  + '<g fill="#a3e635"><rect x="80" y="242" width="352" height="28"/><rect x="80" y="199" width="36" height="114"/>'
-  + '<rect x="131" y="169" width="47" height="174"/><rect x="334" y="169" width="47" height="174"/>'
-  + '<rect x="396" y="199" width="36" height="114"/></g></svg>'
+// The app icon, drawn small: the logo (its traced outline, lib/logo-mark.js) on its black tile.
+export const LOGO_SVG = '<svg class="logo-mark" viewBox="0 0 1024 1024" aria-hidden="true"><rect width="1024" height="1024" rx="224" fill="#000000"/>'
+  + `<path fill="#c70200" fill-rule="evenodd" transform="translate(${LOGO_BOX.x} ${LOGO_BOX.y})" d="${LOGO_PATH}"/></svg>`
 
 // "Page {0} of {1}" in the reader's language, as the content of an @page margin box: the text
 // around the two numbers comes from the translation, the numbers from CSS counters.

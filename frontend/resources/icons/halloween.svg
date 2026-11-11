@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 512 512">
-  <!-- openGym app icon "halloween", drawn by hand (the only one not written by scripts/app-icons.mjs,
-       which renders it). The dumbbell is the glyph of resources/icon.svg in pumpkin orange; around
-       it a purple night, a crescent moon, a cobweb near the corner and its spider. Only rect, circle,
-       line, polyline, polygon and one radialGradient: what the script knows how to draw. -->
+  <!-- Redrep app icon "halloween", drawn by hand (scripts/app-icons.mjs renders it, it does not
+       write it): a purple night, a crescent moon, a cobweb near the corner and its spider, with the
+       middle left free for the Halloween logo. Only rect, circle, line, polyline, polygon and one
+       radialGradient: what the script knows how to draw. -->
   <defs>
     <radialGradient id="night" gradientUnits="userSpaceOnUse" cx="256" cy="300" r="380">
       <stop offset="0" stop-color="#3d1a63"/>
@@ -35,7 +35,7 @@
     <polyline points="324.9,100 337.4,106.5 344.6,112.4 345.2,119.5 342.2,128.9 355.4,129 363.9,130.6 367.8,135 369.8,142.2 379.1,139.1 385.5,138.4 389.3,141.3 392.5,147 398.8,142.6 403.6,141 407.6,143.2 412,148.2"/>
     <polyline points="282,100 300.7,109.7 311.3,118.5 312.4,129.1 307.9,143.1 327.5,143.3 340.2,145.6 346,152.3 349,163 362.9,158.4 372.4,157.3 378.2,161.6 382.9,170.2 392.4,163.6 399.5,161.1 405.5,164.5 412,172"/>
   </g>
-  <!-- its spider, on a thread from the web, clear of the plates -->
+  <!-- its spider, on a thread from the web -->
   <line x1="294" y1="106" x2="294" y2="162" stroke="#b7a2de" stroke-width="4"/>
   <g stroke="#ecdfff" stroke-width="4.5">
     <polyline points="287.6,168.4 276.4,160.4 271.6,168.4"/>
@@ -48,22 +48,5 @@
   <g fill="#ecdfff">
     <circle cx="294" cy="165.2" r="7.2"/>
     <circle cx="294" cy="178" r="10.4"/>
-  </g>
-  <!-- the dumbbell, pumpkin orange -->
-  <g fill="#ff7a1a">
-    <rect x="80" y="242" width="352" height="28"/>
-    <rect x="80" y="199" width="36" height="114"/>
-    <rect x="131" y="169" width="47" height="174"/>
-    <rect x="334" y="169" width="47" height="174"/>
-    <rect x="396" y="199" width="36" height="114"/>
-  </g>
-  <!-- the big plates carved like jack-o'-lanterns: two eyes and a grin each, lit from inside -->
-  <g fill="#ffd166">
-    <polygon points="136,214 151,214 143.5,198"/>
-    <polygon points="158,214 173,214 165.5,198"/>
-    <polygon points="136,292 154.5,302 173,292 170,310 164,304 154.5,316 145,304 139,310"/>
-    <polygon points="339,214 354,214 346.5,198"/>
-    <polygon points="361,214 376,214 368.5,198"/>
-    <polygon points="339,292 357.5,302 376,292 373,310 367,304 357.5,316 348,304 342,310"/>
   </g>
 </svg>

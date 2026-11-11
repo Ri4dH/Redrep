@@ -314,7 +314,7 @@ struct IdleView: View {
             VStack(spacing: 10) {
                 OpenGymLogo()
                     .fill(Theme.accent)
-                    .frame(width: 60, height: 30)
+                    .frame(width: 46, height: 42)
                     .accessibilityHidden(true)
                 Text(fresh ? LocalizedStringKey("Not synced yet") : LocalizedStringKey("No workout running"))
                     .font(.headline)

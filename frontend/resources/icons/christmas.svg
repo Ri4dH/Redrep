@@ -1,9 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 512 512">
-  <!-- openGym app icon "christmas", drawn by hand like "halloween" (scripts/app-icons.mjs renders it,
-       it does not write it). The dumbbell is the glyph of resources/icon.svg in the openGym lime, on
-       a winter night: a Santa hat on the left plate, the right plate wrapped as a present with a red
-       ribbon and a bow, snowflakes around. Only rect, circle, line, polyline, polygon and one
-       radialGradient: what the script knows how to draw. -->
+  <!-- Redrep app icon "christmas", drawn by hand like "halloween" (scripts/app-icons.mjs renders it,
+       it does not write it): a winter night with snowflakes around, the middle left free for the
+       Christmas logo. Only rect, circle, line, polyline, polygon and one radialGradient: what the
+       script knows how to draw. -->
   <defs>
     <radialGradient id="night" gradientUnits="userSpaceOnUse" cx="256" cy="300" r="380">
       <stop offset="0" stop-color="#22356a"/>
@@ -89,28 +88,5 @@
     <circle cx="220" cy="430" r="4"/>
     <circle cx="300" cy="404" r="5"/>
     <circle cx="160" cy="448" r="3"/>
-  </g>
-  <!-- the dumbbell, openGym lime -->
-  <g fill="#a3e635">
-    <rect x="80" y="242" width="352" height="28"/>
-    <rect x="80" y="199" width="36" height="114"/>
-    <rect x="131" y="169" width="47" height="174"/>
-    <rect x="334" y="169" width="47" height="174"/>
-    <rect x="396" y="199" width="36" height="114"/>
-  </g>
-  <!-- the right plate wrapped as a present: a ribbon down it and a bow on top -->
-  <g fill="#e63946">
-    <rect x="351" y="169" width="13" height="174"/>
-    <polygon points="357.5,166 322,142 326,186"/>
-    <polygon points="357.5,166 393,142 389,186"/>
-  </g>
-  <circle cx="357.5" cy="166" r="10" fill="#b5202c"/>
-  <!-- the Santa hat on the left plate, its tip flopped over to the right -->
-  <polygon points="126,164 188,164 214,104" fill="#e63946"/>
-  <circle cx="216" cy="102" r="13" fill="#f8f9fa"/>
-  <g fill="#f8f9fa">
-    <rect x="120" y="153" width="74" height="22"/>
-    <circle cx="120" cy="164" r="11"/>
-    <circle cx="194" cy="164" r="11"/>
   </g>
 </svg>

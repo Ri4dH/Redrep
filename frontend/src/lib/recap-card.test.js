@@ -9,7 +9,7 @@ function fakeCtx() {
   return {
     texts,
     fillText: t => texts.push(String(t)), measureText: t => ({ width: String(t).length * 10 }),
-    fillRect: noop, beginPath: noop, moveTo: noop, arcTo: noop, closePath: noop, fill: noop, save: noop, restore: noop, translate: noop, scale: noop,
+    fillRect: noop, beginPath: noop, moveTo: noop, lineTo: noop, arcTo: noop, closePath: noop, fill: noop, save: noop, restore: noop, translate: noop, scale: noop,
   }
 }
 

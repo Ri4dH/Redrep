@@ -114,10 +114,10 @@ describe('the Halloween icon', () => {
     expect(scene(read(v.art)).length).toBeGreaterThan(10)
   })
 
-  it('is dark at the edges, orange on the dumbbell, pale on the moon', () => {
+  it('is dark at the edges, pale on the moon, the middle left for the logo', () => {
     const shapes = scene(read(v.art))
     const at = (x, y) => shapes.find(s => s.hit(x, y)).color(x, y).map(Math.round)
-    expect(at(256, 256)).toEqual([255, 122, 26])   // the bar
+    expect(Math.max(...at(256, 256))).toBeLessThan(100)   // the night: no dumbbell any more
     expect(at(90, 110)).toEqual([247, 232, 180])   // the moon's lit side
     const corner = at(10, 500)
     expect(Math.max(...corner)).toBeLessThan(40)
@@ -145,13 +145,11 @@ describe('the Christmas icon', () => {
     expect(scene(read(v.art)).length).toBeGreaterThan(20)
   })
 
-  it('a lime dumbbell in a Santa hat, wrapped with a red ribbon, on a dark winter night', () => {
+  it('a dark winter night with snowflakes, the middle left for the logo', () => {
     const shapes = scene(read(v.art))
     const at = (x, y) => shapes.find(s => s.hit(x, y)).color(x, y).map(Math.round)
-    expect(at(256, 256)).toEqual([163, 230, 53])    // the bar, openGym lime
-    expect(at(165, 140)).toEqual([230, 57, 70])     // the hat
-    expect(at(357, 300)).toEqual([230, 57, 70])     // the ribbon
-    expect(at(150, 164)).toEqual([248, 249, 250])   // the hat's brim
+    expect(Math.max(...at(256, 256))).toBeLessThan(110)   // the night: no dumbbell any more
+    expect(at(126, 112)).toEqual([219, 233, 255])   // a snowflake's arm
     expect(Math.max(...at(10, 500))).toBeLessThan(40)
   })
 
