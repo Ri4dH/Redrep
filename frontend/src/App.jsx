@@ -145,7 +145,9 @@ function Shell() {
   const isGuest = useStore(s => s.isGuest())
   const needsMobileOnboarding = useStore(s => s.needsMobileOnboarding)
   // Redrep's welcome (components/Welcome.jsx): once per device, before the rest of the setup.
-  const [welcome, setWelcome] = useState(() => needsWelcome(useStore.getState().S))
+  // Never in the App Store screenshot build (VITE_SCREENSHOTS=1): it starts from example history,
+  // and the welcome could beat that history to the first screen.
+  const [welcome, setWelcome] = useState(() => import.meta.env.VITE_SCREENSHOTS !== '1' && needsWelcome(useStore.getState().S))
   // Redrep's phone app needs no account (lib/brand.js LOCAL_ONLY): the first launch keeps the data
   // on the phone straight away instead of asking about a server.
   // If saving that choice fails, carry on anyway: a blank screen is worse than being asked again

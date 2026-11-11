@@ -9,6 +9,8 @@
 # run only, and the phone build is made again without the example data at the end.
 #
 #   scripts/redrep/app-store-screenshots.sh
+#   ONLY="iphone" scripts/redrep/app-store-screenshots.sh     some of iphone, widgets, watch (the
+#                                                              others use the apps the last run built)
 set -euo pipefail
 
 ROOT=$(cd "$(dirname "$0")/../.." && pwd)
@@ -51,8 +53,8 @@ restore() {
 }
 trap restore EXIT
 
-rm -rf "$OUT/iphone" "$OUT/watch" "$OUT/widgets"
-mkdir -p "$OUT/iphone" "$OUT/watch" "$OUT/widgets"
+want() { [ -z "${ONLY:-}" ] || [[ " $ONLY " == *" $1 "* ]]; }
+for part in iphone watch widgets; do want $part && rm -rf "${OUT:?}/$part"; mkdir -p "$OUT/$part"; done
 
 echo "phone build with the example history"
 (cd "$FRONT" && VITE_SCREENSHOTS=1 npm run build:mobile >/dev/null)
@@ -65,11 +67,14 @@ xcrun simctl ui "$PHONE" appearance dark
 xcrun simctl status_bar "$PHONE" override --time 9:41 --dataNetwork wifi --wifiMode active --wifiBars 3 \
   --cellularMode active --cellularBars 4 --batteryState charged --batteryLevel 100
 
+if want iphone; then
 echo "iPhone screenshots on $IPHONE"
 (cd "$IOS" && TEST_RUNNER_REDREP_SHOTS_DIR="$OUT/iphone" xcodebuild test -workspace App.xcworkspace -scheme AppUITests \
   -destination "id=$PHONE" -derivedDataPath "$DD" -only-testing:AppUITests/RedrepScreenshots \
   CODE_SIGNING_ALLOWED=NO 2>&1 | grep -E "error:|Test Case|TEST (SUCCEEDED|FAILED)" || true)
+fi
 
+if want widgets; then
 echo "widgets"
 xcrun simctl terminate "$PHONE" "$APP_ID" 2>/dev/null || true
 xcrun simctl launch "$PHONE" "$APP_ID" -OpenGymWidgetPreview >/dev/null
@@ -77,8 +82,10 @@ DATA=$(xcrun simctl get_app_container "$PHONE" "$APP_ID" data)
 for _ in $(seq 60); do [ -f "$DATA/Documents/widget-preview/done.txt" ] && break; sleep 2; done
 cp "$DATA"/Documents/widget-preview/*.png "$OUT/widgets/" 2>/dev/null || echo "no widget pictures were drawn" >&2
 xcrun simctl terminate "$PHONE" "$APP_ID" 2>/dev/null || true
+fi
 
-if [ -n "$WRIST" ]; then
+if ! want watch; then :
+elif [ -n "$WRIST" ]; then
   echo "Watch screenshots on $WATCH"
   WAPP="$DD/Build/Products/Debug-watchsimulator/OpenGymWatch.app"
   xcrun simctl boot "$WRIST" 2>/dev/null || true

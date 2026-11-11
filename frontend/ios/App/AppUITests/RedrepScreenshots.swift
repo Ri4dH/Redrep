@@ -25,7 +25,14 @@ final class RedrepScreenshots: XCTestCase {
         sleep(2)
         let png = XCUIScreen.main.screenshot().pngRepresentation
         try? png.write(to: dir.appendingPathComponent("\(name).png"))
-        let labels = app.buttons.allElementsBoundByIndex.prefix(80).map { $0.label }.filter { !$0.isEmpty }
+        // One snapshot of the whole page: walking app.buttons one by one fails when the page
+        // changes under it.
+        var labels: [String] = []
+        func walk(_ e: XCUIElementSnapshot) {
+            if e.elementType == .button, !e.label.isEmpty { labels.append(e.label) }
+            e.children.forEach(walk)
+        }
+        if let root = try? app.snapshot() { walk(root) }
         try? labels.joined(separator: "\n").write(to: dir.appendingPathComponent("\(name).buttons.txt"), atomically: true, encoding: .utf8)
     }
 
@@ -72,13 +79,29 @@ final class RedrepScreenshots: XCTestCase {
         tab("Exercises")
         let search = app.searchFields.firstMatch.exists ? app.searchFields.firstMatch : app.textFields.firstMatch
         if tap(search, "the exercise search") {
-            search.typeText("barbell full squat")
+            search.typeText("barbell full squat\n")
             sleep(2)
-            let row = app.buttons.matching(NSPredicate(format: "label BEGINSWITH[c] %@", "barbell full squat")).firstMatch
-            if row.waitForExistence(timeout: 10) { row.tap() } else { XCTFail("no squat row") }
+            // The keyboard covers the list: put it away, then open the first result by its name.
+            let done = app.toolbars.buttons["Done"]
+            if done.exists { done.tap() } else if app.keyboards.count > 0 { app.swipeDown() }
+            sleep(1)
+            // The rows are not buttons in the web view: the name's text, or failing that the spot
+            // just under "Create your own exercise", which is where the first result sits.
+            let name = NSPredicate(format: "label ==[c] %@ OR value ==[c] %@", "barbell full squat", "barbell full squat")
+            let row = app.staticTexts.matching(name).firstMatch
+            let create = any(startingWith: "Create your own exercise")
+            if row.waitForExistence(timeout: 10) {
+                row.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+            } else if create.exists {
+                create.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).withOffset(CGVector(dx: 0, dy: 78)).tap()
+            } else { XCTFail("no squat row") }
             shot("3-exercise")
-            let close = app.buttons.matching(NSPredicate(format: "label IN %@", ["Close", "Done"])).firstMatch
-            if close.exists { close.tap() } else { app.swipeDown() }
+            // The sheet has no close button: drag it down by its handle, like a finger would.
+            for _ in 0..<2 where !app.buttons["Stats"].isHittable {
+                let top = app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.115))
+                top.press(forDuration: 0.1, thenDragTo: app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.98)))
+                sleep(2)
+            }
         }
 
         tab("Stats")
@@ -95,12 +118,15 @@ final class RedrepScreenshots: XCTestCase {
         if app.buttons["Start Full Body A"].waitForExistence(timeout: 5) { app.buttons["Start Full Body A"].tap() }
         else if full.waitForExistence(timeout: 5) { full.tap() }
         else { button(startingWith: "Start ").tap() }
+        // The quick weigh-in asks first.
+        let skipWeigh = app.buttons["Start without weighing in"]
+        if skipWeigh.waitForExistence(timeout: 6) { skipWeigh.tap() }
         sleep(4)
         dismissAlerts()
         shot("2-workout")
-        let tick = app.switches["Set 1 done"]
+        let tick = any(startingWith: "Set 1 done")   // a checkbox in the web view: a switch or a check box
         if tick.waitForExistence(timeout: 10) {
-            tick.tap()
+            tick.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
             sleep(2)
             dismissAlerts()
             shot("6-rest")
