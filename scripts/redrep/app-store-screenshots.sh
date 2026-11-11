@@ -15,7 +15,7 @@ ROOT=$(cd "$(dirname "$0")/../.." && pwd)
 FRONT="$ROOT/frontend"
 IOS="$FRONT/ios/App"
 OUT=${OUT:-"$ROOT/assets/app-store"}
-IPHONE=${IPHONE:-"iPhone 16 Pro Max"}
+IPHONE=${IPHONE:-"Redrep Shots iPhone 17 Pro Max"}
 WATCH=${WATCH:-"Apple Watch Series 11 (46mm)"}
 DD=${DD:-"${TMPDIR:-/tmp}/redrep-shots-dd"}
 APP_ID=com.riadheydar.redrep
@@ -32,7 +32,13 @@ udid() { xcrun simctl list devices available -j | NAME="$1" node -e '
   const hit = Object.values(d).flat().filter(x => x.name === process.env.NAME).pop()
   process.stdout.write(hit ? hit.udid : "")'; }
 
-PHONE=$(udid "$IPHONE"); [ -n "$PHONE" ] || { echo "no simulator named $IPHONE" >&2; exit 1; }
+PHONE=$(udid "$IPHONE")
+if [ -z "$PHONE" ]; then
+  # A 6.9" phone (1320x2868) on the newest iOS simulator runtime, made once and kept.
+  RUNTIME=$(xcrun simctl list runtimes available | grep -o 'com.apple.CoreSimulator.SimRuntime.iOS-[0-9-]*' | tail -1)
+  PHONE=$(xcrun simctl create "$IPHONE" com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro-Max "$RUNTIME") \
+    || { echo "no simulator named $IPHONE, and making one failed" >&2; exit 1; }
+fi
 WRIST=$(udid "$WATCH")
 
 PROJ="$IOS/App.xcodeproj/project.pbxproj"
@@ -81,7 +87,7 @@ if [ -n "$WRIST" ]; then
   for screen in idle set rest hold superset summary; do
     xcrun simctl terminate "$WRIST" "$WATCH_ID" 2>/dev/null || true
     xcrun simctl launch "$WRIST" "$WATCH_ID" -OpenGymWatchDemo -OpenGymWatchScreen "$screen" >/dev/null
-    sleep 6
+    sleep ${WATCH_WAIT:-15}
     xcrun simctl io "$WRIST" screenshot "$OUT/watch/$screen.png" >/dev/null
   done
   xcrun simctl terminate "$WRIST" "$WATCH_ID" 2>/dev/null || true

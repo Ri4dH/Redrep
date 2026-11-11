@@ -59,6 +59,10 @@ final class RedrepScreenshots: XCTestCase {
 
     func testAppStoreScreenshots() {
         app.launch()
+        // The welcome can still show on a fresh install: the example history is added after the
+        // app has decided whether to show it. Skip it if it is there.
+        let skip = app.buttons["Skip"]
+        if skip.waitForExistence(timeout: 20), !app.buttons["Home"].exists { skip.tap() }
         let home = app.buttons.matching(NSPredicate(format: "label == %@", "Home")).firstMatch
         XCTAssertTrue(home.waitForExistence(timeout: 90), "home did not show up")
         if app.staticTexts["Want a 1-minute tour?"].waitForExistence(timeout: 8) { tap(app.buttons["Skip"], "Skip (tour)") }
