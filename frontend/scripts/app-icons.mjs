@@ -3,8 +3,9 @@
  * src/lib/app-icon-variants.js and the dumbbell in resources/icon.svg.
  *
  * The glyph is five rectangles, so this draws them itself (4x4 to 8x8 samples per pixel for the
- * edges) and writes the PNGs with node:zlib: no sharp or resvg to install, and the same bytes on
- * every machine, which the test checks. A variant with `art` (Halloween) is a hand-made SVG
+ * edges) and writes the PNGs with node:zlib: no sharp or resvg to install, and the same pixels on
+ * every machine, which the test checks (the compressed bytes can differ between an Apple silicon
+ * Mac and an Intel Linux runner, so the check compares pictures, samePicture() below). A variant with `art` (Halloween) is a hand-made SVG
  * instead, drawn by the small renderer below (rect, circle, line, polyline, polygon, one radial
  * gradient). Written per variant:
  *   resources/icons/<id>.svg                                  the source (the glyph ones only)
@@ -18,7 +19,7 @@
  *
  * Usage: node scripts/app-icons.mjs            write everything
  *        node scripts/app-icons.mjs --check    exit 1 when a committed file differs from a fresh draw */
-import { deflateSync } from 'node:zlib'
+import { deflateSync, inflateSync } from 'node:zlib'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -212,6 +213,29 @@ function png(w, h, pixels, ch) {
   return Buffer.concat([Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]), chunk('IHDR', ihdr), chunk('IDAT', deflateSync(raw, { level: 9 })), chunk('IEND', Buffer.alloc(0))])
 }
 
+/** Whether two files hold the same picture: the same bytes, or PNGs with the same header and the
+ *  same pixels once inflated. */
+export function samePicture(a, b) {
+  if (a.equals(b)) return true
+  const parts = buf => {
+    if (buf.length < 8 || buf.readUInt32BE(0) !== 0x89504e47) return null
+    let ihdr = null
+    const idat = []
+    for (let o = 8; o + 8 <= buf.length;) {
+      const len = buf.readUInt32BE(o), type = buf.toString('latin1', o + 4, o + 8)
+      const data = buf.subarray(o + 8, o + 8 + len)
+      if (type === 'IHDR') ihdr = data
+      else if (type === 'IDAT') idat.push(data)
+      o += 12 + len
+    }
+    return ihdr && { ihdr, raw: inflateSync(Buffer.concat(idat)) }
+  }
+  try {
+    const x = parts(a), y = parts(b)
+    return !!x && !!y && x.ihdr.equals(y.ihdr) && x.raw.equals(y.raw)
+  } catch { return false }
+}
+
 /** Width, height and whether the PNG has an alpha channel, read from its header. */
 export function pngInfo(buf) {
   return { width: buf.readUInt32BE(16), height: buf.readUInt32BE(20), alpha: buf[25] === 6 || buf[25] === 4 }
@@ -292,7 +316,7 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
     const body = make()
     const buf = Buffer.isBuffer(body) ? body : Buffer.from(body)
     if (check) {
-      if (!existsSync(p) || !readFileSync(p).equals(buf)) bad.push(rel)
+      if (!existsSync(p) || !samePicture(readFileSync(p), buf)) bad.push(rel)
       continue
     }
     mkdirSync(dirname(p), { recursive: true })

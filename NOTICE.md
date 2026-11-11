@@ -107,10 +107,10 @@ the source files.
 ## Gym check-in QR codes and barcodes
 
 The gym check-in feature (a saved membership code shown as a QR code or barcode on the phone,
-added by importing a photo or scanning with the camera) uses three third-party packages. All are
-permissively licensed and compatible with openGym's AGPL, and all load on demand: the QR renderer
-and the browser decoder only when a card is shown or scanned, the ML Kit plugin only in the
-Android/iOS app. Barcodes (Code 128, Code 39, EAN-13, EAN-8, UPC-A) are drawn, and read in
+added by importing a photo or scanning with the camera) uses two third-party packages. Both are
+permissively licensed and compatible with openGym's AGPL, and both load on demand: the QR renderer
+and the browser decoder only when a card is shown or scanned. The iPhone app reads codes with
+Apple's own frameworks (below). Barcodes (Code 128, Code 39, EAN-13, EAN-8, UPC-A) are drawn, and read in
 browsers without a native `BarcodeDetector`, by openGym's own code (`frontend/src/lib/barcode.js`),
 under openGym's license.
 
@@ -154,11 +154,8 @@ Where the browser has a native `BarcodeDetector`, that is tried first and jsQR i
 (with openGym's own reader for barcodes).
 Video frames are decoded in memory and never uploaded or stored.
 
-### Camera scan & photo decode in the app — `@capacitor-mlkit/barcode-scanning`
+### Camera scan & photo decode in the iPhone app
 
-In the Android/iOS app, reading a code — from the camera or from an imported photo — uses the
-[**@capacitor-mlkit/barcode-scanning**](https://github.com/capawesome-team/capacitor-mlkit) plugin
-by the Capawesome Team (Robin Genz), a Capacitor wrapper around Google's ML Kit, used under the
-**Apache License 2.0**. openGym pins the `7.x` line to stay on Capacitor 7. The full license text is
-available at <https://www.apache.org/licenses/LICENSE-2.0> and in the package's own `LICENSE` file.
-The decoded string is what openGym keeps; the photo itself is never stored.
+Redrep reads codes with Apple's own VisionKit (live scanner) and Vision (photos), part of iOS,
+through `frontend/ios/App/App/CodeScannerPlugin.swift`. No third-party scanner is bundled and
+nothing leaves the phone.

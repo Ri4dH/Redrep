@@ -9,7 +9,7 @@ app = proj.targets.find { |t| t.name == 'App' }
 tests = proj.new_target(:ui_test_bundle, 'AppUITests', :ios, '15.5')
 tests.add_dependency(app)
 group = proj.main_group.new_group('AppUITests', 'AppUITests')
-tests.add_file_references([group.new_file('OpenGymUITests.swift')])
+tests.add_file_references(Dir.children(File.join(dir, 'AppUITests')).select { |f| f.end_with?('.swift') }.sort.map { |f| group.new_file(f) })
 tests.build_configurations.each do |c|
   s = c.build_settings
   s['TEST_TARGET_NAME'] = 'App'

@@ -3677,4 +3677,5 @@ export default {
   "Breathe": "Nefes al",
   "Reach": "Uzan",
   "Twist": "Dön",
+  "Your membership codes on Home.": "Ana sayfada üyelik kodların.",
 }

@@ -1,6 +1,6 @@
 # Adds the widget extension (ios/App/OpenGymWidgets: the Home Screen and Lock Screen widgets and
 # the workout's Live Activity) to App.xcodeproj and embeds it in the app (App.app/PlugIns), in the
-# style of add-asset-downloader.rb. Two files of the app are compiled into it too: what the Live
+# style of the other ios/ci scripts. Two files of the app are compiled into it too: what the Live
 # Activity carries and its Done button (App/WorkoutActivity.swift) and the views
 # (App/WidgetViews.swift), which the app also draws for CI's pictures (App/WidgetPreview.swift).
 # Running it again changes nothing. Until the project with it is committed, CI runs it before

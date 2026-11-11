@@ -5,7 +5,8 @@ import { describe, expect, it } from 'vitest'
 import { execFileSync } from 'node:child_process'
 import { existsSync, readFileSync, statSync } from 'node:fs'
 import { join } from 'node:path'
-import { DENSITIES, IOS_SIZE, PREVIEW, ROOT, draw, files, pngInfo, scene } from './app-icons.mjs'
+import { deflateSync, inflateSync } from 'node:zlib'
+import { DENSITIES, IOS_SIZE, PREVIEW, ROOT, draw, files, pngInfo, samePicture, scene } from './app-icons.mjs'
 import { APP_ICON_VARIANTS } from '../src/lib/app-icon-variants.js'
 
 const read = rel => readFileSync(join(ROOT, rel), 'utf8')
@@ -43,13 +44,40 @@ describe('generated icon files', () => {
 
   it('match a fresh draw (the small ones; --check compares them all)', () => {
     for (const v of APP_ICON_VARIANTS) {
-      expect(readFileSync(join(ROOT, `public/app-icons/${v.id}.png`)).equals(draw(v, PREVIEW)), v.id).toBe(true)
+      expect(samePicture(readFileSync(join(ROOT, `public/app-icons/${v.id}.png`)), draw(v, PREVIEW)), v.id).toBe(true)
     }
     const sky = APP_ICON_VARIANTS.find(v => v.id === 'sky')
-    expect(readFileSync(join(ROOT, `${RES}/mipmap-mdpi/ic_launcher_sky_round.png`)).equals(draw(sky, 48, { round: true }))).toBe(true)
+    expect(samePicture(readFileSync(join(ROOT, `${RES}/mipmap-mdpi/ic_launcher_sky_round.png`)), draw(sky, 48, { round: true }))).toBe(true)
     // The hand-made one goes through its own renderer, round cut included.
     const hw = APP_ICON_VARIANTS.find(v => v.id === 'halloween')
-    expect(readFileSync(join(ROOT, `${RES}/mipmap-mdpi/ic_launcher_halloween_round.png`)).equals(draw(hw, 48, { round: true }))).toBe(true)
+    expect(samePicture(readFileSync(join(ROOT, `${RES}/mipmap-mdpi/ic_launcher_halloween_round.png`)), draw(hw, 48, { round: true }))).toBe(true)
+  })
+})
+
+describe('samePicture', () => {
+  // The same pixels deflated another way (zlib differs between an Apple silicon Mac and an Intel
+  // Linux runner) are the same picture; one changed pixel is not.
+  const recompress = (buf, edit = raw => raw) => {
+    const out = [buf.subarray(0, 8)]
+    for (let o = 8; o < buf.length;) {
+      const len = buf.readUInt32BE(o), type = buf.toString('latin1', o + 4, o + 8)
+      let data = buf.subarray(o + 8, o + 8 + len)
+      if (type === 'IDAT') data = deflateSync(edit(Buffer.from(inflateSync(data))), { level: 1 })
+      const head = Buffer.alloc(8); head.writeUInt32BE(data.length, 0); head.write(type, 4, 'latin1')
+      out.push(head, data, Buffer.alloc(4))
+      o += 12 + len
+    }
+    return Buffer.concat(out)
+  }
+  const v = APP_ICON_VARIANTS[0]
+
+  it('matches the same pixels compressed differently, not a changed pixel', () => {
+    const a = draw(v, 24)
+    const b = recompress(a)
+    expect(b.equals(a)).toBe(false)
+    expect(samePicture(a, b)).toBe(true)
+    expect(samePicture(a, recompress(a, raw => { raw[raw.length - 1] ^= 1; return raw }))).toBe(false)
+    expect(samePicture(a, Buffer.from('not a png'))).toBe(false)
   })
 })
 
@@ -163,7 +191,8 @@ describe('iOS alternate icons', () => {
 
   it('every App build configuration names all alternate icon sets', () => {
     const names = [...pbx.matchAll(/ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = "([^"]*)";/g)].map(m => m[1].split(' '))
-    expect(names.length).toBe((pbx.match(/ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;/g) || []).length)
+    // The App target's configurations (the Watch app has an AppIcon of its own, and no alternates).
+    expect(names.length).toBe((pbx.match(/INFOPLIST_FILE = App\/Info\.plist;/g) || []).length)
     for (const n of names) expect(n).toEqual(ALT.map(v => v.ios))
     expect(names[0]).toContain('AppIcon-Halloween')
     expect(names[0]).toContain('AppIcon-Christmas')

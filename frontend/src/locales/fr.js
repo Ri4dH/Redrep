@@ -3677,4 +3677,5 @@ export default {
   "Breathe": "Respire",
   "Reach": "Allonge",
   "Twist": "Tourne",
+  "Your membership codes on Home.": "Tes codes d’abonné sur l’Accueil.",
 }

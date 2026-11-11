@@ -3688,4 +3688,5 @@ export default {
   "Breathe": "หายใจ",
   "Reach": "เหยียด",
   "Twist": "บิด",
+  "Your membership codes on Home.": "รหัสสมาชิกของคุณบนหน้าหลัก",
 }

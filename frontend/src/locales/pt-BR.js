@@ -2466,6 +2466,7 @@ export const PT_BR_OVERRIDES = {
   "Breathe": "Respire",
   "Reach": "Estique",
   "Twist": "Gire",
+  "Your membership codes on Home.": "Seus códigos de sócio no Início.",
 }
 
 export default { ...pt, ...PT_BR_OVERRIDES }

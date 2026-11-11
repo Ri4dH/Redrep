@@ -2084,6 +2084,9 @@ export const useStore = create((set, get) => {
         } else if (hasData(S)) {
           nativePersist(true)   // first run after an update from a file-less version: seed the mirror
         }
+        // App Store screenshots only (a VITE_SCREENSHOTS=1 build, never one that ships): the first
+        // launch starts from the demo's example history, so the screens have something to show.
+        if (import.meta.env.VITE_SCREENSHOTS === '1' && !hasData(get().S)) await get().resetDemo()
         if (get().user) {
           // A phone that lost its pairing to a refused token under an earlier version: that boot
           // dropped the pairing file — address and token with it — but not the account, and every

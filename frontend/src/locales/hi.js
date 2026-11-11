@@ -3677,4 +3677,5 @@ export default {
   "Breathe": "साँस लें",
   "Reach": "फैलाएँ",
   "Twist": "मोड़ें",
+  "Your membership codes on Home.": "होम पर आपके सदस्यता कोड।",
 }

@@ -46,25 +46,36 @@ final class OpenGymUITests: XCTestCase {
     }
 
     /**
-     * "Use on this device", until home shows. On a slow simulator the first tap can land while the
-     * page is still starting and go nowhere. The first-start steps come right after the choice
-     * (views/PermissionSteps.jsx): notifications (allowed here, and so is the system's question)
-     * and, on an iPhone with Apple Health, the Health step (Continue, then Don't Allow in the iOS
-     * sheet). Nothing is tapped twice and
-     * nothing in the app is tapped while a system alert is up: a late alert used to swallow one
-     * tap and pass the next one through to home underneath (CI 10-13, the gym card opened).
+     * Redrep's first start, until home shows: the three welcome screens (components/Welcome.jsx),
+     * Everything picked on the last one so every screen these tests visit is switched on, then the
+     * first-start steps (views/PermissionSteps.jsx) and the tour's offer, skipped. On a slow
+     * simulator the first tap can land while the page is still starting, so each step waits for
+     * its button. Nothing in the app is tapped while a system alert is up.
      */
     private func chooseLocal() {
-        if app.buttons["Log"].waitForExistence(timeout: 45) { return }   // chosen in an earlier test
-        let local = app.buttons["Use on this device"]
-        XCTAssertTrue(local.waitForExistence(timeout: 60), "the onboarding choice did not show up")
+        let home = app.buttons["Log"]
+        let anyScreen = app.buttons.matching(NSPredicate(format: "label IN %@", ["Log", "Next"])).firstMatch
+        XCTAssertTrue(anyScreen.waitForExistence(timeout: 60), "neither the welcome nor home showed up")
+        if home.exists { skipTourOffer(); return }   // set up in an earlier test
+        tap(app.buttons["Next"], "Next (welcome)")
+        tap(app.buttons["Next"], "Next (Redline)")
+        let everything = app.descendants(matching: .any).matching(NSPredicate(format: "label BEGINSWITH %@", "Everything")).firstMatch
+        tap(everything, "the Everything preset")
+        tap(app.buttons["Get started"], "Get started")
         for _ in 0..<5 {
             if systemAlertUp() { allowSystemAlert(within: 20) }
-            if local.exists && local.isHittable { local.tap() }
             passPermissionSteps()
-            if app.buttons["Log"].waitForExistence(timeout: 20) { return }
+            skipTourOffer()
+            if home.waitForExistence(timeout: 20) { skipTourOffer(); return }
         }
-        XCTFail("home never showed after the onboarding choice")
+        XCTFail("home never showed after the welcome")
+    }
+
+    /** "Want a 1-minute tour?" (components/Tour.jsx): Skip, when it is up. */
+    private func skipTourOffer() {
+        guard app.staticTexts["Want a 1-minute tour?"].waitForExistence(timeout: 3) else { return }
+        let skip = app.buttons["Skip"]
+        if skip.exists && skip.isHittable { skip.tap() }
     }
 
     private func systemAlertUp() -> Bool { springboard.alerts.firstMatch.exists }
@@ -189,12 +200,12 @@ final class OpenGymUITests: XCTestCase {
         let finish = app.buttons["Finish"]
         let resume = app.buttons["Resume"]
         let home = app.buttons["Log"]
-        let local = app.buttons["Use on this device"]
+        let welcome = app.buttons["Next"]
         // One query for any of the four, waited on, rather than four polled every second: on a busy
         // simulator each poll is a whole snapshot of the app, and they ran past XCTest's limit (CI 10-13).
-        let anyScreen = app.buttons.matching(NSPredicate(format: "label IN %@", ["Finish", "Resume", "Log", "Use on this device"])).firstMatch
+        let anyScreen = app.buttons.matching(NSPredicate(format: "label IN %@", ["Finish", "Resume", "Log", "Next"])).firstMatch
         XCTAssertTrue(anyScreen.waitForExistence(timeout: 120), "the app never showed a screen")
-        if local.exists { chooseLocal() }
+        if welcome.exists { chooseLocal() }
         if !finish.exists && resume.exists { resume.tap() }
         if !finish.waitForExistence(timeout: 5) {
             // Nothing running (test2 failed early or ran alone): start one the way test2 does.

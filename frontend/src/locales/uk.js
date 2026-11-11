@@ -3674,4 +3674,5 @@ export default {
   "Breathe": "Дихай",
   "Reach": "Тягнися",
   "Twist": "Поворот",
+  "Your membership codes on Home.": "Твої коди абонемента на Головній.",
 }

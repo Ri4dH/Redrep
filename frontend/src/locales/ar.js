@@ -3732,4 +3732,5 @@ export default {
   "Breathe": "تنفّس",
   "Reach": "مدّ",
   "Twist": "لُفّ",
+  "Your membership codes on Home.": "رموز عضويتك في الرئيسية.",
 }

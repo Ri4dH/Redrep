@@ -3677,4 +3677,5 @@ export default {
   "Breathe": "Oddychaj",
   "Reach": "Sięgnij",
   "Twist": "Skręć",
+  "Your membership codes on Home.": "Twoje kody członkowskie na Starcie.",
 }

@@ -223,8 +223,8 @@ export function buildWidgetSnapshot (S, { today = todayISO() } = {}) {
     weekFrom,
     weekUntil: shift(weekFrom, 7),
     unit: st.unit === 'lb' ? 'lb' : 'kg',
-    accent: pair?.accent || '#30d158',
-    ink: pair?.ink || '#000000',
+    accent: pair?.accent || '#ff1f2f',
+    ink: pair?.ink || '#ffffff',
     days,
     week: { done: week.done || 0, planned: week.planned || 0 },
     // v1.4.5 (#753): what is left of the week's plan, { left, of }, or null with no plan (a

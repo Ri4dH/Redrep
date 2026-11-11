@@ -33,7 +33,7 @@ export const MODULES = [
   { id: 'watch', group: 'training', icon: 'watch', tint: 'var(--grey)', title: 'Watch',
     desc: 'Log sets from your wrist on an Apple Watch, Wear OS or Zepp watch.' },
   { id: 'checkin', group: 'training', icon: 'qr', tint: 'var(--blue)', title: 'Gym check-in',
-    desc: 'Your membership codes on Home, and NFC stickers that start a workout.' },
+    desc: 'Your membership codes on Home.' },
   { id: 'body', group: 'body', icon: 'scale', tint: 'var(--teal)', title: 'Body',
     desc: 'Weigh-ins, measurements, progress photos and your weight goal.' },
   { id: 'health', group: 'body', icon: 'heart', tint: 'var(--red)', title: 'Health',

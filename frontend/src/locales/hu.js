@@ -3680,4 +3680,5 @@ export default {
   "Breathe": "Lélegezz",
   "Reach": "Nyújtózz",
   "Twist": "Fordulj",
+  "Your membership codes on Home.": "A tagsági kódjaid a Kezdőlapon.",
 }

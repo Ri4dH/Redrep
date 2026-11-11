@@ -73,12 +73,6 @@ cd Redrep/frontend
 npm ci
 npm run build:mobile          # the web app, copied into the iOS project, plus pod install
 
-# The Watch app, widgets and animation downloader are added to the Xcode project by script
-# (the xcodeproj gem ships with CocoaPods)
-ruby ios/ci/add-asset-downloader.rb
-ruby ios/ci/add-watch-app.rb
-ruby ios/ci/add-widgets.rb
-
 open ios/App/App.xcworkspace  # pick your team under Signing & Capabilities, then Run
 ```
 

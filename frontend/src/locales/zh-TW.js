@@ -3670,4 +3670,5 @@ export default {
   "Breathe": "呼吸",
   "Reach": "伸展",
   "Twist": "轉體",
+  "Your membership codes on Home.": "首頁上的會員條碼。",
 }

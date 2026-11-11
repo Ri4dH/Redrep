@@ -6,10 +6,6 @@
 	<true/>
 	<key>com.apple.developer.healthkit.access</key>
 	<array/>
-	<key>com.apple.developer.nfc.readersession.formats</key>
-	<array>
-		<string>TAG</string>
-	</array>
 	<key>com.apple.security.application-groups</key>
 	<array>
 		<string>group.com.riadheydar.redrep</string>

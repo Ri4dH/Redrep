@@ -10,7 +10,7 @@ export const moduleCopy = () => ({
   strength: [t('Strength levels'), t('Beginner to Elite for your main lifts, measured against your body weight.')],
   videos: [t('Form videos'), t('Film a set and watch it back right under the row.')],
   watch: [t('Watch'), t('Log sets from your wrist on an Apple Watch, Wear OS or Zepp watch.')],
-  checkin: [t('Gym check-in'), t('Your membership codes on Home, and NFC stickers that start a workout.')],
+  checkin: [t('Gym check-in'), t('Your membership codes on Home.')],
   body: [t('Body'), t('Weigh-ins, measurements, progress photos and your weight goal.')],
   health: [t('Health'), t('Apple Health or Health Connect, heart rate and recovery tips.')],
   motivation: [t('Motivation'), t('Streaks, challenges, badges, recaps and your year in Redrep.')],

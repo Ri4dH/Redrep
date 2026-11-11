@@ -3681,4 +3681,5 @@ export default {
   "Breathe": "Дыши",
   "Reach": "Тянись",
   "Twist": "Поворот",
+  "Your membership codes on Home.": "Твои коды абонемента на Главной.",
 }

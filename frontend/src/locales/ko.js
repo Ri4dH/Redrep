@@ -3677,4 +3677,5 @@ export default {
   "Breathe": "호흡",
   "Reach": "뻗기",
   "Twist": "비틀기",
+  "Your membership codes on Home.": "홈의 회원 코드.",
 }

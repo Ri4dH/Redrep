@@ -3677,4 +3677,5 @@ export default {
   "Breathe": "Respira",
   "Reach": "Estica",
   "Twist": "Roda",
+  "Your membership codes on Home.": "Os teus códigos de sócio no Início.",
 }

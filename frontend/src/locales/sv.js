@@ -3724,4 +3724,5 @@ export default {
   "Breathe": "Andas",
   "Reach": "Sträck",
   "Twist": "Vrid",
+  "Your membership codes on Home.": "Dina medlemskoder på Hem.",
 }

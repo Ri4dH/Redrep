@@ -523,5 +523,26 @@
     "uk": "Поворот",
     "zh": "转体",
     "zh-TW": "轉體"
+  },
+  "Your membership codes on Home.": {
+    "ar": "رموز عضويتك في الرئيسية.",
+    "bn": "হোমে আপনার মেম্বারশিপ কোড।",
+    "de": "Deine Mitgliedscodes auf Start.",
+    "es": "Tus códigos de socio en Inicio.",
+    "fr": "Tes codes d’abonné sur l’Accueil.",
+    "hi": "होम पर आपके सदस्यता कोड।",
+    "hu": "A tagsági kódjaid a Kezdőlapon.",
+    "it": "I tuoi codici di iscrizione nella Home.",
+    "ko": "홈의 회원 코드.",
+    "pl": "Twoje kody członkowskie na Starcie.",
+    "pt-BR": "Seus códigos de sócio no Início.",
+    "pt": "Os teus códigos de sócio no Início.",
+    "ru": "Твои коды абонемента на Главной.",
+    "sv": "Dina medlemskoder på Hem.",
+    "th": "รหัสสมาชิกของคุณบนหน้าหลัก",
+    "tr": "Ana sayfada üyelik kodların.",
+    "uk": "Твої коди абонемента на Головній.",
+    "zh-TW": "首頁上的會員條碼。",
+    "zh": "首页上的会员码。"
   }
 }

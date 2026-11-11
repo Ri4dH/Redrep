@@ -3756,4 +3756,5 @@ export default {
   "Breathe": "শ্বাস নিন",
   "Reach": "প্রসারিত করুন",
   "Twist": "ঘোরান",
+  "Your membership codes on Home.": "হোমে আপনার মেম্বারশিপ কোড।",
 }
