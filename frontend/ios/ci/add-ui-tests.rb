@@ -17,7 +17,7 @@ tests.build_configurations.each do |c|
   s['PRODUCT_BUNDLE_IDENTIFIER'] = 'com.riadheydar.redrep.uitests'
   s['SWIFT_VERSION'] = '5.0'
   s['GENERATE_INFOPLIST_FILE'] = 'YES'
-  s['TARGETED_DEVICE_FAMILY'] = '1,2'
+  s['TARGETED_DEVICE_FAMILY'] = '1'   # Redrep 1.0 is iPhone only
   s['CODE_SIGN_STYLE'] = 'Automatic'
 end
 proj.save
