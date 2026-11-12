@@ -184,6 +184,15 @@ export function buildDemoState() {
     dayPlan,
     workouts, bodyweight, measurements, exWeights,
     targetW: TARGET_W,
+    // Redrep's protein, water and supplements card (lib/intake.js): today part of the way there,
+    // fixed numbers rather than a draw from either generator, so nothing above moves.
+    supplements: [{ id: 'demo-creatine', name: 'Creatine' }, { id: 'demo-vitd', name: 'Vitamin D' }],
+    intake: { [tIso]: { p: 95, water: 1500, sup: ['demo-creatine'], _ts: Date.now() } },
+    // Redrep's pain map (lib/pain.js): sore shoulders, getting better since last week.
+    pains: (() => {
+      const ago = n => { const d = new Date(today); d.setDate(d.getDate() - n); return isoOf(d) }
+      return { deltoids: { lvl: 3, since: ago(6), log: [[ago(6), 4], [ago(2), 3]], _ts: Date.now() } }
+    })(),
     // The history is rated, so the demo turns the column on and the stats get a scale to
     // label their aggregates with instead of guessing one (see displayScale).
     effort: 'rir'

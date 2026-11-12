@@ -42,8 +42,21 @@ whether today was easy, solid, tough or right at the limit. Everything stays on 
 - **Plans and progression.** A routine per weekday or a rotation, supersets, warm-ups, drop sets,
   timed holds, rest timer, plate math. Linear, double and triple progression, deloads.
 - **A library of over 5,600 exercises,** searchable and browsable by muscle on a body map.
+- **Readiness check.** Three taps before you train: how you slept, how sore you are, how much
+  energy you have. On a bad day, "Go lighter" takes a set off every exercise and keeps the day out
+  of progression, so an easy session never moves your weights.
+- **Pain and injury map.** Tap a muscle on the body map and rate it from 1 to 5. Exercises that
+  load it are flagged during the workout, with a swap one tap away, and each spot keeps a history
+  so you can watch it heal.
+- **Max day.** Test your real one-rep max instead of trusting an estimate: a warm-up built for one
+  heavy single, then up to three attempts, each next weight picked from how the last one felt. The
+  tested max is what programmes take their percentages from.
+- **Protein, water and supplements.** Quick taps on Home towards a protein goal from your body
+  weight and a water goal, supplements to tick off, and a daily reminder for them.
 - **Progress.** Estimated 1RM curves, a year-long activity map, records, streaks.
-- **iPhone extras.** Apple Watch app, widgets, a Live Activity for the rest timer, Apple Health.
+- **iPhone extras.** Apple Watch app, widgets, a Live Activity for the rest timer, Apple Health,
+  and buttons for Control Center, the Lock Screen and the Action button (start a workout, rest
+  timer, log your weight, add water).
 - **Starts simple.** A three-step welcome, then just training. Switch on body tracking, streaks and
   more in Settings → Modules whenever you like.
 - **20 languages.**
@@ -61,7 +74,7 @@ from an AI provider you choose, and that provider may charge you for it.
 
 Redrep is not in the App Store yet. Until it is, you can build it yourself (below).
 
-Still to do before the first release: an app icon of Redrep's own and the store listing.
+Still to do before the first release: the store listing.
 
 ## Build it yourself
 
@@ -86,16 +99,17 @@ SVG. The README animations are made by `scripts/redrep/squat_gif.py` and
 
 ## Credits and licence
 
-Redrep is a fork of [**openGym**](https://github.com/DuarteSantos8/openGym) by Duarte Santos and
-its contributors, and keeps its licence: the [GNU AGPL v3.0](LICENSE). The source of every
-version of Redrep is published here.
+Redrep started as a fork of an open-source gym tracker and has since gone its own way, with its
+own look, exercise figures and features. It keeps the original licence, the
+[GNU AGPL v3.0](LICENSE), and the source of every version of Redrep is published here. The
+original authors are credited in [NOTICE.md](NOTICE.md).
 
-The repository still holds openGym's optional self-hosted server (`api/`, `web/`, and
-[docs/SELF_HOSTING.md](docs/SELF_HOSTING.md)). The Redrep iPhone app does not use it.
+The repository still holds the optional self-hosted server Redrep was forked with (`api/`, `web/`,
+and [docs/SELF_HOSTING.md](docs/SELF_HOSTING.md)). The Redrep iPhone app does not use it.
 
 > [!IMPORTANT]
 > **The exercise stills and animations in `catalogue/media` are not covered by the AGPL.** They
-> are © Aliaksandr Makatserchyk, [Gym visual](https://gymvisual.com/), licensed for use in openGym
-> only, and kept here unmodified at 180 px with their notice. The Redrep app does not use or ship
-> them: it draws every exercise itself. Full notices, including the MIT-licensed body map
-> geometry, are in [NOTICE.md](NOTICE.md).
+> are © Aliaksandr Makatserchyk, [Gym visual](https://gymvisual.com/), licensed only to the project
+> Redrep was forked from, and kept here unmodified at 180 px with their notice. The Redrep app does
+> not use or ship them: it draws every exercise itself. Full notices, including the MIT-licensed
+> body map geometry, are in [NOTICE.md](NOTICE.md).
