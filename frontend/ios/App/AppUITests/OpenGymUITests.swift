@@ -43,6 +43,21 @@ final class OpenGymUITests: XCTestCase {
         let row = app.staticTexts["Full Body A"]
         XCTAssertTrue(row.waitForExistence(timeout: 15), "Full Body A did not show up")
         if today.exists { today.tap() } else { row.tap() }
+        passPreStartSheets()
+    }
+
+    /**
+     * What can ask before a workout opens, with Everything on: the quick weigh-in, then Redrep's
+     * readiness check (components/ReadinessSheet.jsx, once a day). Both are passed without an
+     * answer, so the session is the planned one. Since the readiness check came in, "Set 1 done"
+     * waited under its sheet (CI 2026-11-12).
+     */
+    private func passPreStartSheets() {
+        let skipWeigh = app.buttons["Start without weighing in"]
+        if skipWeigh.waitForExistence(timeout: 5) { skipWeigh.tap() }
+        if app.staticTexts["How do you feel today?"].waitForExistence(timeout: 5) {
+            tap(app.buttons["Skip"], "Skip (readiness check)")
+        }
     }
 
     /**
@@ -148,13 +163,24 @@ final class OpenGymUITests: XCTestCase {
         app.launch()
         chooseLocal()
         shot("1-home")
-        tap(app.buttons["Load starter plan"], "Load starter plan")
-        tap(button(startingWith: "Full Body"), "the Full Body plan")
-        tap(app.buttons["Choose a different workout"], "Choose a different workout")
-        startFullBodyA()
+        // A retry (-retry-tests-on-failure) starts on the same phone: the plan is loaded already,
+        // and a workout may still be running from the try before.
+        let resume = app.buttons["Resume"]
+        if resume.waitForExistence(timeout: 3) { resume.tap() }
+        if !app.buttons["Finish"].waitForExistence(timeout: 3) {
+            if app.buttons["Load starter plan"].waitForExistence(timeout: 10) {
+                tap(app.buttons["Load starter plan"], "Load starter plan")
+                tap(button(startingWith: "Full Body"), "the Full Body plan")
+            }
+            tap(app.buttons["Choose a different workout"], "Choose a different workout")
+            startFullBodyA()
+        }
         shot("2-workout")
-        let tick = app.switches["Set 1 done"]
-        tap(tick, "Set 1 done")
+        // The first set not yet ticked: Set 1 on a first try, a later one on a retry.
+        let open = app.switches.matching(NSPredicate(format: "label BEGINSWITH 'Set ' AND label ENDSWITH ' done' AND value == '0'")).firstMatch
+        XCTAssertTrue(open.waitForExistence(timeout: 15), "Set 1 done did not show up")
+        let tick = app.switches[open.label]   // that one set, also once it reads ticked
+        tick.tap()
         // The first rest asks for notifications; on a slow simulator the question can take a while.
         let countdown = button(startingWith: "1:")
         let allow = springboard.alerts.buttons["Allow"]
