@@ -22,8 +22,9 @@ export const LB_PER_KG = 2.2046226218
 // Weigh-ins outside this are a typo or another person's profile in the hub, not a body weight.
 const KG_MIN = 20
 const KG_MAX = 400
-// Packages and bundle ids that are Redrep: the app, its test build, the Apple Watch app.
-const OWN = /^ch\.duartesantos\.opengym(\.|$)/
+// Packages and bundle ids that are Redrep: the app, its test build, the Apple Watch app, and
+// openGym's, which Redrep was built from and may share a phone with its data.
+const OWN = /^(ch\.duartesantos\.opengym|com\.riadheydar\.redrep)(\.|$)/
 
 /** Whether a record in the hub is one Redrep wrote itself (by its client id or by its origin). */
 export function isOwnRecord(rec) {

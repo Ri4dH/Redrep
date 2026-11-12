@@ -37,6 +37,8 @@ import { useNfcSupported, nfcExerciseSheet } from './components/Nfc.jsx'
 import { Button, Slider, Switch, Segmented, SelectRow, Row, TextField, NumberField, MultiSelectRow } from './components/ui.jsx'
 import { glyphOf, GLYPH_GROUPS, DEFAULT_GLYPH } from './lib/glyphs.js'
 import BodyMap from './components/BodyMap.jsx'
+import { readinessSheet } from './components/ReadinessSheet.jsx'
+import { needsReadiness, lighterSession } from './lib/readiness.js'
 import MuscleExplorer from './components/MuscleExplorer.jsx'
 import RedlineGauge from './components/RedlineGauge.jsx'
 import ExerciseViewToggle from './components/ExerciseViewToggle.jsx'
@@ -1335,6 +1337,9 @@ function ExerciseDetail({ ex, close }) {
     {best > 0 && <div className="small ex-best"><Icon name="trophy" style={{ fontSize: 14, color: 'var(--gold-ink)' }} />{t('Best:')} <b className="accent" style={{ whiteSpace: 'nowrap' }}>{fmtNum(best)} {st.unit}</b>{last ? <span className="muted">{` · ${t('last')} ${fmtDate(last.d)}: ${last.sets.map(s => setLabel(ex.id, s, last.target, speedUnitOf(st))).join(', ')}`}</span> : ''}</div>}
     <Button variant="primary" icon="plus" style={{ margin: '10px 0 4px' }} onClick={() => addToRoutineSheet(ex)}>{t('Add to my plan')}</Button>
     {last && <Button icon="history" style={{ marginTop: 4 }} onClick={() => exerciseHistorySheet(ex.id)}>{t('History')}</Button>}
+    {/* Redrep's Max day (lib/max-day.js), for a lift with weight on it. */}
+    {isOn(st, 'maxday') && best > 0 && modeOf({ id: ex.id }) === 'reps' && <Button icon="trophy" style={{ marginTop: 4 }}
+      onClick={() => closeThenNav(close, '/max?ex=' + encodeURIComponent(ex.id))}>{t('Test your max')}</Button>}
     <FormVideosSection exId={ex.id} />
     {/* A sticker on the machine that jumps to this exercise in a workout (components/Nfc.jsx). */}
     {nfcOK && !ex.missing && <Button icon="nfc" style={{ marginTop: 4 }} onClick={() => nfcExerciseSheet(ex)}>{t('Write NFC sticker for this exercise')}</Button>}
@@ -3453,14 +3458,25 @@ export function startFlow(routineIds) {
   // The weigh-in is a setting (Settings → During a workout, issue #137): off goes straight
   // into the session with no body weight on it, same as "Start without weighing in".
   // Off in Settings → Workout, or with the Body module (Settings → Modules): straight into the session.
-  if (S().weighIn === false || !isOn(S(), 'body')) { beginWorkout(routineIds, null); return }
-  bwSheet({ required: true, onDone: bw => beginWorkout(routineIds, bw) })
+  const go = bw => afterReadiness(opts => beginWorkout(routineIds, bw, opts))
+  if (S().weighIn === false || !isOn(S(), 'body')) { go(null); return }
+  bwSheet({ required: true, onDone: go })
+}
+// Redrep's readiness check (lib/readiness.js), once a day after the weigh-in when its module is
+// on: `start({ lighter })` begins the session, made lighter when that was the choice.
+function afterReadiness(start) {
+  if (!isOn(S(), 'readiness') || !needsReadiness(S(), todayISO())) { start({}); return }
+  readinessSheet(start)
 }
 // `opts` from the Apple Watch (lib/watch-sync.js): a session started there keeps the watch's id,
 // so the sets ticked on it find it, and its start time, however late the phone hears of it.
-export function beginWorkout(routineIds, bw, { id = null, start = null } = {}) {
+export function beginWorkout(routineIds, bw, { id = null, start = null, lighter = false } = {}) {
   const st = S()
-  const { entries, routineIds: rids, routines } = buildCombinedEntries(st, routineIds)
+  // A lighter day (lib/readiness.js) is built the way a deload routine is: no progression, so
+  // the weights are not raised on the day you asked to go easier.
+  const ids = [].concat(routineIds ?? [])
+  const src = lighter ? { ...st, routines: st.routines.map(r => (ids.includes(r.id) ? { ...r, excludeFromProgression: true } : r)) } : st
+  const { entries, routineIds: rids, routines } = buildCombinedEntries(src, routineIds)
   const startAt = Number.isFinite(start) && start > 0 ? start : Date.now()
   update(s => {
     s.active = {
@@ -3474,9 +3490,11 @@ export function beginWorkout(routineIds, bw, { id = null, start = null } = {}) {
       // changing the saved default (Settings → Workout view) mid-session leaves it alone.
       workoutView: st.workoutView || 'cards',
     }
+    if (lighter) lighterSession(s.active)
   })
   useUI.getState().stopRest()
   navToWorkout()
+  if (lighter) toast(t('A lighter day: one set fewer per exercise, kept out of progression.'))
   // Started inside a gym reminder place linked to an equipment profile: that gym's (#808).
   autoGymHere()
 }
@@ -3489,7 +3507,7 @@ export function repeatWorkout(w, close) {
   if (st.active) { toast(t('Finish the current workout first.')); return }
   const { entries, skipped } = repeatSessionEntries(st, w)
   if (!entries.length) { toast(t('Nothing to repeat. Its exercises no longer exist.')); return }
-  const go = bw => {
+  const begin = (bw, { lighter = false } = {}) => {
     if (S().active) { toast(t('Finish the current workout first.')); return }
     update(s => {
       s.active = {
@@ -3497,12 +3515,14 @@ export function repeatWorkout(w, close) {
         name: w.name || t('Freestyle'), bw: bw || null, cur: 0, entries,
         workoutView: s.workoutView || 'cards',
       }
+      if (lighter) lighterSession(s.active)
     })
     useUI.getState().stopRest()
     if (close) closeThenNav(close, '/workout'); else navToWorkout()
     autoGymHere()
     if (skipped) toast(tn('{0} exercise no longer exists and was left out.', '{0} exercises no longer exist and were left out.', skipped))
   }
+  const go = bw => afterReadiness(opts => begin(bw, opts))
   if (st.weighIn === false) { go(null); return }
   if (close) close()
   bwSheet({ required: true, onDone: go })

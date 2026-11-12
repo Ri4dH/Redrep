@@ -20,6 +20,7 @@
  *   android/app/src/main/res/mipmap-anydpi-v26/ic_launcher_<id>{,_round}.xml
  *   android/app/src/main/res/values/app_icons.xml             the adaptive icons' background colours
  *   src/lib/logo-mark.js, ios/App/Watch/WidgetState.swift     the logo's outline, for marks drawn in code
+ *   index.html                                                 the boot screen's logo, the same outline
  * Apple refuses an app icon with alpha, so every square icon is opaque.
  *
  * Usage: node scripts/app-icons.mjs                    write everything
@@ -266,6 +267,23 @@ export const LOGO_PATH = '${o.loops.map(l => 'M' + l.map(p => p.join(' ')).join(
 // the JS one).
 const SWIFT_BEGIN = '    // logo outline: written by frontend/scripts/app-icons.mjs, do not edit\n'
 const SWIFT_END = '    // end of logo outline\n'
+// The boot screen's logo, between these lines of index.html: painted before any script runs, so
+// it is the outline itself, not an import.
+const HTML_BEGIN = '  <!-- logo: written by scripts/app-icons.mjs from resources/logo.png, do not edit -->\n'
+const HTML_END = '  <!-- end of logo -->\n'
+const outlineHtml = o => {
+  const src = readFileSync(join(ROOT, 'index.html'), 'utf8')
+  const a = src.indexOf(HTML_BEGIN), b = src.indexOf(HTML_END)
+  if (a < 0 || b < a) throw new Error('index.html: the logo markers are missing')
+  const d = o.loops.map(l => 'M' + l.map(p => p.join(' ')).join('L') + 'Z').join('')
+  const body = `  <svg viewBox="-40 -40 ${o.w + 80} ${o.h + 120}">
+    <ellipse cx="${o.w / 2}" cy="${o.h + 50}" rx="${Math.round(o.w * 0.42)}" ry="22"/>
+    <g class="db"><g class="logo" fill="${APP_ICON_VARIANTS[0].fg}"><path fill-rule="evenodd" d="${d}"/></g></g>
+  </svg>
+`
+  return src.slice(0, a + HTML_BEGIN.length) + body + src.slice(b)
+}
+
 const outlineSwift = o => {
   const rel = 'ios/App/Watch/WidgetState.swift'
   const src = readFileSync(join(ROOT, rel), 'utf8')
@@ -508,6 +526,7 @@ export function files(mask = theLogo()) {
   const outlineOnce = () => (outline ||= logoOutline(mask))
   out.push(['src/lib/logo-mark.js', () => outlineJs(outlineOnce())])
   out.push(['ios/App/Watch/WidgetState.swift', () => outlineSwift(outlineOnce())])
+  out.push(['index.html', () => outlineHtml(outlineOnce())])
   out.push([`${RES}/values/app_icons.xml`, () => `<?xml version="1.0" encoding="utf-8"?>
 <!-- Written by scripts/app-icons.mjs: behind each alternate launcher icon. -->
 <resources>

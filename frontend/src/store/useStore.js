@@ -98,6 +98,14 @@ export const DEF = {
   // A note per day off (#261): { [iso]: { tag, text, _ts } } (lib/day-notes.js). A noted day is
   // excused from the missed-day nudge; each day merges on its own stamp (lib/sync-merge.js).
   dayNotes: {},
+  // Redrep's readiness check (lib/readiness.js): { [iso]: { sleep, sore, energy, _ts } }.
+  readiness: {},
+  // Redrep's pain map (lib/pain.js): { [area]: { lvl, since, log, _ts } }.
+  pains: {},
+  // Redrep's Max day (lib/max-day.js): the tested one-rep max per exercise, { [exId]: { w, d, _ts } }.
+  maxTests: {},
+  // Redrep's protein, water and supplements (lib/intake.js): a day each, the list and the goals.
+  intake: {}, supplements: [], proteinGoal: null, waterGoal: null, supReminder: null,
   // Body measurements (#82, #699): one check-in per day; canonical cm, kg or % according to
   // the field's unit (lib/measurements.js); merged like weigh-ins (lib/sync-merge.js).
   measurements: [], measurementEnabled: null, customMeasurements: [],

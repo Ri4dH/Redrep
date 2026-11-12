@@ -3359,3 +3359,17 @@ button.wl-summary{width:100%;padding:0 0 10px;text-align:start;border-radius:var
 .welcome-dots { display:flex; justify-content:center; gap:8px }
 .welcome-dots span { width:8px; height:8px; border-radius:50%; background:var(--surface-3) }
 .welcome-dots span.on { background:var(--acc); width:22px; border-radius:4px }
+
+/* Redrep: the pain map (views/Pain.jsx), the pain line in a workout, protein and water (components/IntakeCard.jsx) */
+.bm-pain .bm-m.l1{fill:var(--yellow);fill-opacity:.55}
+.bm-pain .bm-m.l2{fill:var(--yellow)}
+.bm-pain .bm-m.l3{fill:var(--orange)}
+.bm-pain .bm-m.l4{fill:var(--red)}
+.pain-line{display:flex;align-items:center;flex-wrap:wrap;gap:4px 8px;color:var(--orange);margin-bottom:4px}
+.pain-swap{background:none;border:0;padding:0;color:var(--acc);font:inherit;font-weight:600;cursor:pointer}
+.intake-bar{height:6px;border-radius:3px;background:var(--surface-3);overflow:hidden;margin-top:6px}
+.intake-bar>div{height:100%;border-radius:3px;transition:width .25s}
+.intake-field{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.intake-field .field,.intake-field input{max-width:120px;text-align:end}
+.intake-btns{gap:8px;margin-top:8px;flex-wrap:wrap}
+.pain-card .row,.intake-card .row{width:100%}

@@ -18,6 +18,12 @@ struct OpenGymWidgets: WidgetBundle {
         StreakWidget()
         ConfigurableWidget()
         WorkoutLiveActivity()
+        if #available(iOS 18.0, *) {
+            StartWorkoutControl()
+            RestTimerControl()
+            LogWeightControl()
+            AddWaterControl()
+        }
     }
 }
 
@@ -190,5 +196,84 @@ struct ConfigurableWidgetView: View {
                     Color.clear
                 }
             }
+    }
+}
+
+
+// MARK: - Control Center, the Lock Screen and the Action button (iOS 18)
+//
+// Four buttons you can put in Control Center, on the Lock Screen or on the Action button. Each
+// opens the app with one of its links (lib/widget-links.js), so a control does no more than the
+// same tap in the app would: a start still asks the weigh-in and the readiness check, and water
+// is only added when the Protein, water and supplements module is on.
+
+@available(iOS 18.0, *)
+struct OpenRedrepLinkIntent: AppIntent {
+    static let title: LocalizedStringResource = "Open Redrep"
+    static let isDiscoverable = false
+
+    @Parameter(title: "Link")
+    var link: String
+
+    init() { link = GymLink.home.absoluteString }
+    init(_ url: URL) { link = url.absoluteString }
+
+    func perform() async throws -> some IntentResult & OpensIntent {
+        .result(opensIntent: OpenURLIntent(URL(string: link) ?? GymLink.home))
+    }
+}
+
+@available(iOS 18.0, *)
+enum ControlLink {
+    static let today = URL(string: "redrep://start?today=1")!
+    static let rest = URL(string: "redrep://rest")!
+    static let water = URL(string: "redrep://water?ml=250")!
+}
+
+@available(iOS 18.0, *)
+struct StartWorkoutControl: ControlWidget {
+    var body: some ControlWidgetConfiguration {
+        StaticControlConfiguration(kind: "com.riadheydar.redrep.control.start") {
+            ControlWidgetButton(action: OpenRedrepLinkIntent(ControlLink.today)) {
+                Label("Start workout", systemImage: "play.fill")
+            }
+        }
+        .displayName("Start workout")
+    }
+}
+
+@available(iOS 18.0, *)
+struct RestTimerControl: ControlWidget {
+    var body: some ControlWidgetConfiguration {
+        StaticControlConfiguration(kind: "com.riadheydar.redrep.control.rest") {
+            ControlWidgetButton(action: OpenRedrepLinkIntent(ControlLink.rest)) {
+                Label("Rest timer", systemImage: "timer")
+            }
+        }
+        .displayName("Rest timer")
+    }
+}
+
+@available(iOS 18.0, *)
+struct LogWeightControl: ControlWidget {
+    var body: some ControlWidgetConfiguration {
+        StaticControlConfiguration(kind: "com.riadheydar.redrep.control.weigh-in") {
+            ControlWidgetButton(action: OpenRedrepLinkIntent(GymLink.weighIn)) {
+                Label("Log weight", systemImage: "scalemass.fill")
+            }
+        }
+        .displayName("Log weight")
+    }
+}
+
+@available(iOS 18.0, *)
+struct AddWaterControl: ControlWidget {
+    var body: some ControlWidgetConfiguration {
+        StaticControlConfiguration(kind: "com.riadheydar.redrep.control.water") {
+            ControlWidgetButton(action: OpenRedrepLinkIntent(ControlLink.water)) {
+                Label("Add water", systemImage: "drop.fill")
+            }
+        }
+        .displayName("Add water")
     }
 }

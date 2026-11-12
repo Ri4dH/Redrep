@@ -276,6 +276,25 @@ export const STRINGS = {
     'zh-Hans': "挑战",
     'zh-Hant': "挑戰",
   },
+  // Redrep: the Control Center, Lock Screen and Action button controls (iOS 18).
+  'Start workout': {
+    de: "Training starten", fr: "Démarrer la séance", es: "Empezar entrenamiento", it: "Inizia allenamento", 'pt-PT': "Começar treino", 'pt-BR': "Começar treino", pl: "Zacznij trening", hu: "Edzés indítása", tr: "Antrenmana başla", ru: "Начать тренировку", uk: "Почати тренування", ar: "بدء التمرين", hi: "वर्कआउट शुरू करें", bn: "ওয়ার্কআউট শুরু করুন", th: "เริ่มออกกำลังกาย", ko: "운동 시작", 'zh-Hans': "开始训练", 'zh-Hant': "開始訓練",
+  },
+  'Rest timer': {
+    de: "Pausentimer", fr: "Minuteur de repos", es: "Temporizador de descanso", it: "Timer di recupero", 'pt-PT': "Temporizador de descanso", 'pt-BR': "Timer de descanso", pl: "Minutnik przerwy", hu: "Pihenőidő-mérő", tr: "Dinlenme sayacı", ru: "Таймер отдыха", uk: "Таймер відпочинку", ar: "مؤقّت الراحة", hi: "आराम टाइमर", bn: "বিশ্রামের টাইমার", th: "ตัวจับเวลาพัก", ko: "휴식 타이머", 'zh-Hans': "组间休息计时", 'zh-Hant': "組間休息計時",
+  },
+  'Log weight': {
+    de: "Gewicht eintragen", fr: "Noter le poids", es: "Registrar peso", it: "Registra il peso", 'pt-PT': "Registar peso", 'pt-BR': "Registrar peso", pl: "Zapisz wagę", hu: "Testsúly rögzítése", tr: "Kilo kaydet", ru: "Записать вес", uk: "Записати вагу", ar: "سجّل الوزن", hi: "वज़न दर्ज करें", bn: "ওজন লিখুন", th: "บันทึกน้ำหนัก", ko: "체중 기록", 'zh-Hans': "记录体重", 'zh-Hant': "記錄體重",
+  },
+  'Add water': {
+    de: "Wasser hinzufügen", fr: "Ajouter de l’eau", es: "Añadir agua", it: "Aggiungi acqua", 'pt-PT': "Adicionar água", 'pt-BR': "Adicionar água", pl: "Dodaj wodę", hu: "Víz hozzáadása", tr: "Su ekle", ru: "Добавить воду", uk: "Додати воду", ar: "أضف ماءً", hi: "पानी जोड़ें", bn: "পানি যোগ করুন", th: "เพิ่มน้ำ", ko: "물 추가", 'zh-Hans': "添加饮水", 'zh-Hant': "新增飲水",
+  },
+  'Open Redrep': {
+    de: "Redrep öffnen", fr: "Ouvrir Redrep", es: "Abrir Redrep", it: "Apri Redrep", 'pt-PT': "Abrir o Redrep", 'pt-BR': "Abrir o Redrep", pl: "Otwórz Redrep", hu: "Redrep megnyitása", tr: "Redrep’i aç", ru: "Открыть Redrep", uk: "Відкрити Redrep", ar: "افتح Redrep", hi: "Redrep खोलें", bn: "Redrep খুলুন", th: "เปิด Redrep", ko: "Redrep 열기", 'zh-Hans': "打开 Redrep", 'zh-Hant': "開啟 Redrep",
+  },
+  'Link': {
+    de: "Link", fr: "Lien", es: "Enlace", it: "Link", 'pt-PT': "Ligação", 'pt-BR': "Link", pl: "Link", hu: "Hivatkozás", tr: "Bağlantı", ru: "Ссылка", uk: "Посилання", ar: "الرابط", hi: "लिंक", bn: "লিংক", th: "ลิงก์", ko: "링크", 'zh-Hans': "链接", 'zh-Hant': "連結",
+  },
 }
 
 const esc = s => s.replaceAll('\\', '\\\\').replaceAll('"', '\\"')

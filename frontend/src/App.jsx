@@ -4,10 +4,11 @@ import { HashRouter, Routes, Route, Navigate, useNavigate, useLocation, useNavig
 import { useStore } from './store/useStore.js'
 import { useUI } from './store/useUI.js'
 import { bindUI } from './components/ui.jsx'
-import { setWeightDecimals } from './lib/format.js'
+import { setWeightDecimals, todayISO } from './lib/format.js'
+import { addIntake } from './lib/intake.js'
 import { accentValue, applyAccent } from './lib/accent.js'
 import { seasonAccent } from './lib/seasonal.js'
-import { setLang, useLang, baseLang } from './lib/i18n.js'
+import { setLang, useLang, baseLang, t } from './lib/i18n.js'
 import { effectiveLang } from './lib/default-lang.js'
 import { setPlayOnSilent, setVibrate, setAlarmBuzzer, setNativeBuzzer } from './lib/sound.js'
 import { buzzAsAlarm } from './lib/rest-alert.js'
@@ -82,6 +83,8 @@ const Measurements = lazyView(() => import('./views/Measurements.jsx'))
 const CoachIntake = lazyView(() => import('./views/CoachIntake.jsx'))
 const CoachSetup = lazyView(() => import('./views/CoachSetup.jsx'))
 const StructuralBalance = lazyView(() => import('./views/StructuralBalance.jsx'))
+const Pain = lazyView(() => import('./views/Pain.jsx'))
+const MaxDay = lazyView(() => import('./views/MaxDay.jsx'))
 const ProgressPhotos = lazyView(() => import('./views/ProgressPhotos.jsx'))
 // The tabs and screens past Home (Stats, History, the Library, Settings, ...) as well: a start
 // only needs Home, and these are fetched right behind it the same way.
@@ -361,6 +364,8 @@ function Shell() {
       <Route path="/library" element={<Library />} />
       <Route path="/muscles" element={<Muscles />} />
       <Route path="/structural-balance" element={<StructuralBalance />} />
+      {isOn(S, 'pain') && <Route path="/pain" element={<Pain />} />}
+      {isOn(S, 'maxday') && <Route path="/max" element={<MaxDay />} />}
       {isOn(S, 'body') && <Route path="/progress-photos" element={<ProgressPhotos />} />}
       {isOn(S, 'body') && <Route path="/measurements" element={<Measurements />} />}
       <Route path="/settings" element={<SettingsRoute />} />
@@ -502,7 +507,15 @@ export default function App() {
   useEffect(() => {
     if (!MOBILE) return
     let stop = null, gone = false
-    startWidgetLinks({ getS: () => useStore.getState().S, nav, navToWorkout, startFlow, bwSheet, todayIds: todayRoutineIds })
+    startWidgetLinks({ getS: () => useStore.getState().S, nav, navToWorkout, startFlow, bwSheet, todayIds: todayRoutineIds,
+      startRest: () => useUI.getState().startRest(useStore.getState().S.restSec || 90, null),
+      // Only with the module on: a link from Control Center must not log water nobody tracks.
+      addWater: ml => {
+        const st = useStore.getState().S
+        if (!isOn(st, 'nutrition')) return
+        useStore.getState().update(s => { s.intake = addIntake(s.intake, todayISO(), 'water', ml) })
+        useUI.getState().toast(t('Water +{0} ml', ml))
+      } })
       .then(fn => { if (gone) fn(); else stop = fn }).catch(() => {})
     return () => { gone = true; stop?.() }
   }, [])

@@ -33,6 +33,7 @@ import { isoOf, todayISO, uid, weekKey, MONDAY, SUNDAY } from './format.js'
 import { queueOf } from './queue.js'
 import { REST, saveRotation, startPass, stopPass, chooseFixedWeek } from './rotation.js'
 import { best1RM } from './onerm.js'
+import { testedOrBest } from './max-day.js'
 import { t } from './i18n-core.js'
 
 export const MAX_WEEKS = 16
@@ -342,7 +343,8 @@ const round1 = v => Math.round(v * 10) / 10
  * of `step`, never under the bar (`floor`). Null without an estimate to take it from.
  */
 export function pctWeight(S, exId, pct, { step = 2.5, owned = null, floor = 0 } = {}) {
-  const best = best1RM(S, exId)
+  // A tested max (Redrep's Max day, lib/max-day.js) wins over the estimate until a later session beats it.
+  const best = testedOrBest(S, exId, best1RM(S, exId))
   if (!(best?.est > 0) || !(pct > 0)) return null
   const ideal = best.est * pct / 100
   let w

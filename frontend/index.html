@@ -81,21 +81,15 @@
      page. Same dark and red as the native splash. lib/boot.js takes it away the moment the
      app can draw, so it never adds a wait. -->
 <style>
-  #boot{position:fixed;inset:0;z-index:2147483000;display:grid;place-items:center;background:#0c0e12;transition:opacity .22s ease-out}
+  #boot{position:fixed;inset:0;z-index:2147483000;display:grid;place-items:center;background:#000;transition:opacity .22s ease-out}
   #boot.out{opacity:0;pointer-events:none}
   #boot svg{width:112px;height:auto;overflow:visible}
-  #boot rect,#boot ellipse{transform-box:fill-box;transform-origin:center}
-  #boot .bar{animation:boot-bar .32s cubic-bezier(.3,.7,.4,1) both}
-  #boot .pl{animation:boot-plate .28s cubic-bezier(.3,.7,.4,1.3) both}
-  #boot .pr{animation:boot-plate-r .28s cubic-bezier(.3,.7,.4,1.3) both}
-  #boot .in{animation-delay:.22s}
-  #boot .outer{animation-delay:.36s}
+  #boot g,#boot ellipse{transform-box:fill-box;transform-origin:center}
+  #boot .logo{animation:boot-in .3s cubic-bezier(.3,.7,.4,1.3) both}
   #boot .db{animation:boot-rep 1.25s ease-in-out .75s infinite}
-  #boot ellipse{fill:#ff1f2f;opacity:.12;animation:boot-shadow 1.25s ease-in-out .75s infinite}
-  @keyframes boot-bar{from{transform:scaleX(0)}}
-  @keyframes boot-plate{from{transform:translateX(-40px);opacity:0}}
-  @keyframes boot-plate-r{from{transform:translateX(40px);opacity:0}}
-  @keyframes boot-rep{50%{transform:translateY(-26px)}}
+  #boot ellipse{fill:#c70200;opacity:.12;animation:boot-shadow 1.25s ease-in-out .75s infinite}
+  @keyframes boot-in{from{transform:scale(.6);opacity:0}}
+  @keyframes boot-rep{50%{transform:translateY(-90px)}}
   @keyframes boot-shadow{50%{transform:scaleX(.72);opacity:.05}}
   #boot.fail{place-items:center;padding:24px}
   #boot.fail div{max-width:340px;font:15px/1.4 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;color:#e6e8ec;text-align:center}
@@ -103,22 +97,18 @@
   #boot.fail code{display:block;margin:14px 0 18px;padding:10px;border-radius:10px;background:#1a1d24;color:#a9b0bc;font-size:12px;text-align:left;word-break:break-word;-webkit-user-select:text;user-select:text}
   #boot.fail button{font:inherit;font-weight:600;color:#0c0e12;background:#ff1f2f;border:0;border-radius:12px;min-height:44px;padding:0 28px}
   @media (prefers-reduced-motion:reduce){
-    #boot .bar,#boot .pl,#boot .pr,#boot ellipse{animation:none}
+    #boot .logo,#boot ellipse{animation:none}
     #boot .db{animation:boot-breathe 1.6s ease-in-out infinite}
     @keyframes boot-breathe{50%{opacity:.55}}
   }
 </style>
 <div id="boot" aria-hidden="true">
-  <svg viewBox="80 140 352 250">
-    <ellipse cx="256" cy="372" rx="150" ry="9"/>
-    <g class="db" fill="#ff1f2f">
-      <rect class="bar" x="80" y="242" width="352" height="28"/>
-      <rect class="pl in" x="131" y="169" width="47" height="174"/>
-      <rect class="pr in" x="334" y="169" width="47" height="174"/>
-      <rect class="pl outer" x="80" y="199" width="36" height="114"/>
-      <rect class="pr outer" x="396" y="199" width="36" height="114"/>
-    </g>
+  <!-- logo: written by scripts/app-icons.mjs from resources/logo.png, do not edit -->
+  <svg viewBox="-40 -40 924 877">
+    <ellipse cx="422" cy="807" rx="354" ry="22"/>
+    <g class="db"><g class="logo" fill="#c70200"><path fill-rule="evenodd" d="M250 0L279 2L330 28L379 59L392 72L394 81L353 74L319 74L279 81L243 94L211 112L183 134L132 193L110 233L95 277L86 320L84 363L88 400L93 416L104 435L126 455L155 470L167 473L167 477L136 475L110 464L77 439L31 397L13 375L4 349L0 325L0 274L6 234L20 190L39 151L70 105L99 72L136 41L162 26L213 6ZM652 219L680 219L698 226L792 279L823 306L834 321L844 344L839 345L822 332L786 314L763 310L729 310L710 314L671 332L631 358L584 402L546 451L497 536L484 568L475 602L468 662L473 690L493 715L520 736L544 745L562 745L565 751L526 757L475 752L458 743L401 697L361 659L352 643L354 550L372 476L385 442L418 381L451 337L473 314L495 294L544 259L619 226ZM257 224L266 224L297 239L352 270L399 292L448 321L446 327L431 341L409 371L389 409L384 409L366 398L216 291L216 270L225 250L238 235ZM728 391L757 402L798 428L825 451L826 457L816 459L802 455L783 455L757 459L737 466L708 484L682 507L664 528L645 556L629 592L625 624L629 653L643 670L660 677L685 675L707 668L728 657L731 657L731 661L713 679L682 697L653 703L622 701L583 671L542 631L543 596L552 555L581 495L610 457L627 440L647 422L677 404L703 395Z"/></g></g>
   </svg>
+  <!-- end of logo -->
 </div>
 <div id="root"></div>
 <script type="module" src="/src/main.jsx"></script>

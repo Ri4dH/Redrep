@@ -34,10 +34,18 @@ export const MODULES = [
     desc: 'Log sets from your wrist on an Apple Watch, Wear OS or Zepp watch.' },
   { id: 'checkin', group: 'training', icon: 'qr', tint: 'var(--blue)', title: 'Gym check-in',
     desc: 'Your membership codes on Home.' },
+  { id: 'readiness', group: 'training', icon: 'gauge', tint: 'var(--green)', title: 'Readiness check',
+    desc: 'Three taps before you train. Redrep says how hard to go today.' },
+  { id: 'maxday', group: 'training', icon: 'trophy', tint: 'var(--yellow)', title: 'Max day',
+    desc: 'Test your real one-rep max with a guided warm-up and three attempts.' },
   { id: 'body', group: 'body', icon: 'scale', tint: 'var(--teal)', title: 'Body',
     desc: 'Weigh-ins, measurements, progress photos and your weight goal.' },
   { id: 'health', group: 'body', icon: 'heart', tint: 'var(--red)', title: 'Health',
     desc: 'Apple Health or Health Connect, heart rate and recovery tips.' },
+  { id: 'pain', group: 'body', icon: 'warning', tint: 'var(--orange)', title: 'Pain and injuries',
+    desc: 'Mark what hurts on the body map. Redrep flags the exercises that load it.' },
+  { id: 'nutrition', group: 'body', icon: 'target', tint: 'var(--blue)', title: 'Protein, water and supplements',
+    desc: 'Quick daily taps for protein and water, and a reminder for what you take.' },
   { id: 'motivation', group: 'extras', icon: 'flame', tint: 'var(--orange)', title: 'Motivation',
     desc: 'Streaks, challenges, badges, recaps and your year in Redrep.' },
   { id: 'coach', group: 'extras', icon: 'sparkles', tint: 'var(--green)', title: 'AI Coach',
@@ -60,7 +68,7 @@ export const GROUPS = [
 const TRAINING = ['effort', 'plates', 'watch']
 export const PRESETS = [
   { id: 'training', title: 'Just training', desc: 'Log, plan, progress. Nothing else on the screen.', on: TRAINING },
-  { id: 'body', title: 'Training and body', desc: 'Plus weigh-ins, measurements, photos and your health apps.', on: [...TRAINING, 'strength', 'body', 'health'] },
+  { id: 'body', title: 'Training and body', desc: 'Plus weigh-ins, measurements, photos and your health apps.', on: [...TRAINING, 'strength', 'body', 'health', 'readiness', 'pain', 'nutrition'] },
   { id: 'all', title: 'Everything', desc: 'Streaks, the Coach, themes, the lot.', on: MODULE_IDS },
 ]
 export const PRESET = Object.fromEntries(PRESETS.map(p => [p.id, p]))

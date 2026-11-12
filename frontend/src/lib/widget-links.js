@@ -7,6 +7,8 @@
 //                           the one already running
 //   opengym://weigh-in?w=78.2[&u=kg]   the weigh-in sheet with that weight in (Assistant, lib/voice.js)
 //   opengym://start?today=1 today's plan as the app has it (Siri, Assistant, the long-press shortcut)
+//   redrep://rest          a rest timer of the profile's rest time (Control Center, lib/... iOS 18 controls)
+//   redrep://water?ml=250   that much water added to today (Redrep's protein and water card)
 //
 // iOS: the widget's widgetURL / Link (ios/App/App/WidgetViews.swift), the scheme registered in
 // Info.plist. Android: the widget's PendingIntent, an explicit intent to MainActivity carrying the
@@ -37,6 +39,11 @@ export function parseWidgetLink (url) {
       const u = (q.get('u') || '').toLowerCase()
       return { action: 'weigh-in', w: w.w, unit: w.unit || (u === 'lb' || u === 'lbs' ? 'lb' : u === 'kg' ? 'kg' : null) }
     }
+    case 'rest': return { action: 'rest' }
+    case 'water': {
+      const ml = Math.round(Number(q.get('ml') || 250))
+      return { action: 'water', ml: ml > 0 && ml <= 2000 ? ml : 250 }
+    }
     case 'start': {
       const ids = (q.get('r') || '').split(',').map(s => s.trim()).filter(Boolean).slice(0, 8)
       return q.get('today') === '1' && !ids.length ? { action: 'start', ids, today: true } : { action: 'start', ids }
@@ -47,12 +54,15 @@ export function parseWidgetLink (url) {
 
 /**
  * Does what a link asks. `deps` are the app's own flows, passed in so this file needs neither the
- * router nor the sheets: { getS, nav, navToWorkout, startFlow, bwSheet, todayIds }.
+ * router nor the sheets: { getS, nav, navToWorkout, startFlow, bwSheet, todayIds, startRest, addWater }.
  */
-export function runWidgetLink (target, { getS, nav, navToWorkout, startFlow, bwSheet, todayIds }) {
+export function runWidgetLink (target, { getS, nav, navToWorkout, startFlow, bwSheet, todayIds, startRest, addWater }) {
   if (!target) return false
   const S = getS() || {}
   if (target.to) { nav(target.to); return true }
+  // The rest timer runs over any screen; one already counting starts again from the top.
+  if (target.action === 'rest') { if (startRest) startRest(); return true }
+  if (target.action === 'water') { nav('/'); if (addWater) addWater(target.ml); return true }
   if (target.action === 'weigh-in') {
     nav('/')
     // A number from the assistant, in the profile's unit, fills the sheet in; one that cannot be

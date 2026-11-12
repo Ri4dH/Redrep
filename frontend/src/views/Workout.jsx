@@ -61,7 +61,8 @@ import { bindLiveActions } from '../lib/live-activity.js'
 import { isWarmupRow, isFailureSet, toggleFailure, isDropSet, isRestPauseSet, dropsOf, clustersOf, addDrop, addCluster, removeDropAt, removeClusterAt, setDropAt, setClusterAt, nextDropWeight, nextBurstReps, isSideSet, makeSideSet, setSideField, toggleSide, addSideDrop, removeSideDropAt, setSideDropAt, addSideCluster, removeSideClusterAt, setSideClusterAt, WEIGHT_ORIGIN_MANUAL, markWarmupEdited } from '../lib/workout-model.js'
 import { canMoveActiveWorkoutUnit, moveActiveWorkoutUnit, canMoveActiveWorkoutEntry, moveActiveWorkoutEntry } from '../lib/active-workout-order.js'
 import { nextOpenSet, workoutKeyAction } from '../lib/workout-keys.js'
-import { MUSCLE_NAME } from '../lib/muscles.js'
+import { MUSCLE_NAME, muscleWeightsOf } from '../lib/muscles.js'
+import { activePains, painsLoadedBy } from '../lib/pain.js'
 import FocusView from './FocusView.jsx'
 import { SeasonDeco } from '../components/Seasonal.jsx'
 import { entryDbLoad, bellsIn, ownedWeightsFor, stepOwned } from '../lib/dumbbells.js'
@@ -104,6 +105,8 @@ function StartChooser() {
         <span className="tag acc">{t('Start')}</span></div>)}</div></>}
     <div style={{ height: 14 }} />
     <Button icon="shuffle" onClick={() => startFlow([])}>{t('Freestyle workout (pick as you go)')}</Button>
+    {/* Redrep's Max day (lib/max-day.js): a guided one-rep max test. */}
+    {isOn(S, 'maxday') && <><div style={{ height: 10 }} /><Button icon="trophy" onClick={() => nav('/max')}>{t('Max day: test your one-rep max')}</Button></>}
     {!S.routines.length && <><div style={{ height: 10 }} /><Button variant="primary" onClick={() => nav('/plan')}>{t('Build a plan first')}</Button></>}
   </div>
 }
@@ -285,6 +288,7 @@ function ExerciseBlock({ entryIdx, compact, dense, editing, onToggle, onToggleSi
   // climb, a deload, an added set), or they carry last session's reps ("Your last session").
   // An entry built before plans were stamped, and a freestyle one, has no plan to show.
   const planned = entry.planned && mode !== 'cardio' ? entry.planned : null
+  const painHere = isOn(live, 'pain') ? painsLoadedBy(activePains(live), muscleWeightsOf(exOr(entry.id))) : []
   const planLine = (() => {
     if (!planned) return null
     const today = entry.target || {}
@@ -819,6 +823,12 @@ function ExerciseBlock({ entryIdx, compact, dense, editing, onToggle, onToggleSi
     </div>}
     {entry.note && <div className="exnote">{entry.note}</div>}
     {planLine}
+    {/* Redrep's pain map (lib/pain.js): this exercise loads something that hurts. */}
+    {painHere.length > 0 && <div className="small pain-line" role="note">
+      <Icon name="warning" style={{ fontSize: 'var(--fs-footnote)', marginInlineEnd: 5, verticalAlign: '-2px' }} />
+      <span>{t('Pain: {0}', painHere.map(p => t(MUSCLE_NAME[p.area]) + ' ' + p.lvl + '/5').join(', '))}</span>
+      {onSwap && <button type="button" className="pain-swap" onClick={onSwap} disabled={busy}>{t('Swap exercise')}</button>}
+    </div>}
     {refLine}
     {guidance && onProgressionSettings && <button type="button" className={'progline' + (plan.kind === 'deload' ? ' warn' : '')}
       aria-label={t('Open exercise settings')} onClick={onProgressionSettings}>

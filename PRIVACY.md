@@ -1,6 +1,6 @@
 # Redrep privacy policy
 
-Last changed: 9 November 2026
+Last changed: 11 November 2026
 
 This policy covers the Redrep app for iPhone. Redrep is free, has no account and no server of its
 own, and is run by one person. The short version: **your data stays on your phone.**
@@ -13,8 +13,9 @@ own, and is run by one person. The short version: **your data stays on your phon
 
 ## What is stored, and where
 
-Your workouts, plans, body weight and measurements, photos and videos you add, and your settings
-are stored in the app's own storage on your iPhone. Deleting the app deletes them. Settings →
+Your workouts, plans, body weight and measurements, photos and videos you add, how you felt
+before a workout, the pain you mark on the body map, the protein, water and supplements you log,
+and your settings are stored in the app's own storage on your iPhone. Deleting the app deletes them. Settings →
 Reset everything deletes them too.
 
 A backup is a file you export yourself (Settings → Data & backup). Where it goes, for example
@@ -53,7 +54,8 @@ of them off in the iPhone's Settings.
 - **Location** (off until you switch the gym reminder on): lets iOS notice when you arrive at a gym
   you added. Your location never leaves your phone.
 - **Local network:** only to reach an AI model running on your home network, if you set one up.
-- **Notifications:** workout reminders and the rest timer, scheduled on the phone itself.
+- **Notifications:** workout reminders, the supplement reminder and the rest timer, scheduled on
+  the phone itself.
 
 ## Apple Watch
 

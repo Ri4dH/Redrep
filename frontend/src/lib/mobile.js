@@ -237,6 +237,8 @@ export async function syncReminder(S, interactive = false) {
   // The gym reminder (lib/gym-reminder.js) decides on the phone whether to go off, from what it
   // was last told about today: told again here, after every save and on every return to the app.
   if (MOBILE) import('./gym-reminder.js').then(m => m.pushGymStatus(S)).catch(() => {})
+  // Redrep's supplement reminder (lib/intake-notify.js), on its own switch.
+  if (MOBILE) import('./intake-notify.js').then(m => m.syncSupplementReminder(S)).catch(() => {})
   try {
     const { LocalNotifications } = await import('@capacitor/local-notifications')
     await LocalNotifications.cancel({ notifications: [

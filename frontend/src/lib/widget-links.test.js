@@ -110,3 +110,23 @@ describe('runWidgetLink', () => {
     expect(runWidgetLink(null, deps())).toBe(false)
   })
 })
+
+// Redrep's Control Center buttons (ios/App/OpenGymWidgets/OpenGymWidgets.swift, iOS 18).
+describe('the control links', () => {
+  it('reads a rest timer and water, with a sane amount', () => {
+    expect(parseWidgetLink('redrep://rest')).toEqual({ action: 'rest' })
+    expect(parseWidgetLink('redrep://water?ml=500')).toEqual({ action: 'water', ml: 500 })
+    expect(parseWidgetLink('redrep://water')).toEqual({ action: 'water', ml: 250 })
+    expect(parseWidgetLink('redrep://water?ml=99999')).toEqual({ action: 'water', ml: 250 })
+  })
+
+  it('starts the rest timer, and adds water on Home', () => {
+    const startRest = vi.fn(), addWater = vi.fn(), nav = vi.fn()
+    const d = { getS: () => ({}), nav, navToWorkout: vi.fn(), startFlow: vi.fn(), bwSheet: vi.fn(), todayIds: () => [], startRest, addWater }
+    expect(runWidgetLink({ action: 'rest' }, d)).toBe(true)
+    expect(startRest).toHaveBeenCalled()
+    expect(runWidgetLink({ action: 'water', ml: 250 }, d)).toBe(true)
+    expect(nav).toHaveBeenCalledWith('/')
+    expect(addWater).toHaveBeenCalledWith(250)
+  })
+})

@@ -28,6 +28,8 @@ import { programmeChip } from '../lib/programmes.js'
 import { SeasonDeco } from '../components/Seasonal.jsx'
 import { WrappedHomeCard } from '../components/WrappedEntry.jsx'
 import RecoveryHint from '../components/RecoveryHint.jsx'
+import IntakeCard from '../components/IntakeCard.jsx'
+import { PainHomeCard } from './Pain.jsx'
 import { ChallengesCard } from '../components/Challenges.jsx'
 import { isOn } from '../lib/modules.js'
 import { hasFigure } from '../components/ExerciseFigure.jsx'
@@ -217,6 +219,12 @@ export default function Home() {
 
     {/* This month's three challenges and how far you are (lib/challenges.js). */}
     <ChallengesCard S={S} />
+
+    {/* Redrep: protein, water and supplements (lib/intake.js). */}
+    {on('nutrition') && <IntakeCard S={S} />}
+
+    {/* Redrep: the pain map, the worst of what hurts (lib/pain.js). */}
+    {on('pain') && <PainHomeCard S={S} />}
 
     {/* Jump to the gym check-in cards (QR membership codes). Shown here as a quick tap on
         arrival at the gym; folds away per user via the "Gym check-in" switch in Settings. */}

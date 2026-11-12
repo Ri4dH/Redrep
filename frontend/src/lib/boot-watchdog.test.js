@@ -10,7 +10,7 @@ import { hideBoot } from './boot.js'
 
 const html = readFileSync(join(dirname(fileURLToPath(import.meta.url)), '../../index.html'), 'utf8')
 const inline = [...html.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g)].map(m => m[1])
-const bootMarkup = html.match(/<div id="boot"[\s\S]*?<\/svg>\s*<\/div>/)[0]
+const bootMarkup = html.match(/<div id="boot"[\s\S]*?<\/svg>[\s\S]*?<\/div>/)[0]
 
 let added = []
 const realAdd = window.addEventListener.bind(window)
