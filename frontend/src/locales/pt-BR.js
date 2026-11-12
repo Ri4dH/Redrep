@@ -2555,6 +2555,23 @@ export const PT_BR_OVERRIDES = {
   "Time for {0}.": "Hora de tomar: {0}.",
   "Water +{0} ml": "Água +{0} ml",
   "Yellow is mild, red hurts most.": "Amarelo é leve, vermelho é o que mais dói.",
+  "Redrep’s extras": "Os extras do Redrep",
+  "Readiness, pain map, Max day, protein and water": "Prontidão, mapa da dor, dia de máximo, proteína e água",
+  "A quick look at what Redrep adds. We only point, nothing changes until you tap it yourself.": "Uma olhada rápida no que o Redrep acrescenta. Só apontamos, nada muda até você tocar.",
+  "Before each workout, three taps: sleep, soreness and energy. On a bad day, Go lighter takes a set off each exercise and keeps the day out of progression.": "Antes de cada treino, três toques: sono, dor muscular e energia. Num dia ruim, “Treinar mais leve” tira uma série de cada exercício e deixa o dia fora da progressão.",
+  "Back to Home": "Voltar ao Início",
+  "Tap to add protein or water and tick off your supplements. The gear sets your goals and a daily reminder.": "Toque para adicionar proteína ou água e marque seus suplementos. A engrenagem define metas e um lembrete diário.",
+  "Something hurting? This opens the body map. Tap it.": "Algo doendo? Isso abre o mapa do corpo. Toque.",
+  "Mark where it hurts": "Marque onde dói",
+  "Tap a muscle and rate it from 1 to 5. Exercises that load it get a warning and a swap in your workout.": "Toque num músculo e avalie de 1 a 5. Os exercícios que sobrecarregam a região mostram um aviso e uma troca no treino.",
+  "More ways to train": "Mais formas de treinar",
+  "Max day lives with the other workouts. Tap it.": "O dia de máximo fica junto com os outros treinos. Toque.",
+  "Test your real one-rep max: a guided warm-up, then three attempts. Programmes use the result for their percentages.": "Teste seu 1RM real: um aquecimento guiado e depois três tentativas. Os programas usam o resultado para as porcentagens.",
+  "Control Center": "Central de Controle",
+  "On iOS 18, add Redrep’s buttons to Control Center, the Lock Screen or the Action button: start a workout, the rest timer, log your weight, add water.": "No iOS 18, adicione os botões do Redrep à Central de Controle, à Tela Bloqueada ou ao botão de Ação: iniciar um treino, o timer de descanso, registrar seu peso, adicionar água.",
+  "Switch any of these extras off here, or back on. Nothing gets deleted.": "Desligue aqui qualquer um desses extras, ou ligue de novo. Nada é apagado.",
+  "That’s Redrep": "Isso é o Redrep",
+  "Run this again any time from Settings → About & updates.": "Veja de novo quando quiser em Configurações → Sobre e atualizações.",
 }
 
 export default { ...pt, ...PT_BR_OVERRIDES }

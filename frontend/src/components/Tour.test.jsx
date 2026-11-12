@@ -223,7 +223,7 @@ describe('the stops', () => {
     await run('done', null, '/settings')
     expect(card().textContent).toContain('Want more?')
     expect([...card().querySelectorAll('.tour-tut')].map(b => b.querySelector('.tour-tut-t').textContent))
-      .toEqual(['Build your first plan', 'Create your own exercise', 'Edit your data', 'Export & import'])
+      .toEqual(['Build your first plan', 'Create your own exercise', 'Edit your data', 'Export & import', 'Redrep’s extras'])
     expect(document.querySelector('.tour-hole')).toBe(null)
     await click(btn('Let’s go'))
     expect(tourState()).toBe(null)

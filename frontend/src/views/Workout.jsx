@@ -106,7 +106,7 @@ function StartChooser() {
     <div style={{ height: 14 }} />
     <Button icon="shuffle" onClick={() => startFlow([])}>{t('Freestyle workout (pick as you go)')}</Button>
     {/* Redrep's Max day (lib/max-day.js): a guided one-rep max test. */}
-    {isOn(S, 'maxday') && <><div style={{ height: 10 }} /><Button icon="trophy" onClick={() => nav('/max')}>{t('Max day: test your one-rep max')}</Button></>}
+    {isOn(S, 'maxday') && <><div style={{ height: 10 }} /><Button icon="trophy" data-tour="max-day" onClick={() => nav('/max')}>{t('Max day: test your one-rep max')}</Button></>}
     {!S.routines.length && <><div style={{ height: 10 }} /><Button variant="primary" onClick={() => nav('/plan')}>{t('Build a plan first')}</Button></>}
   </div>
 }

@@ -31,7 +31,7 @@ export default function IntakeCard({ S }) {
   const wGoal = waterGoalOf(S)
   const sups = supplementsOf(S)
   const add = (what, n) => update(s => { s.intake = addIntake(s.intake, today, what, n) })
-  return <div className="card intake-card">
+  return <div className="card intake-card" data-tour="home-intake">
     <CardHead icon="target" tint="var(--blue)" title={t('Protein and water')}
       action={<button className="iconbtn" aria-label={t('Goals and supplements')} onClick={intakeSettingsSheet}><Icon name="gear" /></button>} />
     <div className="intake-row">

@@ -54,11 +54,11 @@ export default function Pain() {
     .map(id => ({ id, hurts: painsLoadedBy(pains, muscleWeightsOf(exOr(id))) }))
     .filter(x => x.hurts.length)
   return <>
-    <div className="hdr"><button className="iconbtn" data-back="/home" onClick={() => nav(-1)} aria-label={t('Back')}><Icon name="chevronLeft" /></button>
+    <div className="hdr"><button className="iconbtn" data-back="/home" data-tour="pain-back" onClick={() => nav('/home')} aria-label={t('Back')}><Icon name="chevronLeft" /></button>
       <div style={{ flex: 1, marginInlineStart: 12 }}><h1>{t('Pain and injuries')}</h1>
         <div className="sub">{t('Tap where it hurts. Redrep flags the exercises that load it and suggests a swap.')}</div></div></div>
 
-    <div className="card">
+    <div className="card" data-tour="pain-map">
       <BodyMap className="tappable bm-pain" body={S.body} levels={painLevels(S)} onMuscle={painLevelSheet} />
       <div className="muted small" style={{ textAlign: 'center', marginTop: 6 }}>{t('Yellow is mild, red hurts most.')}</div>
     </div>
@@ -100,14 +100,14 @@ export function PainHomeCard({ S }) {
   const pains = activePains(S)
   const worst = pains[0]
   // Nothing hurts: a quiet way in, so the map is there before it is needed.
-  if (!worst) return <div className="card tap-host pain-card" role="button" tabIndex={0} onClick={() => nav('/pain')} onKeyDown={e => { if (e.key === 'Enter') nav('/pain') }}>
+  if (!worst) return <div className="card tap-host pain-card" data-tour="home-pain" role="button" tabIndex={0} onClick={() => nav('/pain')} onKeyDown={e => { if (e.key === 'Enter') nav('/pain') }}>
     <div className="row" style={{ gap: 10 }}>
       <span className="lrow-i" style={{ background: 'var(--surface-3)', color: 'var(--label-2)' }}><Icon name="warning" /></span>
       <div style={{ flex: 1, minWidth: 0 }}><div className="lbl2">{t('Pain and injuries')}</div><div className="ss">{t('Something hurting? Mark it on the map.')}</div></div>
       <Icon name="chevronRight" className="chev" />
     </div>
   </div>
-  return <div className="card tap-host pain-card" role="button" tabIndex={0} onClick={() => nav('/pain')} onKeyDown={e => { if (e.key === 'Enter') nav('/pain') }}>
+  return <div className="card tap-host pain-card" data-tour="home-pain" role="button" tabIndex={0} onClick={() => nav('/pain')} onKeyDown={e => { if (e.key === 'Enter') nav('/pain') }}>
     <div className="row" style={{ gap: 10 }}>
       <span className="lrow-i" style={{ background: 'var(--orange)' }}><Icon name="warning" /></span>
       <div style={{ flex: 1, minWidth: 0 }}>

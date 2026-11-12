@@ -26,7 +26,7 @@ import {
 import { beginWorkout } from '../sheets.jsx'
 import { Button } from './ui.jsx'
 import Icon from './Icon.jsx'
-import { PRESETS, presetOf, applyPreset } from '../lib/modules.js'
+import { PRESETS, presetOf, applyPreset, isOn } from '../lib/modules.js'
 import { welcomePicked } from './Welcome.jsx'
 import { presetCopy } from '../lib/modules-copy.js'
 import './Tour.css'
@@ -117,6 +117,21 @@ const COPY = {
   'b-up2': () => [t('One more'), t('Syncing lives under your account. Tap back to Settings.')],
   'b-sync': () => [t('Your own server'), t('Syncing your devices through your own Redrep server lives under your account. No server? Everything still works on this device.')],
   'b-done': () => [t('That’s the lot'), t('Your data, your call. Back it up now and then, future you will be grateful.')],
+
+  'x-intro': () => [t('Redrep’s extras'), t('A quick look at what Redrep adds. We only point, nothing changes until you tap it yourself.')],
+  'x-ready': () => [t('Readiness check'), t('Before each workout, three taps: sleep, soreness and energy. On a bad day, Go lighter takes a set off each exercise and keeps the day out of progression.')],
+  'x-home': () => [t('Back to Home'), t('Head back to Home first. Tap it.')],
+  'x-intake': () => [t('Protein and water'), t('Tap to add protein or water and tick off your supplements. The gear sets your goals and a daily reminder.')],
+  'x-pain': () => [t('Pain and injuries'), t('Something hurting? This opens the body map. Tap it.')],
+  'x-pain-map': () => [t('Mark where it hurts'), t('Tap a muscle and rate it from 1 to 5. Exercises that load it get a warning and a swap in your workout.')],
+  'x-pain-back': () => [t('Back to Home'), t('Tap back.')],
+  'x-other': () => [t('More ways to train'), t('Max day lives with the other workouts. Tap it.')],
+  'x-max': () => [t('Max day'), t('Test your real one-rep max: a guided warm-up, then three attempts. Programmes use the result for their percentages.')],
+  'x-controls': () => [t('Control Center'), t('On iOS 18, add Redrep’s buttons to Control Center, the Lock Screen or the Action button: start a workout, the rest timer, log your weight, add water.')],
+  'x-home2': () => [t('Settings are on Home'), t('Head back to Home first. Tap it.')],
+  'x-settings': () => [t('The gear'), t('Everything you can tweak hides behind this little gear. Tap it.')],
+  'x-modules': () => [t('Modules'), t('Switch any of these extras off here, or back on. Nothing gets deleted.')],
+  'x-done': () => [t('That’s Redrep'), t('Run this again any time from Settings → About & updates.')],
 }
 
 // How long a stop waits for its element to appear (a screen still loading its chunk). Tests shorten it.
@@ -151,6 +166,8 @@ const profileOf = S => ({
   swipe: !!workoutControls(S).swipeSets && (S.workoutView || 'cards') !== 'focus',
   balance: S.workouts.length > 0 || S.routines.some(r => r.ex?.length),
   workouts: S.workouts.length > 0,
+  // Redrep's extras tutorial: a stop per module that is on.
+  readiness: isOn(S, 'readiness'), pain: isOn(S, 'pain'), maxday: isOn(S, 'maxday'), nutrition: isOn(S, 'nutrition'),
 })
 
 /* ---------------- the sandboxes ---------------- */

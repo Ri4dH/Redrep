@@ -33,7 +33,7 @@ describe('steps', () => {
     expect(STEPS.find(s => s.id === 'start')).toMatchObject({ anchor: 'start', intercept: true, route: '/library' })
   })
   it('the tutorials each open with a card that says what they do and end with one', () => {
-    expect(TUTORIALS).toEqual(['plan', 'custom', 'edit', 'backup'])
+    expect(TUTORIALS).toEqual(['plan', 'custom', 'edit', 'backup', 'extras'])
     for (const f of TUTORIALS) {
       const steps = tourSteps({}, f)
       expect(steps[0], f).toMatchObject({ anchor: null, route: null })
@@ -219,3 +219,20 @@ describe('placeCard', () => {
     expect(placeCard(null, card, view)).toMatchObject({ side: 'center', left: 45 })
   })
 })
+
+describe('Redrep’s extras', () => {
+  const all = { readiness: true, pain: true, maxday: true, nutrition: true }
+  it('shows a stop per module that is on, and only points', () => {
+    const ids = tourSteps(all, 'extras').map(s => s.id)
+    expect(ids).toEqual(['x-intro', 'x-ready', 'x-home', 'x-intake', 'x-pain', 'x-pain-map', 'x-pain-back', 'x-other', 'x-max', 'x-controls', 'x-home2', 'x-settings', 'x-modules', 'x-done'])
+    expect(tourSteps(all, 'extras').some(s => s.sandbox || s.commit || s.intercept)).toBe(false)
+  })
+  it('leaves out the stops of modules that are off', () => {
+    const ids = tourSteps({ ...all, pain: false, maxday: false }, 'extras').map(s => s.id)
+    expect(ids).not.toContain('x-pain-map')
+    expect(ids).not.toContain('x-max')
+    expect(ids).toContain('x-intake')
+    expect(ids).toContain('x-modules')
+  })
+})
+

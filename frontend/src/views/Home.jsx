@@ -198,7 +198,7 @@ export default function Home() {
           way in, "Choose a different workout" on the weigh-in sheet, does not exist when the
           weigh-in is switched off. This is that door, and it starts nothing on its own. */}
       {!S.active && <div style={{ display: 'flex', justifyContent: 'center', marginTop: 4 }}>
-        <Button size="sm" variant="ghost" className="dim" icon="swap" onClick={() => nav('/workout')}>
+        <Button size="sm" variant="ghost" className="dim" icon="swap" data-tour="home-other" onClick={() => nav('/workout')}>
           {t('Choose a different workout')}
         </Button>
       </div>}

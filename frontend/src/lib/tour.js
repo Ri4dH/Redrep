@@ -1,6 +1,6 @@
 // The app tour and its tutorials (components/Tour.jsx): coach marks on the real screens. The tour
-// is offered once after the first setup; it and four short tutorials (build a plan, make an
-// exercise, edit your data, export & import) run again from Settings → About & updates →
+// is offered once after the first setup; it and five short tutorials (build a plan, make an
+// exercise, edit your data, export & import, Redrep's extras) run again from Settings → About & updates →
 // Tutorials. This file is what the main bundle carries: the steps, the record of where this
 // device stands, and a tiny store saying whether one is open. The overlay is its own chunk,
 // fetched only when it opens.
@@ -151,15 +151,36 @@ const BACKUP = [
   { id: 'b-done', route: null, anchor: null },
 ]
 
+// Redrep's extras: the readiness check, protein and water, the pain map, Max day, the Control
+// Center buttons and where to switch them off. Only pointing, nothing runs. A stop for a module
+// that is off is left out (`when`, Tour.jsx profileOf).
+const EXTRAS = [
+  { id: 'x-intro', route: null, anchor: null },
+  { id: 'x-ready', route: null, anchor: null, when: c => c.readiness },
+  { id: 'x-home', route: null, anchor: 'tab-home', go: '/home' },
+  { id: 'x-intake', route: '/home', anchor: 'home-intake', when: c => c.nutrition, optional: true },
+  { id: 'x-pain', route: '/home', anchor: 'home-pain', go: '/pain', when: c => c.pain },
+  { id: 'x-pain-map', route: '/pain', anchor: 'pain-map', when: c => c.pain },
+  { id: 'x-pain-back', route: '/pain', anchor: 'pain-back', go: '/home', when: c => c.pain },
+  { id: 'x-other', route: '/home', anchor: 'home-other', go: '/workout', when: c => c.maxday },
+  { id: 'x-max', route: '/workout', anchor: 'max-day', when: c => c.maxday, optional: true },
+  { id: 'x-controls', route: null, anchor: null },
+  { id: 'x-home2', route: null, anchor: 'tab-home', go: '/home' },
+  { id: 'x-settings', route: '/home', anchor: 'settings-gear', go: '/settings' },
+  { id: 'x-modules', route: '/settings', anchor: 'settings-modules' },
+  { id: 'x-done', route: null, anchor: null },
+]
+
 /** Every flow by name: the tour, then the tutorials in the order Settings lists them. */
-export const FLOWS = { tour: STEPS, plan: PLAN, custom: CUSTOM, edit: EDIT, backup: BACKUP }
-export const TUTORIALS = ['plan', 'custom', 'edit', 'backup']
+export const FLOWS = { tour: STEPS, plan: PLAN, custom: CUSTOM, edit: EDIT, backup: BACKUP, extras: EXTRAS }
+export const TUTORIALS = ['plan', 'custom', 'edit', 'backup', 'extras']
 // What the closing card and Settings call each tutorial (literal t() calls for check-source-strings).
 export const TUTORIAL_COPY = {
   plan: () => [t('Build your first plan'), t('Name a routine, add exercises, give it a day')],
   custom: () => [t('Create your own exercise'), t('Name, muscles, equipment and a photo')],
   edit: () => [t('Edit your data'), t('Workouts, weigh-ins and what can be fixed')],
   backup: () => [t('Export & import'), t('Backups, spreadsheets, other apps and sync')],
+  extras: () => [t('Redrep’s extras'), t('Readiness, pain map, Max day, protein and water')],
 }
 
 

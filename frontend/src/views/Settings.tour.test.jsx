@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 // Settings → About & updates → Tutorials: the app tour from the top (Show the tour again) and the
-// four tutorials, from anywhere, but not over a running workout (the tour's practice session and
+// five tutorials, from anywhere, but not over a running workout (the tour's practice session and
 // the tutorials' copies would stand in for the real one).
 import React, { act } from 'react'
 import { createRoot } from 'react-dom/client'
@@ -88,11 +88,11 @@ describe('Settings: Show the tour again', () => {
 })
 
 describe('Settings: Tutorials', () => {
-  it('lists the tour and the four tutorials together, under one heading', () => {
+  it('lists the tour and the five tutorials together, under one heading', () => {
     act(() => root.render(<Settings page="about" />))
     const sect = [...host.querySelectorAll('.sect')].find(x => x.textContent.includes('Tutorials'))
     expect([...sect.querySelectorAll('.lrow-t')].map(x => x.textContent))
-      .toEqual(['Show the tour again', 'Build your first plan', 'Create your own exercise', 'Edit your data', 'Export & import'])
+      .toEqual(['Show the tour again', 'Build your first plan', 'Create your own exercise', 'Edit your data', 'Export & import', 'Redrep’s extras'])
   })
   it('each runs its own tutorial, and one seen to the end says Done', () => {
     markTutorialDone('edit')
